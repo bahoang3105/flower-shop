@@ -1,0 +1,23 @@
+html,
+body {
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  background-color: $color_background_3;
+  color: $color_white_1;
+
+  #root {
+    height: 100%;
+
+    .App {
+      height: 100%;
+    }
+  }
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
+
+.display-none {
+  display: none !important;
+}

@@ -1,0 +1,17 @@
+.ant-input-affix-wrapper-lg {
+  background: $color_background_yellow_2;
+  border-radius: 15px;
+  padding: 12px;
+  border: none;
+  color: $color_button_yellow_1;
+}
+.ant-input-affix-wrapper > input.ant-input {
+  background: $color_background_yellow_3;
+  color: $color_button_yellow_1;
+  font-size: 14px;
+  padding-left: 8px;
+  &::placeholder {
+    color: $color_button_yellow_1;
+    font-size: 14px;
+  }
+}

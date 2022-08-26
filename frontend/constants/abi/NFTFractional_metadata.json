@@ -1,0 +1,1359 @@
+{
+  "compiler": {
+    "version": "0.8.7+commit.e28d00a7"
+  },
+  "language": "Solidity",
+  "output": {
+    "abi": [
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "admin",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "isSet",
+            "type": "uint256"
+          }
+        ],
+        "name": "AdminSet",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amountFNFT",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "remaining",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "rewardUSDT",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "claimId",
+            "type": "string"
+          }
+        ],
+        "name": "ClaimReward",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousController",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newController",
+            "type": "address"
+          }
+        ],
+        "name": "ControllerTransferred",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "_acceptToken",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "_receiveAddress",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_fnftId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_poolBalance",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_active",
+            "type": "uint256"
+          }
+        ],
+        "name": "CreateFNFTPool",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "_rewardToken",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_rewardPoolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_fnftPoolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_totalRewardAmount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_poolOpenTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_active",
+            "type": "uint256"
+          }
+        ],
+        "name": "CreateRewardPool",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "_stakingToken",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_lockDuration",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_withdrawDelayDuration",
+            "type": "uint256"
+          }
+        ],
+        "name": "CreateTierPool",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_tokenNFT",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_tokenFNFT",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_curator",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_totalSupply",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "_symbol",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
+          }
+        ],
+        "name": "FractionalizeNFT",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_nftToken",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_receiver",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "MintNFT",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "purchased",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "remaining",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "purchasedFNFT",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "purchaseId",
+            "type": "string"
+          }
+        ],
+        "name": "PurchaseFNFT",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "StakeTierPool",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "UnStakeTierPool",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "WithdrawFun",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "adminList",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "string",
+            "name": "_claimId",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes",
+            "name": "_signature",
+            "type": "bytes"
+          }
+        ],
+        "name": "claimReward",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          }
+        ],
+        "name": "configsOfFNFTPool",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "controller",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address[]",
+            "name": "_addrs",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_configs",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "createFNFTPool",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "createRewardPool",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "createTieringPool",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "fnftInfos",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalSupply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "availableSupply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "curator",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "tokenNFT",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "tokenFNFT",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "fnftPools",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "acceptToken",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "receiveAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fnftId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "poolBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "availableBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "active",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "poolType",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_totalSupply",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "_name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "_symbol",
+            "type": "string"
+          }
+        ],
+        "name": "fractionalizeNFT",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_signatureUtils",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_nftToken",
+            "type": "address"
+          }
+        ],
+        "name": "initial",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          }
+        ],
+        "name": "isAdmin",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          }
+        ],
+        "name": "mintNFT",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "nftToken",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "nonceSignature",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes",
+            "name": "",
+            "type": "bytes"
+          }
+        ],
+        "name": "onERC721Received",
+        "outputs": [
+          {
+            "internalType": "bytes4",
+            "name": "",
+            "type": "bytes4"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "string",
+            "name": "_purchaseId",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes",
+            "name": "_signature",
+            "type": "bytes"
+          }
+        ],
+        "name": "purchaseFNFT",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "rewardPools",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "rewardToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fnftPoolId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalRewardAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "poolOpenTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "active",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_signer",
+            "type": "address"
+          }
+        ],
+        "name": "setAddressSigner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_address",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "name": "setAdmin",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address[]",
+            "name": "_admins",
+            "type": "address[]"
+          }
+        ],
+        "name": "setAdminList",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "signatureUtils",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "signer",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "stakeTierPool",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "stakingBalances",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "tierPools",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "stakingToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "stakedBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalUserStaked",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lockDuration",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawDelayDuration",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_newController",
+            "type": "address"
+          }
+        ],
+        "name": "transferController",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "_datas",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "unStakeTierPool",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "userInfos",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "alloction",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchased",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "stakeBalance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "stakeLastTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "unStakeLastTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "pendingWithdraw",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "poolId",
+            "type": "uint256"
+          }
+        ],
+        "name": "withdrawDelayToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_tokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_account",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_poolId",
+            "type": "uint256"
+          }
+        ],
+        "name": "withdrawFund",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "devdoc": {
+      "kind": "dev",
+      "methods": {
+        "claimReward(uint256[],string,bytes)": {
+          "details": "function to user can claim reward",
+          "params": {
+            "_claimId": "claim id of transaction",
+            "_datas": "poolId(0), amountFNFT(1), alloction(2), rewardUSDT(3)",
+            "_signature": "signature of user"
+          }
+        },
+        "createFNFTPool(address[],uint256[],uint256[])": {
+          "details": "create functional F-NFT Pool to user buy token F-NFT by USDT token or other tokens",
+          "params": {
+            "_addrs": "acceptToken(0), receiveAddress(1)",
+            "_configs": "registrationStartTime(0), registrationEndTime(1), purchaseStartTime(2), purchaseEndTime(3)",
+            "_datas": "poolId(0), fnftId(1), poolBalance(2), active(3), poolType(4)"
+          }
+        },
+        "createRewardPool(address,uint256[])": {
+          "details": "create reward pool for user swap f-nft token to usdt token",
+          "params": {
+            "_addr": "reward token address",
+            "_datas": "poolID(0), fnftPoolId(1), totalRewardAmount(2), poolOpenTime(3), active(4)"
+          }
+        },
+        "createTieringPool(address,uint256[])": {
+          "details": "create tier pool for user stake token to level up tier",
+          "params": {
+            "_addr": "staking token address",
+            "_datas": "poolID(0), lockDuration(1), withdrawDelayDuration(2)"
+          }
+        },
+        "fractionalizeNFT(address,uint256,uint256,string,string)": {
+          "details": "fractionalize nft to bep20 token",
+          "params": {
+            "_name": "name of bep20 token",
+            "_symbol": "symbol of bep20 token",
+            "_token": "token of NFT",
+            "_tokenId": "token id of NFT",
+            "_totalSupply": "total supply of bep20 token"
+          }
+        },
+        "initial(address,address)": {
+          "details": "set collection of nft token"
+        },
+        "isAdmin(address)": {
+          "details": "check wallet if wallet address is admin or not",
+          "params": {
+            "_address": "wallet address of the user"
+          },
+          "returns": {
+            "_0": "result rule --> 1: admin, 2: user, 3: controller "
+          }
+        },
+        "mintNFT(uint256)": {
+          "details": "mint NFT",
+          "params": {
+            "_tokenId": "token id of NFT"
+          }
+        },
+        "purchaseFNFT(uint256[],string,bytes)": {
+          "details": "function to user can purchase f-nft",
+          "params": {
+            "_datas": "poolId(0), amount(1), alloction(2), purchaseFNFT(3)",
+            "_purchaseId": "purchase id of transaction",
+            "_signature": "signature of user"
+          }
+        },
+        "setAdmin(address,uint256)": {
+          "details": "Contract owner set admin for execute administrator functions",
+          "params": {
+            "_address": "wallet address of admin",
+            "_value": "1: admin, 2: user, 3:controller"
+          }
+        },
+        "stakeTierPool(uint256[])": {
+          "details": "function to user stake to tier pool",
+          "params": {
+            "_datas": "tierPoolId(0), amount(1)"
+          }
+        },
+        "transferController(address)": {
+          "details": "Transfers controller of the contract to a new account (`newController`).",
+          "params": {
+            "_newController": "Adress to set new controller Can only be called by the current controller."
+          }
+        },
+        "unStakeTierPool(uint256[])": {
+          "details": "function to user stake to tier pool",
+          "params": {
+            "_datas": "tierPoolId(0), amount(1)"
+          }
+        },
+        "withdrawDelayToken(uint256)": {
+          "details": "function withdraw delay token for user",
+          "params": {
+            "poolId": "id of tier pool"
+          }
+        },
+        "withdrawFund(address,address,uint256,uint256)": {
+          "details": "Withdraw fund admin has sent to the pool",
+          "params": {
+            "_account": ": the account which is used to receive fund",
+            "_amount": ": the amount contract owner want to withdraw",
+            "_poolId": ": poolId of FNFT Pool",
+            "_tokenAddress": ": the token contract owner want to withdraw fund"
+          }
+        }
+      },
+      "version": 1
+    },
+    "userdoc": {
+      "events": {
+        "AdminSet(address,uint256)": {
+          "notice": "-------------------------------- -------- EVENTS -------- --------------------------------"
+        }
+      },
+      "kind": "user",
+      "methods": {},
+      "version": 1
+    }
+  },
+  "settings": {
+    "compilationTarget": {
+      "contracts/nft-fractional/NFTFractional.sol": "NFTFractional"
+    },
+    "evmVersion": "london",
+    "libraries": {},
+    "metadata": {
+      "bytecodeHash": "ipfs"
+    },
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "remappings": []
+  },
+  "sources": {
+    "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol": {
+      "keccak256": "0x7454006cccb737612b00104d2f606d728e2818b778e7e55542f063c614ce46ba",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://6ec10894beb0f7537fba35e501fd1c5d35440e8c8f5ced1b8e57722a1d0879a8",
+        "dweb:/ipfs/Qmbc3bNmtDewTGSmrPD93Ubp8saAz8xCxsgTjSmpNTqukz"
+      ]
+    },
+    "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol": {
+      "keccak256": "0xb71b875e7f1b8ad082eb6ff83bca4bfa7d050476cc98fd39295826b654edfb46",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://bcec0617473fa22a0866d7daf25bf4d664a62902e49c4a158aef54c1e4348e8a",
+        "dweb:/ipfs/QmPQetTKnLJBAQQrLKUWGVZwfp3VGmBhnqqJvmJTycM1jR"
+      ]
+    },
+    "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol": {
+      "keccak256": "0x4e733d3164f73f461eaf9d8087a7ad1ea180bdc8ba0d3d61b0e1ae16d8e63dff",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://75b47c3aeca7b66ea6752f8be020ec5c1c502de6ec9065272dae23d3a52196e2",
+        "dweb:/ipfs/QmUebPMHv16tYKFh5BmBQkMfRFb5b8UZ2RgVwdjxCeufVF"
+      ]
+    },
+    "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol": {
+      "keccak256": "0x605434219ebbe4653f703640f06969faa5a1d78f0bfef878e5ddbb1ca369ceeb",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://4c9c634f99dd02d73ce7498b03a6305e251c05eeebb71457306561c1fab0fa7d",
+        "dweb:/ipfs/QmbYRBbZHy8YoaQKXdPryiL3CSS7uUaRfRYi1TUj9cTqJQ"
+      ]
+    },
+    "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol": {
+      "keccak256": "0x55cf2bd9fc76704ddcdc19834cd288b7de00fc0f298a40ea16a954ae8991db2d",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://37e4df53c8d2e3c1062c1c7b2c17366db7de03bfd2559d340ca95c588aa49c2f",
+        "dweb:/ipfs/QmQ9vsG3o4wED3FRogiSUhdzJvZSjjYFtydzXvFEJtgZk4"
+      ]
+    },
+    "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol": {
+      "keccak256": "0x963ea7f0b48b032eef72fe3a7582edf78408d6f834115b9feadd673a4d5bd149",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://d6520943ea55fdf5f0bafb39ed909f64de17051bc954ff3e88c9e5621412c79c",
+        "dweb:/ipfs/QmWZ4rAKTQbNG2HxGs46AcTXShsVytKeLs7CUCdCSv5N7a"
+      ]
+    },
+    "@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+      "keccak256": "0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34",
+        "dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr"
+      ]
+    },
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
+      "keccak256": "0xc3d946432c0ddbb1f846a0d3985be71299df331b91d06732152117f62f0be2b5",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://4632c341a06ba5c079b51ca5a915efab4e6ab57735b37839b3e8365ff806a43e",
+        "dweb:/ipfs/QmTHT3xHYed2wajEoA5qu7ii2BxLpPhQZHwAhtLK5Z7ANK"
+      ]
+    },
+    "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+      "keccak256": "0xa82b58eca1ee256be466e536706850163d2ec7821945abd6b4778cfb3bee37da",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://6e75cf83beb757b8855791088546b8337e9d4684e169400c20d44a515353b708",
+        "dweb:/ipfs/QmYvPafLfoquiDMEj7CKHtvbgHu7TJNPSVPSCjrtjV8HjV"
+      ]
+    },
+    "@openzeppelin/contracts/utils/Address.sol": {
+      "keccak256": "0x2ccf9d2313a313d41a791505f2b5abfdc62191b5d4334f7f7a82691c088a1c87",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://b3a57d0854b2fdce6ebff933a48dca2445643d1eccfc27f00292e937f26c6a58",
+        "dweb:/ipfs/QmW45rZooS9TqR4YXUbjRbtf2Bpb5ouSarBvfW1LdGprvV"
+      ]
+    },
+    "contracts/nft-fractional/ISignatureUtils.sol": {
+      "keccak256": "0x32c1f23fd4f56977b47987d17680f38e1ea898857becef5e801c249dc6ea3ace",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://1e8e331f87032a050ecb2f14c5668593a82db392612c0ac278beda381532c07b",
+        "dweb:/ipfs/QmQ4EDbDG3pnx8nEx7ZcUc4wcGPkP3xsc7ePLSibXMfoJR"
+      ]
+    },
+    "contracts/nft-fractional/NFTFractional.sol": {
+      "keccak256": "0x321fa85539482fc66b6daac6d74b2a95df6cd6f282c9aa69ca5a139370ed58e4",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://e1affbb648838368b8eb660e82ff7274a8d3b1414d7b31764c4125fa900445d9",
+        "dweb:/ipfs/QmX8VVmGLuJQsGqfmbqjp5yLpTQzyTYVqVBPWEpJ6FoMGe"
+      ]
+    },
+    "contracts/nft-fractional/Upgradable.sol": {
+      "keccak256": "0x5a21609c38cb2bd32ce18994b8f55605ffdbfde416bf484701a8d37c1ca2d5f1",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://69d0149c56ec42a005bbb02989388264e2dd569899deb6cdbdcf2e809e2197ea",
+        "dweb:/ipfs/QmVzXmXBB4ewF6An67Muf4S1pi6XhNst6vT7V96qVwzubo"
+      ]
+    },
+    "contracts/nft-token/ERC20Token.sol": {
+      "keccak256": "0x544483af2ce77a09e2834a76c45adb0bd9d99984c498dd858c5fa86ad624cdc5",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://3d4b1dda43b9a56dc6c3acaf60ad5b3b9767dc454fefdf7345aade0a2cb5b0b0",
+        "dweb:/ipfs/QmPsSzpzGxP8BYASnHfgUCuN66UvNp2wk8ohFUFHfWdkf8"
+      ]
+    },
+    "contracts/nft-token/INFTToken.sol": {
+      "keccak256": "0x4dc9c2a5d28c5409a451038954e7e5b08fc0331ac5e6efb5ada171d91235744f",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://afd8496cda76c81f36806cf35381e98d66884086bebbb083461226edb8aea4c8",
+        "dweb:/ipfs/QmdThkr1bMxQx2iKGaKcaXWkHXoezWs8CrPiJdXgh7Z9je"
+      ]
+    }
+  },
+  "version": 1
+}

@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+.idea
+.env
+package-lock.json
+
+localization/token.json

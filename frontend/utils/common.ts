@@ -1,0 +1,19 @@
+export const formatAddress = (address: string, start = 6, end = 4) => {
+  return address.slice(0, start) + '...' + address.slice(-end);
+};
+
+export const formatNumber = (value: number, numberOfDecimals = 3) => {
+  const splitNumber = String(value).split('.');
+  const integerPart = splitNumber[0];
+  const decimalPart = splitNumber[1];
+  const formattedInteger = new Intl.NumberFormat('en-us').format(Number(integerPart));
+  let formattedDecimal = '';
+  if (decimalPart !== undefined) {
+    if (decimalPart?.length <= numberOfDecimals) {
+      formattedDecimal = '.' + decimalPart;
+    } else {
+      formattedDecimal = '.' + Math.round(Number(decimalPart) / Math.pow(10, decimalPart.length - numberOfDecimals));
+    }
+  }
+  return formattedInteger + formattedDecimal;
+};

@@ -1,0 +1,31 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
+  overrides: [],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  plugins: ['react', 'react-hooks'],
+  rules: {
+    'prettier/prettier': [1, { usePrettierrc: true }],
+    'react/prop-types': 0,
+    'react/react-in-jsx-scope': 0,
+    'react-hooks/exhaustive-deps': 0,
+    'prefer-const': 1,
+    'lines-between-class-members': 1,
+    'no-empty': 1,
+    'no-unused-vars': 1,
+    'no-unneeded-ternary': 1,
+    eqeqeq: 1,
+    'react/jsx-key': 1,
+    'react/no-unescaped-entities': 1,
+    'dot-notation': 1,
+    'spaced-comment': 1,
+    'no-useless-return': 1,
+  },
+  ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
+};

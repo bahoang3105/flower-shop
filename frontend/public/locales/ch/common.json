@@ -1,0 +1,69 @@
+{
+  "common": {
+    "about": "undefined",
+    "team": "undefined",
+    "partnersInvestors": "undefined",
+    "dadToken": "undefined",
+    "roadMap": "undefined",
+    "smartContractAudit": "undefined",
+    "diamondMarketplace": "undefined",
+    "nftArtGallery": "undefined",
+    "faq": "undefined",
+    "teamsAndConditions": "undefined",
+    "privacyPolicy": "undefined",
+    "copyright": "undefined",
+    "marketplace": "undefined",
+    "resources": "undefined",
+    "fNftPools": "undefined",
+    "tieringPool": "undefined",
+    "comingSoon": "undefined",
+    "connectWallet": "undefined",
+    "disconnect": "undefined",
+    "days": "undefined",
+    "none": "undefined",
+    "seeMore": "undefined",
+    "preparation": "undefined",
+    "approve": "undefined",
+    "enterAmount": "undefined",
+    "confirmation": "undefined",
+    "undefined": "undefined"
+  },
+  "header": {
+    "undefined": "undefined"
+  },
+  "footer": {
+    "projectFeatures": "undefined",
+    "undefined": "undefined"
+  },
+  "fNftPool": {
+    "myFNftPools": "undefined",
+    "introduction": "undefined",
+    "introductionTitle": "undefined",
+    "viewHistorical": "undefined",
+    "scopeSerires": "undefined",
+    "undefined": "undefined"
+  },
+  "staking": {
+    "myStakingHistory": "undefined",
+    "undefined": "undefined"
+  },
+  "tieringPool": {
+    "totalValueLocked": "undefined",
+    "myStakingBalance": "undefined",
+    "connectToView": "undefined",
+    "stake": "undefined",
+    "unStake": "undefined",
+    "history": "undefined",
+    "historyNotice": "undefined",
+    "stakingHistory": "undefined",
+    "unStakingHistory": "undefined",
+    "undefined": "undefined"
+  },
+  "table": {
+    "dadRequired": "undefined",
+    "stakedDaysRequired": "undefined",
+    "allocationType": "undefined",
+    "lockDuration": "undefined",
+    "withdrawalDelay": "undefined"
+  }
+}
