@@ -13,8 +13,6 @@ import StakingIcon from 'public/svg/staking.svg';
 import { AccountItemType, HeaderItemType } from 'constants/type';
 import { WEB_URL } from 'constants/routes';
 import { useWindowSize } from 'hooks/useWindowSize';
-import { useWeb3React } from '@web3-react/core';
-import { useConnectWallet } from 'hooks/useConnectWallet';
 import { formatAddress } from 'utils/common';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
@@ -28,8 +26,6 @@ const Header: React.FC<HeaderProps> = () => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
-  const { connectInjected } = useConnectWallet();
-  const { account, deactivate } = useWeb3React();
   const router = useRouter();
   const { Item } = Menu;
   const HEADER_ITEM_LIST = [
@@ -50,7 +46,6 @@ const Header: React.FC<HeaderProps> = () => {
       text: t('common.disconnect'),
       icon: DisconnectIcon,
       handleClick: () => {
-        deactivate();
         localStorage.removeItem(LOCAL_STORAGE.TOKEN);
       },
     },
@@ -62,12 +57,8 @@ const Header: React.FC<HeaderProps> = () => {
     }
   }, [width]);
 
-  const copyAddress = () => {
-    account && navigator.clipboard.writeText(account);
-  };
-  const handleConnectWallet = () => {
-    connectInjected();
-  };
+  const copyAddress = () => {};
+  const handleConnectWallet = () => {};
   const renderHeaderButton = (headerItemList: HeaderItemType[]) => (
     <Row className='header-items'>
       {headerItemList.map((item: HeaderItemType, index: number) => (
@@ -87,11 +78,11 @@ const Header: React.FC<HeaderProps> = () => {
     </Row>
   );
   const renderButtonConnectWallet = () => {
-    if (account) {
+    if (true) {
       return (
         <AppButton
           className='header__connect-wallet-button'
-          text={formatAddress(account)}
+          text={formatAddress('account')}
           variant={'secondary'}
           onClick={copyAddress}
         />
@@ -154,7 +145,7 @@ const Header: React.FC<HeaderProps> = () => {
             ) : (
               <MenuOutlined className='header__menu' onClick={openDrawer} />
             )}
-            {account && (
+            {'account' && (
               <Dropdown
                 overlay={renderDropdownList(ACCOUNT_LIST_ITEM)}
                 overlayClassName={classNames('header-dropdown-overlay', { 'display-none': width <= MINI_SCREEN })}
@@ -182,7 +173,7 @@ const Header: React.FC<HeaderProps> = () => {
       >
         {renderHeaderButton(HEADER_ITEM_LIST)}
         <div className='header__button-drawer'>{renderButtonConnectWallet()}</div>
-        {account && renderAccountList(ACCOUNT_LIST_ITEM)}
+        {'account' && renderAccountList(ACCOUNT_LIST_ITEM)}
       </Drawer>
     </header>
   );
