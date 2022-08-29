@@ -15,6 +15,9 @@ export class Topic {
 
   @Prop({ type: String, isRequired: false })
   description: string;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const TopicSchema = SchemaFactory.createForClass(Topic);

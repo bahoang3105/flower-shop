@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as paginate from 'mongoose-paginate-v2';
-import { FlowerType } from './FlowerType.schema';
 import { Topic } from './Topic.schema';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
@@ -14,9 +13,6 @@ export type FlowerDocument = Flower & Document;
 export class Flower {
   @Prop({ type: Topic })
   topic: Topic;
-
-  @Prop({ type: FlowerType })
-  type: FlowerType;
 
   @Prop({ type: String, isRequired: true })
   name: String;
