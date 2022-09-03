@@ -34,6 +34,9 @@ export class Flower {
 
   @Prop({ type: Number })
   price: Number;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
 }
 
 export const FlowerSchema = SchemaFactory.createForClass(Flower);

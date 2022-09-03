@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { ApiError, ApiOk } from 'src/common/api';
+import { SearchDto } from 'src/common/search.dto';
+import { Utils } from 'src/common/utils';
 import { Topic, TopicDocument } from 'src/schemas/Topic.schema';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
+import { TopicsUtils } from './topics.utils';
 
 @Injectable()
 export class TopicsService {
@@ -21,19 +24,48 @@ export class TopicsService {
     }
   }
 
-  findAll() {
-    return `This action returns all topics`;
+  async search(searchDto: SearchDto) {
+    try {
+      const { keyword } = searchDto;
+      const $match = TopicsUtils.matchSearchTopics(searchDto);
+      const searchTopicPipeline = !!keyword ? [{ $match }] : [];
+      const result = await Utils.aggregatePaginate(
+        this.topicModel,
+        searchTopicPipeline,
+        searchDto
+      );
+      return ApiOk(result);
+    } catch (e) {
+      return ApiError('E1', e);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} topic`;
+  async findOne(id: ObjectId) {
+    try {
+      const topic = await this.topicModel.findById(id);
+      return ApiOk(topic);
+    } catch (e) {
+      return ApiError('E2', e);
+    }
   }
 
-  update(id: number, updateTopicDto: UpdateTopicDto) {
-    return `This action updates a #${id} topic`;
+  async update(id: ObjectId, updateTopicDto: UpdateTopicDto) {
+    try {
+      const topic = await this.topicModel.findByIdAndUpdate(id, updateTopicDto);
+      return ApiOk(topic);
+    } catch (e) {
+      return ApiError('E4', e);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} topic`;
+  async remove(id: ObjectId) {
+    try {
+      const topic = await this.topicModel.findByIdAndUpdate(id, {
+        isDeleted: true,
+      });
+      return ApiOk(topic);
+    } catch (e) {
+      return ApiError('E4', e);
+    }
   }
 }
