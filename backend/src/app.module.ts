@@ -10,6 +10,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TopicsModule } from './modules/topics/topics.module';
 import { FlowersModule } from './modules/flowers/flowers.module';
+import { WebInfosModule } from './modules/web-infos/web-infos.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { FlowersModule } from './modules/flowers/flowers.module';
     UsersModule,
     TopicsModule,
     FlowersModule,
+    WebInfosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
