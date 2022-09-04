@@ -36,6 +36,11 @@ export default function Login() {
       router.push(WEB_URL.ADMIN);
     }
   };
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
 
   return (
     <PublicLayout notShowFooter={true} notShowHeader={true}>
@@ -52,6 +57,7 @@ export default function Login() {
                 placeholder='Tên tài khoản'
                 autoComplete='false'
                 className='login__input__username'
+                onKeyDown={handleKeyDown}
               />
               <Input.Password
                 value={password}
@@ -59,6 +65,7 @@ export default function Login() {
                 placeholder='Mật khẩu'
                 autoComplete='false'
                 className='login__input__password'
+                onKeyDown={handleKeyDown}
               />
               {error && <div className='error'>{error}</div>}
               <AppButton onClick={handleLogin} text='Đăng nhập' variant='primary' className='login__input__button' />

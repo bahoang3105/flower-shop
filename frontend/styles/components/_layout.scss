@@ -1,0 +1,32 @@
+.layout {
+  &__logo {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 60px;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    &__expand {
+      -webkit-filter: grayscale(1) invert(1);
+      filter: grayscale(1) invert(1);
+      cursor: pointer;
+      transition: 0.2s;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  &__info {
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  &__content {
+    height: calc(100vh - 64px);
+    padding: 16px 40px;
+  }
+}

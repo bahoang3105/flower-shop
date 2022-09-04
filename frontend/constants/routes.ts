@@ -4,6 +4,7 @@ export const WEB_URL = {
   MANAGE_FLOWERS: '/admin/flowers',
   MANAGE_TOPICS: '/admin/topics',
   MANEGE_USERS: '/admin/users',
+  MANAGE_ACCOUNT: '/admin/account',
 };
 
 export const API_URL = {
