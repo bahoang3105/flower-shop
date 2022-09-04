@@ -15,6 +15,7 @@ import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: process.env.LOG_LEVEL.split(',') as LogLevel[],
+    cors: true,
   });
 
   app.startAllMicroservices();

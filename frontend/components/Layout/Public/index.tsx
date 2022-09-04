@@ -75,7 +75,7 @@ const Layout: FC<{
         />
 
         {!notShowHeader && <Header />}
-        <div style={{ padding: '0 40px' }}>{children}</div>
+        <div>{children}</div>
         {!notShowFooter && <Footer />}
       </div>
     </Spin>

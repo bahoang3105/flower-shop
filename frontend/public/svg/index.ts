@@ -1,6 +1,6 @@
 const ImageSvg = {
-  down: require('./down.svg'),
-  sorting: require('./sorting.svg'),
+  expand: require('./expand.svg'),
+  disconnect: require('./disconnect.svg'),
 };
 
 export default ImageSvg;
