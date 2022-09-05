@@ -1,9 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { FlowerTopicService } from './flower-topic.service';
 import { CreateFlowerTopicDto } from './dto/create-flower-topic.dto';
 import { UpdateFlowerTopicDto } from './dto/update-flower-topic.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('flower-topic')
+@ApiTags('flowerTopics')
 export class FlowerTopicController {
   constructor(private readonly flowerTopicService: FlowerTopicService) {}
 
@@ -23,7 +33,10 @@ export class FlowerTopicController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFlowerTopicDto: UpdateFlowerTopicDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFlowerTopicDto: UpdateFlowerTopicDto
+  ) {
     return this.flowerTopicService.update(+id, updateFlowerTopicDto);
   }
 

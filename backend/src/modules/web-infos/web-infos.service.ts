@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWebInfoDto } from './dto/create-web-info.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ApiError, ApiOk } from 'src/common/api';
+import { Repository } from 'typeorm';
 import { UpdateWebInfoDto } from './dto/update-web-info.dto';
+import { WebInfo } from './entities/web-info.entity';
 
 @Injectable()
 export class WebInfosService {
-  create(createWebInfoDto: CreateWebInfoDto) {
-    return 'This action adds a new webInfo';
+  constructor(
+    @InjectRepository(WebInfo) private webInfosRepository: Repository<WebInfo>
+  ) {}
+  async find() {
+    try {
+      const webInfo = await this.webInfosRepository.find();
+      return ApiOk(webInfo[0]);
+    } catch (e) {
+      return ApiError('WebInfo', e);
+    }
   }
 
-  findAll() {
-    return `This action returns all webInfos`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} webInfo`;
-  }
-
-  update(id: number, updateWebInfoDto: UpdateWebInfoDto) {
-    return `This action updates a #${id} webInfo`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} webInfo`;
+  async update(id: number, updateWebInfoDto: UpdateWebInfoDto) {
+    try {
+      const webInfo = await this.webInfosRepository.findOneBy({ id });
+      const webInfoUpdated = await this.webInfosRepository.save({
+        ...webInfo,
+        ...updateWebInfoDto,
+      });
+      return ApiOk(webInfoUpdated);
+    } catch (e) {
+      return ApiError('WebInfo', e);
+    }
   }
 }

@@ -6,7 +6,7 @@ export class WebInfo {
   id: number;
 
   @Column()
-  mobilePhone: number;
+  mobilePhone: string;
 
   @Column()
   zaloLink: string;

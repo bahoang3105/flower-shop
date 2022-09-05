@@ -1,4 +1,20 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateWebInfoDto } from './create-web-info.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
-export class UpdateWebInfoDto extends PartialType(CreateWebInfoDto) {}
+export class UpdateWebInfoDto {
+  @ApiProperty()
+  @IsOptional()
+  mobilePhone: string;
+
+  @ApiProperty()
+  @IsOptional()
+  zaloLink: string;
+
+  @ApiProperty()
+  @IsOptional()
+  facebookLink: string;
+
+  @ApiProperty()
+  @IsOptional()
+  email: string;
+}
