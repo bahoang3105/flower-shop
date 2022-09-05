@@ -6,11 +6,7 @@ import { AppService } from './app.service';
 import { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
 import { ScheduleModule } from '@nestjs/schedule';
-import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { TopicsModule } from './modules/topics/topics.module';
-import { FlowersModule } from './modules/flowers/flowers.module';
-import { WebInfosModule } from './modules/web-infos/web-infos.module';
 
 @Module({
   imports: [
@@ -26,10 +22,6 @@ import { WebInfosModule } from './modules/web-infos/web-infos.module';
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
     AuthModule,
-    UsersModule,
-    TopicsModule,
-    FlowersModule,
-    WebInfosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,7 +5,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import 'dotenv/config';
-import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -14,7 +13,6 @@ import { UsersModule } from '../users/users.module';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: process.env.JWT_EXPIRATION_TIME },
     }),
-    UsersModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
