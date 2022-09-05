@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserSex {
   Female = 'FEMALE',
-  Male = ' MALE',
+  Male = 'MALE',
 }
 
 @Entity()
@@ -23,12 +23,12 @@ export class User {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   dateOfBirth: Date;
 
   @Column({ type: 'enum', enum: UserSex, default: UserSex.Male })
   sex: UserSex;
 
   @Column()
-  mobilePhone: number;
+  mobilePhone: string;
 }
