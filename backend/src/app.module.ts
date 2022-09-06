@@ -18,6 +18,8 @@ import { Topic } from './modules/topics/entities/topic.entity';
 import { Flower } from './modules/flowers/entities/flower.entity';
 import { FlowerTopic } from './modules/flower-topic/entities/flower-topic.entity';
 import { WebInfo } from './modules/web-infos/entities/web-info.entity';
+import { GuestPhonesModule } from './modules/guest-phones/guest-phones.module';
+import { GuestPhone } from './modules/guest-phones/entities/guest-phone.entity';
 
 @Module({
   imports: [
@@ -38,7 +40,7 @@ import { WebInfo } from './modules/web-infos/entities/web-info.entity';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Topic, Flower, FlowerTopic, WebInfo],
+      entities: [User, Topic, Flower, FlowerTopic, WebInfo, GuestPhone],
       synchronize: Boolean(process.env.SYNCHRONIZE_DB),
     }),
     AuthModule,
@@ -47,6 +49,7 @@ import { WebInfo } from './modules/web-infos/entities/web-info.entity';
     FlowerTopicModule,
     WebInfosModule,
     UsersModule,
+    GuestPhonesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

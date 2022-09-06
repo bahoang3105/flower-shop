@@ -15,6 +15,7 @@ export class UsersService {
   }
 
   create(user: SignupDto) {
-    return this.usersRepository.insert(user);
+    const newUser = this.usersRepository.create(user);
+    return this.usersRepository.save(newUser);
   }
 }
