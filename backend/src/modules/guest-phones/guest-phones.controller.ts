@@ -27,8 +27,8 @@ export class GuestPhonesController {
     return this.guestPhonesService.search(searchGuestPhoneDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.guestPhonesService.remove(+id);
+  @Delete(':phoneNumber')
+  remove(@Param('phoneNumber') phoneNumber: string) {
+    return this.guestPhonesService.remove(phoneNumber);
   }
 }

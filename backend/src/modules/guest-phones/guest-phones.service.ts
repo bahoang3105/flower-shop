@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateGuestPhoneDto } from './dto/create-guest-phone.dto';
 import { SearchGuestPhoneDto } from './dto/search-guest-phone.dto';
 import { GuestPhone } from './entities/guest-phone.entity';
+import { paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class GuestPhonesService {
@@ -23,17 +24,34 @@ export class GuestPhonesService {
   }
 
   async search(searchGuestPhoneDto: SearchGuestPhoneDto) {
+    const { limit, page, keyword, sortField, sortValue } = searchGuestPhoneDto;
     try {
-      const guestPhoneList = await this.guestPhonesRepository
-        .createQueryBuilder('guest-phone')
-        .getMany();
-      return ApiOk(guestPhoneList);
+      const queryBuilder = this.guestPhonesRepository
+        .createQueryBuilder('guestPhone')
+        .where('guestPhone.phoneNumber like :keyword', {
+          keyword: `%${keyword}%`,
+        })
+        .andWhere('guestPhone.isDeleted = false')
+        .orderBy(sortField, sortValue);
+      return ApiOk(await paginate(queryBuilder, { limit, page }));
     } catch (e) {
       return ApiError('guestPhone', e);
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} guestPhone`;
+  async remove(phoneNumber: string) {
+    try {
+      await this.guestPhonesRepository
+        .createQueryBuilder()
+        .update()
+        .set({
+          isDeleted: true,
+        })
+        .where('phoneNumber = :phoneNumber', { phoneNumber })
+        .execute();
+      return ApiOk({ success: true });
+    } catch (e) {
+      return ApiError('guestPhone', e);
+    }
   }
 }

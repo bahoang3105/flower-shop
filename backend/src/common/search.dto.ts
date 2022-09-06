@@ -3,8 +3,8 @@ import { Type } from 'class-transformer';
 import { IsNumber } from 'class-validator';
 
 enum SortValue {
-  ASC = 1,
-  DESC = 2,
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 
 export class SearchDto {

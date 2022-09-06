@@ -13,4 +13,7 @@ export class GuestPhone {
 
   @Column()
   timeAccess: Date;
+
+  @Column({ default: false })
+  isDeleted: boolean;
 }
