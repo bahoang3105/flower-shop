@@ -3,17 +3,22 @@ import {
   Get,
   Post,
   Body,
-  Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { GuestPhonesService } from './guest-phones.service';
 import { CreateGuestPhoneDto } from './dto/create-guest-phone.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { SearchGuestPhoneDto } from './dto/search-guest-phone.dto';
+import { DeleteGuestPhoneDto } from './dto/delete-guest-phone.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from '../auth/role.enum';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @ApiTags('guest-phones')
 @Controller('guest-phones')
+@UseGuards(RolesGuard)
 export class GuestPhonesController {
   constructor(private readonly guestPhonesService: GuestPhonesService) {}
 
@@ -23,12 +28,14 @@ export class GuestPhonesController {
   }
 
   @Get()
+  @Roles(Role.Admin)
   search(@Query() searchGuestPhoneDto: SearchGuestPhoneDto) {
     return this.guestPhonesService.search(searchGuestPhoneDto);
   }
 
-  @Delete(':phoneNumber')
-  remove(@Param('phoneNumber') phoneNumber: string) {
-    return this.guestPhonesService.remove(phoneNumber);
+  @Delete()
+  @Roles(Role.Admin)
+  remove(@Body() deleteGuestPhoneDto: DeleteGuestPhoneDto) {
+    return this.guestPhonesService.remove(deleteGuestPhoneDto);
   }
 }

@@ -13,7 +13,7 @@ import { UpdateFlowerDto } from './dto/update-flower.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('flowers')
-@ApiTags('flowers')
+@ApiTags('flowers (Todo)')
 export class FlowersController {
   constructor(private readonly flowersService: FlowersService) {}
 

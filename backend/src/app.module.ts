@@ -20,6 +20,8 @@ import { FlowerTopic } from './modules/flower-topic/entities/flower-topic.entity
 import { WebInfo } from './modules/web-infos/entities/web-info.entity';
 import { GuestPhonesModule } from './modules/guest-phones/guest-phones.module';
 import { GuestPhone } from './modules/guest-phones/entities/guest-phone.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './common/guards/roles.guard';
 
 @Module({
   imports: [
@@ -52,7 +54,13 @@ import { GuestPhone } from './modules/guest-phones/entities/guest-phone.entity';
     GuestPhonesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
