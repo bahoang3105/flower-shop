@@ -28,8 +28,8 @@ export class FlowersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.flowersService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.flowersService.findById(+id);
   }
 
   @Patch(':id')

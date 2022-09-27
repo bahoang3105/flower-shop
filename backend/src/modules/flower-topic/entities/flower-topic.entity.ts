@@ -8,10 +8,10 @@ export class FlowerTopic {
   id: number;
 
   @ManyToOne(() => Flower, (flower) => flower.flowerTopics)
-  flower: Flower;
+  flower!: Flower;
 
   @ManyToOne(() => Topic, (topic) => topic.flowerTopics)
-  topic: Topic;
+  topic!: Topic;
 
   @Column({ default: false })
   isDeleted: boolean;

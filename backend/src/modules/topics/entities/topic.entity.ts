@@ -16,5 +16,5 @@ export class Topic {
   isDeleted: boolean;
 
   @OneToMany(() => FlowerTopic, (flowerTopic) => flowerTopic.topic)
-  flowerTopics: FlowerTopic[];
+  flowerTopics!: FlowerTopic[];
 }

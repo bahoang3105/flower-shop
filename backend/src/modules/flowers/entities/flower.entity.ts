@@ -25,5 +25,5 @@ export class Flower {
   price: number;
 
   @OneToMany(() => FlowerTopic, (flowerTopic) => flowerTopic.flower)
-  flowerTopics: FlowerTopic[];
+  flowerTopics!: FlowerTopic[];
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateGuestPhoneDto } from './dto/create-guest-phone.dto';
 import { SearchGuestPhoneDto } from './dto/search-guest-phone.dto';
 import { GuestPhone } from './entities/guest-phone.entity';
