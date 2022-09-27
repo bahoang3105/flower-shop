@@ -7,5 +7,5 @@ export class DeleteGuestPhoneDto {
   @Type(() => Number)
   @IsArray()
   @IsNumber({}, { each: true })
-  listPhoneNumberId: number[];
+  listGuestPhoneId: number[];
 }

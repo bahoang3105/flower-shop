@@ -9,16 +9,17 @@ import {
 } from '@nestjs/common';
 import { GuestPhonesService } from './guest-phones.service';
 import { CreateGuestPhoneDto } from './dto/create-guest-phone.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SearchGuestPhoneDto } from './dto/search-guest-phone.dto';
 import { DeleteGuestPhoneDto } from './dto/delete-guest-phone.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @ApiTags('guest-phones')
 @Controller('guest-phones')
-@UseGuards(RolesGuard)
+@ApiBearerAuth()
 export class GuestPhonesController {
   constructor(private readonly guestPhonesService: GuestPhonesService) {}
 
@@ -29,12 +30,14 @@ export class GuestPhonesController {
 
   @Get()
   @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   search(@Query() searchGuestPhoneDto: SearchGuestPhoneDto) {
     return this.guestPhonesService.search(searchGuestPhoneDto);
   }
 
   @Delete()
   @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   remove(@Body() deleteGuestPhoneDto: DeleteGuestPhoneDto) {
     return this.guestPhonesService.remove(deleteGuestPhoneDto);
   }

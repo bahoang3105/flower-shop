@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateGuestPhoneDto } from './dto/create-guest-phone.dto';
 import { SearchGuestPhoneDto } from './dto/search-guest-phone.dto';
 import { GuestPhone } from './entities/guest-phone.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { DeleteGuestPhoneDto } from './dto/delete-guest-phone.dto';
-import { DeleteGuestPhoneTransaction } from './guest-phones-transaction';
 
 @Injectable()
 export class GuestPhonesService {
   constructor(
     @InjectRepository(GuestPhone)
     private guestPhonesRepository: Repository<GuestPhone>,
-    private readonly deleteGuestPhoneTransaction: DeleteGuestPhoneTransaction
+    private dataSource: DataSource
   ) {}
 
   async create(createGuestPhoneDto: CreateGuestPhoneDto) {
@@ -68,12 +67,26 @@ export class GuestPhonesService {
   }
 
   async remove(deleteGuestPhoneDto: DeleteGuestPhoneDto) {
-    const { listPhoneNumberId } = deleteGuestPhoneDto;
+    const { listGuestPhoneId } = deleteGuestPhoneDto;
+    const queryRunner = this.dataSource.createQueryRunner();
     try {
-      await this.deleteGuestPhoneTransaction.run(listPhoneNumberId);
+      queryRunner.startTransaction();
+      await Promise.all(
+        listGuestPhoneId.map((guestPhoneId: number) => {
+          queryRunner.manager.update(
+            GuestPhone,
+            { id: guestPhoneId },
+            { isDeleted: true }
+          );
+        })
+      );
+      await queryRunner.commitTransaction();
       return ApiOk({ success: true });
     } catch (e) {
+      await queryRunner.rollbackTransaction();
       return ApiError('guestPhone', e);
+    } finally {
+      await queryRunner.release();
     }
   }
 }
