@@ -2,14 +2,17 @@ import {
   forwardRef,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
 import { DataSource, Repository } from 'typeorm';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { TopicsService } from '../topics/topics.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
+import { SearchFlowerDto } from './dto/search-flower.dto';
 import { UpdateFlowerDto } from './dto/update-flower.dto';
 import { Flower } from './entities/flower.entity';
 
@@ -17,6 +20,7 @@ const testLink =
   'https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80';
 @Injectable()
 export class FlowersService {
+  private logger: Logger = new Logger(FlowersService.name);
   constructor(
     @InjectRepository(Flower) private flowersRepository: Repository<Flower>,
     @Inject(forwardRef(() => TopicsService))
@@ -61,21 +65,41 @@ export class FlowersService {
     }
   }
 
-  findAll() {
-    return `This action returns all flowers`;
+  async search(searchFlowerDto: SearchFlowerDto) {
+    const { limit, page, keyword, priceFrom, priceTo, sortField, sortValue } =
+      searchFlowerDto;
+    try {
+      const queryBuilder = this.flowersRepository
+        .createQueryBuilder('flower')
+        .where('flower.name like :keyword', { keyword: `%${keyword}%` })
+        .andWhere('flower.isDeleted = false');
+      if (priceFrom) {
+        queryBuilder.andWhere('flower.price >= :priceFrom', { priceFrom });
+      }
+      if (priceTo) {
+        queryBuilder.andWhere('flower.price <= : priceTo', { priceTo });
+      }
+      queryBuilder.orderBy(sortField, sortValue);
+      return ApiOk(await paginate(queryBuilder, { limit, page }));
+    } catch (e) {
+      this.logger.log('=== Search Flower failed ===', e);
+      return ApiError('Flower', e);
+    }
   }
 
   async findOne(id: number) {
     try {
       const flower = await this.findById(id);
-      return ApiOk(flower);
+      const listTopics = await this.flowerTopicService.getTopicsByFlowerId(id);
+      return ApiOk({ flower, listTopics });
     } catch (e) {
+      this.logger.log('=== Find Flower failed ===', e);
       return ApiError('Flower', e);
     }
   }
 
   async findById(id: number) {
-    return this.flowersRepository.findOne({ where: { id } });
+    return this.flowersRepository.findOne({ where: { id, isDeleted: false } });
   }
 
   update(id: number, updateFlowerDto: UpdateFlowerDto) {

@@ -11,6 +11,7 @@ import {
   UploadedFiles,
   UseInterceptors,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FlowersService } from './flowers.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
@@ -21,6 +22,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '../auth/role.enum';
+import { SearchFlowerDto } from './dto/search-flower.dto';
 
 @Controller('flowers')
 @ApiTags('flowers (Todo)')
@@ -41,8 +43,8 @@ export class FlowersController {
   }
 
   @Get()
-  findAll() {
-    return this.flowersService.findAll();
+  search(@Query() searchFlowerDto: SearchFlowerDto) {
+    return this.flowersService.search(searchFlowerDto);
   }
 
   @Get(':id')

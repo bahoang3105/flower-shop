@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
 import { DataSource, Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import { DeleteGuestPhoneDto } from './dto/delete-guest-phone.dto';
 
 @Injectable()
 export class GuestPhonesService {
+  private logger: Logger = new Logger(GuestPhonesService.name);
   constructor(
     @InjectRepository(GuestPhone)
     private guestPhonesRepository: Repository<GuestPhone>,
@@ -22,6 +23,7 @@ export class GuestPhonesService {
         this.guestPhonesRepository.create(createGuestPhoneDto);
       return ApiOk(await this.guestPhonesRepository.save(newGuestPhone));
     } catch (e) {
+      this.logger.log('=== Create Guest Phone failed ===', e);
       return ApiError('guestPhone', e);
     }
   }
@@ -62,6 +64,7 @@ export class GuestPhonesService {
       queryBuilder.orderBy(sortField, sortValue);
       return ApiOk(await paginate(queryBuilder, { limit, page }));
     } catch (e) {
+      this.logger.log('=== Search Guest Phone failed ===', e);
       return ApiError('guestPhone', e);
     }
   }
@@ -83,6 +86,7 @@ export class GuestPhonesService {
       await queryRunner.commitTransaction();
       return ApiOk({ success: true });
     } catch (e) {
+      this.logger.log('=== Remove Guest Phone failed ===', e);
       await queryRunner.rollbackTransaction();
       return ApiError('guestPhone', e);
     } finally {

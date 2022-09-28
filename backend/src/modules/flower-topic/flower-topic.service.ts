@@ -1,11 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Flower } from '../flowers/entities/flower.entity';
 import { Topic } from '../topics/entities/topic.entity';
-import { CreateFlowerTopicDto } from './dto/create-flower-topic.dto';
-import { UpdateFlowerTopicDto } from './dto/update-flower-topic.dto';
 import { FlowerTopic } from './entities/flower-topic.entity';
 
 @Injectable()
@@ -13,13 +11,8 @@ export class FlowerTopicService {
   private logger: Logger = new Logger(FlowerTopicService.name);
   constructor(
     @InjectRepository(FlowerTopic)
-    private flowerTopicsRepository: Repository<FlowerTopic>,
-    private dataSource: DataSource
+    private flowerTopicsRepository: Repository<FlowerTopic>
   ) {}
-
-  create(createFlowerTopicDto: CreateFlowerTopicDto) {
-    return 'This action adds a new flowerTopic';
-  }
 
   async createByFlowerAndTopic(flower: Flower, topic: Topic) {
     const newFlowerTopic = this.flowerTopicsRepository.create({
@@ -27,18 +20,6 @@ export class FlowerTopicService {
       topic,
     });
     return await this.flowerTopicsRepository.save(newFlowerTopic);
-  }
-
-  findAll() {
-    return `This action returns all flowerTopic`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} flowerTopic`;
-  }
-
-  update(id: number, updateFlowerTopicDto: UpdateFlowerTopicDto) {
-    return `This action updates a #${id} flowerTopic`;
   }
 
   async remove(id: number) {
@@ -67,5 +48,18 @@ export class FlowerTopicService {
       .set({ isDeleted: true })
       .where('topicId = :id ', { id })
       .execute();
+  }
+
+  async getTopicsByFlowerId(flowerId: number) {
+    const listFlowerTopic = await this.flowerTopicsRepository
+      .createQueryBuilder('flowerTopic')
+      .where('flowerId = :flowerId', { flowerId })
+      .leftJoinAndSelect(
+        'flowerTopic.topic',
+        'topic',
+        'topic.isDeleted = false'
+      )
+      .getMany();
+    return listFlowerTopic.map((flowerTopic: FlowerTopic) => flowerTopic.topic);
   }
 }
