@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ApiError, ApiOk } from 'src/common/api';
+import { DataSource, Repository } from 'typeorm';
 import { Flower } from '../flowers/entities/flower.entity';
 import { Topic } from '../topics/entities/topic.entity';
 import { CreateFlowerTopicDto } from './dto/create-flower-topic.dto';
@@ -9,9 +10,11 @@ import { FlowerTopic } from './entities/flower-topic.entity';
 
 @Injectable()
 export class FlowerTopicService {
+  private logger: Logger = new Logger(FlowerTopicService.name);
   constructor(
     @InjectRepository(FlowerTopic)
-    private flowerTopicsRepository: Repository<FlowerTopic>
+    private flowerTopicsRepository: Repository<FlowerTopic>,
+    private dataSource: DataSource
   ) {}
 
   create(createFlowerTopicDto: CreateFlowerTopicDto) {
@@ -38,7 +41,31 @@ export class FlowerTopicService {
     return `This action updates a #${id} flowerTopic`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} flowerTopic`;
+  async remove(id: number) {
+    try {
+      await this.flowerTopicsRepository.update({ id }, { isDeleted: true });
+      return ApiOk({ success: true });
+    } catch (e) {
+      this.logger.log('=== Remove FlowerTopic failed ===', e);
+      return ApiError('FlowerTopic', e);
+    }
+  }
+
+  removeByFlowerId(id: number) {
+    this.flowerTopicsRepository
+      .createQueryBuilder()
+      .update()
+      .set({ isDeleted: true })
+      .where('flowerId = :id ', { id })
+      .execute();
+  }
+
+  removeByTopicId(id: number) {
+    this.flowerTopicsRepository
+      .createQueryBuilder()
+      .update()
+      .set({ isDeleted: true })
+      .where('topicId = :id ', { id })
+      .execute();
   }
 }

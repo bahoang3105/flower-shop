@@ -21,7 +21,7 @@ export class FlowersService {
     @InjectRepository(Flower) private flowersRepository: Repository<Flower>,
     @Inject(forwardRef(() => TopicsService))
     private topicsService: TopicsService,
-    private flowerTopicsService: FlowerTopicService,
+    private flowerTopicService: FlowerTopicService,
     private dataSource: DataSource
   ) {}
 
@@ -46,7 +46,7 @@ export class FlowersService {
               throw NotFoundException;
             }
             console.log(topic);
-            await this.flowerTopicsService.createByFlowerAndTopic(
+            await this.flowerTopicService.createByFlowerAndTopic(
               savedFlower,
               topic
             );
@@ -82,7 +82,18 @@ export class FlowersService {
     return `This action updates a #${id} flower`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} flower`;
+  async remove(id: number) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    try {
+      queryRunner.startTransaction();
+      await this.flowersRepository.update({ id }, { isDeleted: true });
+      this.flowerTopicService.removeByFlowerId(id);
+      return ApiOk({ success: true });
+    } catch (e) {
+      await queryRunner.rollbackTransaction();
+      return ApiError('Flower', e);
+    } finally {
+      await queryRunner.release();
+    }
   }
 }

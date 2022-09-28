@@ -66,7 +66,18 @@ export class TopicsService {
     return `This action updates a #${id} topic`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} topic`;
+  async remove(id: number) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    try {
+      queryRunner.startTransaction();
+      await this.topicsRepository.update({ id }, { isDeleted: true });
+      this.flowerTopicService.removeByTopicId(id);
+      return ApiOk({ success: true });
+    } catch (e) {
+      await queryRunner.rollbackTransaction();
+      return ApiError('Topic', e);
+    } finally {
+      await queryRunner.release();
+    }
   }
 }
