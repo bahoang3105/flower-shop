@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiError } from 'src/common/api';
+import { ApiError, ApiOk } from 'src/common/api';
 import { DataSource, Repository } from 'typeorm';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { FlowersService } from '../flowers/flowers.service';
@@ -16,32 +16,50 @@ export class TopicsService {
     private flowerTopicService: FlowerTopicService,
     private dataSource: DataSource
   ) {}
+
   async create(createTopicDto: CreateTopicDto) {
-    const { flowerIds, description, name } = createTopicDto;
-    await this.dataSource.transaction(async (manager) => {
-      const newTopic = this.topicsRepository.create({ description, name });
-      await manager.save(newTopic);
-      const listPromise = [];
-      flowerIds.map(async (flowerId: number) => {
-        const flower = await this.flowersService.findById(flowerId);
-        if (!flower.data) {
-          throw Error('Flower not existed');
-        }
-        const flowerTopic = this.flowerTopicService.create({
-          flower: flower.data,
-          topic: newTopic,
-        });
-      });
-      const s = Promise.all(listPromise);
-    });
+    const queryRunner = this.dataSource.createQueryRunner();
+    const { flowerIds, ...topicInfo } = createTopicDto;
+    try {
+      queryRunner.startTransaction();
+      // create new topic
+      const newTopic = this.topicsRepository.create(topicInfo);
+      const savedTopic = await this.topicsRepository.save(newTopic);
+      // map flower and create flowerTopic instances
+      flowerIds &&
+        (await Promise.all(
+          flowerIds.map(async (id: number) => {
+            const flower = await this.flowersService.findById(id);
+            await this.flowerTopicService.createByFlowerAndTopic(
+              flower,
+              savedTopic
+            );
+          })
+        ));
+      return ApiOk(savedTopic);
+    } catch (e) {
+      await queryRunner.rollbackTransaction();
+      return ApiError('Topic', e);
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   findAll() {
     return `This action returns all topics`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} topic`;
+  async findOne(id: number) {
+    try {
+      const topic = await this.findById(id);
+      return ApiOk(topic);
+    } catch (e) {
+      return ApiError('Topic', e);
+    }
+  }
+
+  async findById(id: number) {
+    return await this.topicsRepository.findOne({ where: { id } });
   }
 
   update(id: number, updateTopicDto: UpdateTopicDto) {

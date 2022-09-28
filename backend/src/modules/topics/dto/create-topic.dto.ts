@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsNumber, IsOptional } from 'class-validator';
 
 export class CreateTopicDto {
@@ -9,7 +10,9 @@ export class CreateTopicDto {
   @IsOptional()
   description: string;
 
-  @ApiProperty({ type: [Number] })
+  @ApiProperty({ required: false, type: [Number] })
+  @IsOptional()
+  @Type(() => Number)
   @IsNumber({}, { each: true })
   flowerIds: number[];
 }
