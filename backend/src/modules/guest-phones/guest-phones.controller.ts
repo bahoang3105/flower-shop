@@ -19,7 +19,6 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @ApiTags('guest-phones')
 @Controller('guest-phones')
-@ApiBearerAuth()
 export class GuestPhonesController {
   constructor(private readonly guestPhonesService: GuestPhonesService) {}
 
@@ -29,6 +28,7 @@ export class GuestPhonesController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
   search(@Query() searchGuestPhoneDto: SearchGuestPhoneDto) {
@@ -36,6 +36,7 @@ export class GuestPhonesController {
   }
 
   @Delete()
+  @ApiBearerAuth()
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
   remove(@Body() deleteGuestPhoneDto: DeleteGuestPhoneDto) {

@@ -1,10 +1,12 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
 import { DataSource, Repository } from 'typeorm';
+import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { FlowersService } from '../flowers/flowers.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
+import { SearchTopicDto } from './dto/search-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 import { Topic } from './entities/topic.entity';
 
@@ -87,6 +89,36 @@ export class TopicsService {
       return ApiError('Topic', e);
     } finally {
       await queryRunner.release();
+    }
+  }
+
+  async search(searchTopicDto: SearchTopicDto) {
+    const { keyword, limit, page, sortField, sortValue, flowersPerTopic } =
+      searchTopicDto;
+    try {
+      const queryBuilder = await this.topicsRepository
+        .createQueryBuilder('topic')
+        .where('topic.name like :keyword', { keyword: `%${keyword}%` })
+        .andWhere('topic.isDeleted = false')
+        .leftJoinAndMapMany(
+          'topic.listFlower',
+          FlowerTopic,
+          'flowerTopic',
+          'flowerTopic.topicId = topic.id AND flowerTopic.isDeleted = false'
+        )
+        .leftJoinAndSelect(
+          'flowerTopic.flower',
+          'flower',
+          'flower.isDeleted = false'
+        )
+        .orderBy(sortField, sortValue)
+        .take(limit)
+        .skip(limit * (page - 1))
+        .getMany();
+      return ApiOk(queryBuilder);
+    } catch (e) {
+      this.logger.log('=== Search Topic failed ===', e);
+      return ApiError('Topic', e);
     }
   }
 }

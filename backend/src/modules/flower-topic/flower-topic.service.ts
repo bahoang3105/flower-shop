@@ -38,17 +38,21 @@ export class FlowerTopicService {
         .where('flowerTopic.flowerId = :flowerId', { flowerId })
         .andWhere('flowerTopic.topicId = :topicId', { topicId })
         .getOne();
-      if (!flowerTopic) {
-        const flower = await this.flowersService.findById(flowerId);
-        const topic = await this.topicsService.findById(topicId);
-        return ApiOk(await this.createByFlowerAndTopic(flower, topic));
-      } else if (flowerTopic.isDeleted) {
-        return ApiOk(
-          await this.flowerTopicsRepository.save({
-            ...flowerTopic,
-            isDeleted: false,
-          })
-        );
+      const flower = await this.flowersService.findById(flowerId);
+      const topic = await this.topicsService.findById(topicId);
+      if (flower && topic) {
+        if (!flowerTopic) {
+          return ApiOk(await this.createByFlowerAndTopic(flower, topic));
+        } else if (flowerTopic.isDeleted) {
+          return ApiOk(
+            await this.flowerTopicsRepository.save({
+              ...flowerTopic,
+              isDeleted: false,
+            })
+          );
+        } else {
+          return ApiError('E2', 'Flower or Topic does not exist');
+        }
       } else {
         return ApiError('E1', 'FlowerTopic existed');
       }
@@ -89,7 +93,8 @@ export class FlowerTopicService {
   async getTopicsByFlowerId(flowerId: number) {
     const listFlowerTopic = await this.flowerTopicsRepository
       .createQueryBuilder('flowerTopic')
-      .where('flowerId = (:flowerId)', { flowerId })
+      .where('flowerTopic.flowerId = (:flowerId)', { flowerId })
+      .andWhere('flowerTopic.isDeleted = false')
       .leftJoinAndSelect(
         'flowerTopic.topic',
         'topic',

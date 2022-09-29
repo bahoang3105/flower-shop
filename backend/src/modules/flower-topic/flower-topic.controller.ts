@@ -4,7 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateFlowerTopicDto } from './dto/create-flower-topic.dto';
 
 @Controller('flower-topic')
-@ApiTags('flowerTopics (Todo)')
+@ApiTags('flowerTopics')
 export class FlowerTopicController {
   constructor(private readonly flowerTopicService: FlowerTopicService) {}
 
