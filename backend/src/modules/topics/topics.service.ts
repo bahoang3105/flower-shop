@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
 import { DataSource, Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import { Topic } from './entities/topic.entity';
 
 @Injectable()
 export class TopicsService {
+  private logger: Logger = new Logger(TopicsService.name);
   constructor(
     @InjectRepository(Topic) private topicsRepository: Repository<Topic>,
     private flowersService: FlowersService,
@@ -45,10 +46,6 @@ export class TopicsService {
     }
   }
 
-  findAll() {
-    return `This action returns all topics`;
-  }
-
   async findOne(id: number) {
     try {
       const topic = await this.findById(id);
@@ -58,12 +55,24 @@ export class TopicsService {
     }
   }
 
-  async findById(id: number) {
-    return await this.topicsRepository.findOne({ where: { id } });
+  findById(id: number) {
+    return this.topicsRepository.findOne({
+      where: { id, isDeleted: false },
+    });
   }
 
-  update(id: number, updateTopicDto: UpdateTopicDto) {
-    return `This action updates a #${id} topic`;
+  async update(id: number, updateTopicDto: UpdateTopicDto) {
+    try {
+      const topic = await this.findById(id);
+      const updatedTopic = await this.topicsRepository.save({
+        ...topic,
+        ...updateTopicDto,
+      });
+      return ApiOk(updatedTopic);
+    } catch (e) {
+      this.logger.log('=== Update Topic failed ===', e);
+      return ApiError('Topic', e);
+    }
   }
 
   async remove(id: number) {

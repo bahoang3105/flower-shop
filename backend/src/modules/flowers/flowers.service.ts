@@ -25,6 +25,7 @@ export class FlowersService {
     @InjectRepository(Flower) private flowersRepository: Repository<Flower>,
     @Inject(forwardRef(() => TopicsService))
     private topicsService: TopicsService,
+    @Inject(forwardRef(() => FlowerTopicService))
     private flowerTopicService: FlowerTopicService,
     private dataSource: DataSource
   ) {}
@@ -56,6 +57,7 @@ export class FlowersService {
             );
           })
         ));
+      await queryRunner.commitTransaction();
       return ApiOk(savedFlower);
     } catch (e) {
       await queryRunner.rollbackTransaction();
@@ -112,6 +114,7 @@ export class FlowersService {
       queryRunner.startTransaction();
       await this.flowersRepository.update({ id }, { isDeleted: true });
       this.flowerTopicService.removeByFlowerId(id);
+      await queryRunner.commitTransaction();
       return ApiOk({ success: true });
     } catch (e) {
       await queryRunner.rollbackTransaction();

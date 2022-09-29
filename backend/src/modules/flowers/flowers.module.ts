@@ -10,7 +10,7 @@ import { FlowerTopicModule } from '../flower-topic/flower-topic.module';
   imports: [
     TypeOrmModule.forFeature([Flower]),
     forwardRef(() => TopicsModule),
-    FlowerTopicModule,
+    forwardRef(() => FlowerTopicModule),
   ],
   controllers: [FlowersController],
   providers: [FlowersService],

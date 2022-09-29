@@ -13,18 +13,13 @@ import { UpdateTopicDto } from './dto/update-topic.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('topics')
-@ApiTags('topics (Todo)')
+@ApiTags('topics')
 export class TopicsController {
   constructor(private readonly topicsService: TopicsService) {}
 
   @Post()
   create(@Body() createTopicDto: CreateTopicDto) {
     return this.topicsService.create(createTopicDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.topicsService.findAll();
   }
 
   @Get(':id')
