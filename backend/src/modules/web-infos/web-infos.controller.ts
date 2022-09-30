@@ -9,8 +9,6 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Controller('web-infos')
 @ApiTags('webInfos')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class WebInfosController {
   constructor(private readonly webInfosService: WebInfosService) {}
 
@@ -20,6 +18,8 @@ export class WebInfosController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   update(@Param('id') id: string, @Body() updateWebInfoDto: UpdateWebInfoDto) {
     return this.webInfosService.update(+id, updateWebInfoDto);

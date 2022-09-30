@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
 import { DataSource, Repository } from 'typeorm';
+import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { TopicsService } from '../topics/topics.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
@@ -68,8 +69,17 @@ export class FlowersService {
   }
 
   async search(searchFlowerDto: SearchFlowerDto) {
-    const { limit, page, keyword, priceFrom, priceTo, sortField, sortValue } =
-      searchFlowerDto;
+    const {
+      limit,
+      page,
+      keyword,
+      priceFrom,
+      priceTo,
+      sortField,
+      sortValue,
+      topicIds,
+    } = searchFlowerDto;
+    console.log(topicIds);
     try {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')
@@ -80,6 +90,15 @@ export class FlowersService {
       }
       if (priceTo) {
         queryBuilder.andWhere('flower.price <= : priceTo', { priceTo });
+      }
+      if (topicIds?.length > 0) {
+        queryBuilder.innerJoinAndMapMany(
+          'flower.listTopic',
+          FlowerTopic,
+          'flowerTopic',
+          'flowerTopic.flowerId = flower.id AND flowerTopic.isDeleted = false AND flowerTopic.topicId IN (:...topicIds)',
+          { topicIds }
+        );
       }
       queryBuilder.orderBy(sortField, sortValue);
       return ApiOk(await paginate(queryBuilder, { limit, page }));
@@ -104,8 +123,17 @@ export class FlowersService {
     return this.flowersRepository.findOne({ where: { id, isDeleted: false } });
   }
 
-  update(id: number, updateFlowerDto: UpdateFlowerDto) {
-    return `This action updates a #${id} flower`;
+  async update(id: number, updateFlowerDto: UpdateFlowerDto) {
+    try {
+      const flower = await this.findById(id);
+      return ApiOk(
+        flower &&
+          (await this.flowersRepository.save({ ...flower, ...updateFlowerDto }))
+      );
+    } catch (e) {
+      this.logger.log('=== Update Flower failed ===', e);
+      return ApiError('Flower', e);
+    }
   }
 
   async remove(id: number) {

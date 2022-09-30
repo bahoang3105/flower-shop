@@ -25,7 +25,7 @@ import { Role } from '../auth/role.enum';
 import { SearchFlowerDto } from './dto/search-flower.dto';
 
 @Controller('flowers')
-@ApiTags('flowers (Todo)')
+@ApiTags('flowers')
 @UseInterceptors(new TimeoutInterceptor(5 * 60 * 60 * 1000)) // 5h = 5*60*60*1000
 export class FlowersController {
   constructor(private readonly flowersService: FlowersService) {}
@@ -53,11 +53,17 @@ export class FlowersController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   update(@Param('id') id: string, @Body() updateFlowerDto: UpdateFlowerDto) {
     return this.flowersService.update(+id, updateFlowerDto);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   remove(@Param('id') id: string) {
     return this.flowersService.remove(+id);
   }
