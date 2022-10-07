@@ -17,4 +17,12 @@ export class UpdateWebInfoDto {
   @ApiProperty()
   @IsOptional()
   email: string;
+
+  @ApiProperty()
+  @IsOptional()
+  address: string;
+
+  @ApiProperty()
+  @IsOptional()
+  title: string;
 }

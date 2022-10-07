@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo';
 
 import Header from '@components//AppHeader';
 import Footer from '@components//AppFooter';
-import LoadingIcon from '@components//common/LoadingIcon';
+import LoadingIcon from 'elements/LoadingIcon';
 import { withTranslation } from 'next-i18next';
 
 const Layout: FC<{

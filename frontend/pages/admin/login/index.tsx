@@ -25,12 +25,13 @@ export default function Login() {
   };
   const handleLogin = async () => {
     const data = await login.mutateAsync({ username, password });
-    if (data.response) {
+    console.log(data);
+    if (data?.data?.response) {
       setError('Sai tên tài khoản hoặc mật khẩu');
     } else if (data?.data?.role === 'user') {
       setError('Vui lòng sử dụng tài khoản admin để đăng nhập');
     } else {
-      const token = data?.data?.token;
+      const token = data?.data?.data?.token;
       getToken(token);
       localStorage.setItem(LOCAL_STORAGE.TOKEN, token);
       router.push(WEB_URL.ADMIN);

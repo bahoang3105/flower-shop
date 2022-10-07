@@ -1,10 +1,16 @@
 import React, { FC, useState } from 'react';
 import { Spin, Layout, Menu, Image, Dropdown } from 'antd';
 import { NextSeo } from 'next-seo';
-import { UsergroupAddOutlined, AppstoreAddOutlined, ApartmentOutlined, ShopOutlined } from '@ant-design/icons';
+import {
+  UsergroupAddOutlined,
+  AppstoreAddOutlined,
+  ApartmentOutlined,
+  ShopOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { withTranslation } from 'next-i18next';
-import LoadingIcon from '@components//common/LoadingIcon';
+import LoadingIcon from 'elements/LoadingIcon';
 import ImageSvg from 'public/svg';
 import { WEB_URL } from 'constants/routes';
 import { LOCAL_STORAGE } from 'constants/common';
@@ -31,6 +37,7 @@ const AdminLayout: FC<{
     { label: 'Quản lý loại hoa', value: '2', route: WEB_URL.MANAGE_TOPICS, logo: <ShopOutlined /> },
     { label: 'Quản lý người dùng', value: '3', route: WEB_URL.MANEGE_USERS, logo: <UsergroupAddOutlined /> },
     { label: 'Quản lý tài khoản', value: '4', route: WEB_URL.MANAGE_ACCOUNT, logo: <ApartmentOutlined /> },
+    { label: 'Quản lý thông tin web', value: '5', route: WEB_URL.MANAGE_WEB_INFO, logo: <InfoCircleOutlined /> },
   ];
   const [currentPage, setCurrentPage] = useState('1');
 

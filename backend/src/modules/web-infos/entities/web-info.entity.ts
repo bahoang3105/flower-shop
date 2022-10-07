@@ -16,4 +16,10 @@ export class WebInfo {
 
   @Column()
   email: string;
+
+  @Column()
+  title: string;
+
+  @Column()
+  address: string;
 }

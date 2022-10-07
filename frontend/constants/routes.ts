@@ -5,12 +5,16 @@ export const WEB_URL = {
   MANAGE_TOPICS: '/admin/topics',
   MANEGE_USERS: '/admin/users',
   MANAGE_ACCOUNT: '/admin/account',
+  MANAGE_WEB_INFO: '/admin/web-info',
 };
 
 export const API_URL = {
   LOGIN: '/auth/login',
+  WEB_INFO: '/web-infos',
 };
 
 export const QUERY_KEY = {
   LOGIN: 'login',
+  WEB_INFO: 'webInfo',
+  UPDATE_WEB_INFO: 'updateWebInfo',
 };

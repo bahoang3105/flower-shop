@@ -29,3 +29,9 @@ export const CHAIN_ID_LIST = {
   BSC_MAINNET: 56,
   BSC_TESTNET: 97,
 };
+export const TYPE_MESSAGE = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  WARNING: 'warning',
+  IMG_DONE: 'done',
+};
