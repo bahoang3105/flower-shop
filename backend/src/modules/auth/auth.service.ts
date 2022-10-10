@@ -34,7 +34,7 @@ export class AuthService {
       password: Utils.encrypt(requestData.password),
     };
     try {
-      return ApiOk(this.usersService.create(newUser));
+      return ApiOk(await this.usersService.create(newUser));
     } catch (e) {
       return ApiError('E3', '');
     }

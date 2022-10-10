@@ -15,5 +15,5 @@ export const getWebInfo = () => {
 };
 
 export const updateWebInfo = (params: UpdateWebInfoParamsType, id: number) => {
-  return api.patch(API_URL.WEB_INFO + '/' + id, params);
+  return api.post(API_URL.WEB_INFO + '/' + id, params);
 };

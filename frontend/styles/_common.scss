@@ -17,11 +17,14 @@ body {
 .not-allowed {
   cursor: not-allowed;
 }
-
+.center-flex-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .display-none {
   display: none !important;
 }
-
 .error {
   font-size: 12px;
   font-weight: 400;

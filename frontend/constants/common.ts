@@ -35,3 +35,7 @@ export const TYPE_MESSAGE = {
   WARNING: 'warning',
   IMG_DONE: 'done',
 };
+export const SORT_TYPE = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};

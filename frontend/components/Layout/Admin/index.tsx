@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Spin, Layout, Menu, Image, Dropdown } from 'antd';
 import { NextSeo } from 'next-seo';
 import {
@@ -15,6 +15,14 @@ import ImageSvg from 'public/svg';
 import { WEB_URL } from 'constants/routes';
 import { LOCAL_STORAGE } from 'constants/common';
 
+const ITEM_KEY = {
+  MANAGE_FLOWERS: '1',
+  MANAGE_TOPICS: '2',
+  MANEGE_USERS: '3',
+  MANAGE_ACCOUNT: '4',
+  MANAGE_WEB_INFO: '5',
+};
+
 const AdminLayout: FC<{
   children: any;
   title?: string;
@@ -30,15 +38,37 @@ const AdminLayout: FC<{
   const listItem = [
     {
       label: 'Quản lý hoa',
-      value: '1',
+      value: ITEM_KEY.MANAGE_FLOWERS,
       route: WEB_URL.MANAGE_FLOWERS,
       logo: <AppstoreAddOutlined />,
     },
-    { label: 'Quản lý loại hoa', value: '2', route: WEB_URL.MANAGE_TOPICS, logo: <ShopOutlined /> },
-    { label: 'Quản lý người dùng', value: '3', route: WEB_URL.MANEGE_USERS, logo: <UsergroupAddOutlined /> },
-    { label: 'Quản lý tài khoản', value: '4', route: WEB_URL.MANAGE_ACCOUNT, logo: <ApartmentOutlined /> },
-    { label: 'Quản lý thông tin web', value: '5', route: WEB_URL.MANAGE_WEB_INFO, logo: <InfoCircleOutlined /> },
+    { label: 'Quản lý loại hoa', value: ITEM_KEY.MANAGE_TOPICS, route: WEB_URL.MANAGE_TOPICS, logo: <ShopOutlined /> },
+    {
+      label: 'Quản lý người dùng',
+      value: ITEM_KEY.MANEGE_USERS,
+      route: WEB_URL.MANEGE_USERS,
+      logo: <UsergroupAddOutlined />,
+    },
+    {
+      label: 'Quản lý tài khoản khách',
+      value: ITEM_KEY.MANAGE_ACCOUNT,
+      route: WEB_URL.MANAGE_ACCOUNT,
+      logo: <ApartmentOutlined />,
+    },
+    {
+      label: 'Quản lý thông tin web',
+      value: ITEM_KEY.MANAGE_WEB_INFO,
+      route: WEB_URL.MANAGE_WEB_INFO,
+      logo: <InfoCircleOutlined />,
+    },
   ];
+  const getCurrentPage = {
+    [WEB_URL.MANAGE_FLOWERS]: ITEM_KEY.MANAGE_FLOWERS,
+    [WEB_URL.MANAGE_TOPICS]: ITEM_KEY.MANAGE_TOPICS,
+    [WEB_URL.MANEGE_USERS]: ITEM_KEY.MANEGE_USERS,
+    [WEB_URL.MANAGE_ACCOUNT]: ITEM_KEY.MANAGE_ACCOUNT,
+    [WEB_URL.MANAGE_WEB_INFO]: ITEM_KEY.MANAGE_WEB_INFO,
+  };
   const [currentPage, setCurrentPage] = useState('1');
 
   const handleClickItem = (route: string, keyPage: string) => {
@@ -74,6 +104,10 @@ const AdminLayout: FC<{
       </Menu>
     );
   };
+
+  useEffect(() => {
+    setCurrentPage(getCurrentPage[router.pathname]);
+  }, []);
 
   return (
     <Spin indicator={<LoadingIcon />} spinning={false}>
@@ -118,7 +152,7 @@ const AdminLayout: FC<{
           ]}
         />
         <Layout className='layout'>
-          <Sider trigger={null} collapsible collapsed={collapsed} className='side-wrapper' width={213}>
+          <Sider trigger={null} collapsible collapsed={collapsed} className='side-wrapper' width={243}>
             <div className='layout__logo'>Logo</div>
             <Menu theme='dark' mode='inline' selectedKeys={[currentPage]} expandIcon={null}>
               {renderListItem()}

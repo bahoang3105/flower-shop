@@ -44,6 +44,7 @@ import { RolesGuard } from './common/guards/roles.guard';
       database: process.env.DB_NAME,
       entities: [User, Topic, Flower, FlowerTopic, WebInfo, GuestPhone],
       synchronize: Boolean(process.env.SYNCHRONIZE_DB),
+      charset: 'utf8mb4',
     }),
     AuthModule,
     TopicsModule,

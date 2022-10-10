@@ -25,7 +25,6 @@ export default function Login() {
   };
   const handleLogin = async () => {
     const data = await login.mutateAsync({ username, password });
-    console.log(data);
     if (data?.data?.response) {
       setError('Sai tên tài khoản hoặc mật khẩu');
     } else if (data?.data?.role === 'user') {

@@ -10,5 +10,5 @@ export default function Admin() {
     router.push(WEB_URL.MANAGE_FLOWERS);
   }, []);
 
-  return <AdminLayout>Layout</AdminLayout>;
+  return <AdminLayout> </AdminLayout>;
 }

@@ -11,10 +11,14 @@ export const WEB_URL = {
 export const API_URL = {
   LOGIN: '/auth/login',
   WEB_INFO: '/web-infos',
+  VERIFY_ADMIN: '/auth/verify-admin',
+  ACCOUNT_GUEST: '/guest-phones',
 };
 
 export const QUERY_KEY = {
   LOGIN: 'login',
   WEB_INFO: 'webInfo',
   UPDATE_WEB_INFO: 'updateWebInfo',
+  VERIFY_ADMIN: 'verifyAdmin',
+  ACCOUNT_GUEST: 'accountGuest',
 };

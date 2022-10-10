@@ -12,6 +12,9 @@ export class GuestPhone {
   pageAccess: string;
 
   @Column()
+  pageLink: string;
+
+  @Column()
   timeAccess: Date;
 
   @Column({ default: false })

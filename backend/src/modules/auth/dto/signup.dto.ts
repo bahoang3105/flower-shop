@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString } from 'class-validator';
+import { IsDateString, IsOptional } from 'class-validator';
 import { UserSex } from 'src/modules/users/entities/user.entity';
 
 export class SignupDto {
@@ -13,10 +13,12 @@ export class SignupDto {
   name: string;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   @IsDateString()
   dateOfBirth: Date;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   sex: UserSex;
 
   @ApiProperty({ required: true })

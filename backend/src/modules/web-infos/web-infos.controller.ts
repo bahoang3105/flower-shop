@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Patch, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Body, Post, Param, UseGuards } from '@nestjs/common';
 import { WebInfosService } from './web-infos.service';
 import { UpdateWebInfoDto } from './dto/update-web-info.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -17,11 +17,19 @@ export class WebInfosController {
     return this.webInfosService.find();
   }
 
-  @Patch(':id')
+  @Post(':id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   update(@Param('id') id: string, @Body() updateWebInfoDto: UpdateWebInfoDto) {
     return this.webInfosService.update(+id, updateWebInfoDto);
+  }
+
+  @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  create(@Body() updateWebInfoDto: UpdateWebInfoDto) {
+    return this.webInfosService.create(updateWebInfoDto);
   }
 }

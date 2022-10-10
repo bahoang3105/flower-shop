@@ -41,6 +41,7 @@ export class TopicsService {
         ));
       return ApiOk(savedTopic);
     } catch (e) {
+      this.logger.log('=== Create Topic failed ===', e);
       await queryRunner.rollbackTransaction();
       return ApiError('Topic', e);
     } finally {
@@ -53,6 +54,7 @@ export class TopicsService {
       const topic = await this.findById(id);
       return ApiOk(topic);
     } catch (e) {
+      this.logger.log('=== Find Topic failed ===', e);
       return ApiError('Topic', e);
     }
   }
@@ -85,6 +87,7 @@ export class TopicsService {
       this.flowerTopicService.removeByTopicId(id);
       return ApiOk({ success: true });
     } catch (e) {
+      this.logger.log('=== Remove Topic failed ===', e);
       await queryRunner.rollbackTransaction();
       return ApiError('Topic', e);
     } finally {

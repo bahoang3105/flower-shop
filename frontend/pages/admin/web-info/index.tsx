@@ -51,7 +51,7 @@ export default function WebInfo() {
   }, [webInfo]);
 
   return (
-    <main className='web-info'>
+    <div className='web-info'>
       <h1 className='page-title'>Quản lý thông tin web</h1>
       <div className='web-info__form'>
         <TextInputWithLabel label='Tiêu đề' value={title} onChange={setTitle} disabled={!isEdit} />
@@ -82,7 +82,7 @@ export default function WebInfo() {
           </>
         )}
       </Row>
-    </main>
+    </div>
   );
 }
 

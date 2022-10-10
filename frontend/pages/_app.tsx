@@ -13,6 +13,7 @@ import showMessage from '@components//Message';
 import { LOCAL_STORAGE, TYPE_MESSAGE } from 'constants/common';
 import { useRouter } from 'next/router';
 import { WEB_URL } from 'constants/routes';
+import AppAuthWrapper from '@components//AppAuthWrapper';
 
 const onBeforeLift = (store: any) => () => {};
 
@@ -53,10 +54,12 @@ const MyApp = ({ Component, pageProps }: any) => {
     <QueryClientProvider client={queryClient}>
       {isClient ? (
         <PersistGate persistor={(store as any).__persistor} loading={null} onBeforeLift={onBeforeLift(store)}>
-          {getLayout(<Component {...pageProps} />)}
+          <AppAuthWrapper>{getLayout(<Component {...pageProps} />)}</AppAuthWrapper>
         </PersistGate>
       ) : (
-        <Component {...pageProps} />
+        <AppAuthWrapper>
+          <Component {...pageProps} />
+        </AppAuthWrapper>
       )}
     </QueryClientProvider>
   );

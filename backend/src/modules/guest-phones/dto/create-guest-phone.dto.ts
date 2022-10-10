@@ -9,6 +9,9 @@ export class CreateGuestPhoneDto {
   pageAccess: string;
 
   @ApiProperty()
+  pageTitle: string;
+
+  @ApiProperty()
   @IsDateString()
   timeAccess: Date;
 }
