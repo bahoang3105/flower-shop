@@ -1,6 +1,7 @@
 import { Checkbox, Row } from 'antd';
+import { DATE_FORMAT } from 'constants/common';
 import moment from 'moment';
-import { DATE_FORMAT, formatNumber } from './common';
+import { formatNumber } from './common';
 
 export const accountGuestColumns = (handleChangeCheckbox: (id: number) => void) => {
   return [

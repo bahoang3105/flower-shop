@@ -39,3 +39,7 @@ export const SORT_TYPE = {
   ASC: 'ASC',
   DESC: 'DESC',
 };
+export const DATE_FORMAT = {
+  FULL_TIME: 'DD-MM-YYYY HH:mm:ss',
+  DATE_MONTH_YEAR: 'DD-MM-YYYY',
+};

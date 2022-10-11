@@ -28,7 +28,3 @@ export const formatSorter = (order: any) => {
   if (order === 'ascend') return SORT_TYPE.ASC;
   return SORT_TYPE.DESC;
 };
-
-export const DATE_FORMAT = {
-  FULL_TIME: 'DD-MM-YYYY HH:mm:ss',
-};

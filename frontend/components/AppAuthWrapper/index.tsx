@@ -14,7 +14,12 @@ export default function AppAuthWrapper({ children }: PropsType) {
     localStorage.removeItem(LOCAL_STORAGE.TOKEN);
     router.push(WEB_URL.ADMIN_LOGIN);
   };
-  const { mutate: verifyAdmin } = useVerifyAdmin({ onError: handleError });
+  const handleSuccess = () => {
+    if (isAdminLoginRoute) {
+      router.push(WEB_URL.MANAGE_FLOWERS);
+    }
+  };
+  const { mutate: verifyAdmin } = useVerifyAdmin({ onError: handleError, onSuccess: handleSuccess });
 
   useEffect(() => {
     const token = localStorage.getItem(LOCAL_STORAGE.TOKEN);
