@@ -13,6 +13,7 @@ export const API_URL = {
   WEB_INFO: '/web-infos',
   VERIFY_ADMIN: '/auth/verify-admin',
   ACCOUNT_GUEST: '/guest-phones',
+  DELTE_ACCOUNT_GUEST: '/guest-phones',
 };
 
 export const QUERY_KEY = {
@@ -21,4 +22,5 @@ export const QUERY_KEY = {
   UPDATE_WEB_INFO: 'updateWebInfo',
   VERIFY_ADMIN: 'verifyAdmin',
   ACCOUNT_GUEST: 'accountGuest',
+  DELETE_ACCOUNT_GUEST: 'deleteAccountGuest',
 };

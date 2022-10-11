@@ -2,6 +2,10 @@
   .my-pagination {
     margin-top: 24px;
   }
+  &__delete-button {
+    padding: 0 40px;
+    margin-bottom: 20px;
+  }
 }
 
 .account-guest-form {
@@ -18,5 +22,18 @@
     &:hover {
       filter: brightness(0.4);
     }
+  }
+}
+
+.modal-account-content {
+  font-size: 16px;
+  span {
+    font-weight: 700;
+  }
+}
+
+.ant-modal-header {
+  .ant-modal-title {
+    font-size: 18px;
   }
 }

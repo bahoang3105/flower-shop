@@ -1,11 +1,21 @@
 import { Checkbox, Row } from 'antd';
-import { DATE_FORMAT } from 'constants/common';
 import moment from 'moment';
+import { Void } from 'constants/type';
 import { formatNumber } from './common';
+import { DATE_FORMAT } from 'constants/common';
 
-export const accountGuestColumns = (handleChangeCheckbox: (id: number) => void) => {
+export const accountGuestColumns = (
+  handleChangeCheckbox: (id: number) => void,
+  checkedAll: boolean,
+  handleCheckedAll: Void,
+) => {
   return [
     {
+      title: (
+        <div className='center-flex-item'>
+          <Checkbox checked={checkedAll} onChange={handleCheckedAll} />
+        </div>
+      ),
       key: 'checkbox',
       dataIndex: 'checked',
       width: '25px',

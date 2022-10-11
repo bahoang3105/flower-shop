@@ -4,3 +4,7 @@ import { api } from './api';
 export const getAccountGuests = (params: any) => {
   return api.get(API_URL.ACCOUNT_GUEST, params);
 };
+
+export const deleteAccountGuests = (params: any) => {
+  return api.delete(API_URL.DELTE_ACCOUNT_GUEST, params);
+};

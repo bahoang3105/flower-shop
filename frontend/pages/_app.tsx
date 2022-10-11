@@ -23,6 +23,7 @@ const MyApp = ({ Component, pageProps }: any) => {
   const isClient = typeof window !== 'undefined';
   const getLayout = Component.getLayout ?? ((page: any) => page);
   const handleError = (error: any) => {
+    console.log(error);
     if (error?.response?.status === HTTP_STATUS_CONSTANTS.UNAUTHORIZED) {
       showMessage(TYPE_MESSAGE.ERROR, 'Unauthorized');
       localStorage.removeItem(LOCAL_STORAGE.TOKEN);
