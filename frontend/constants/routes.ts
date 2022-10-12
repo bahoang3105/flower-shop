@@ -6,6 +6,7 @@ export const WEB_URL = {
   MANEGE_USERS: '/admin/users',
   MANAGE_ACCOUNT: '/admin/account',
   MANAGE_WEB_INFO: '/admin/web-info',
+  CREATE_FLOWER: '/admin/flowers/create',
 };
 
 export const API_URL = {
@@ -14,6 +15,7 @@ export const API_URL = {
   VERIFY_ADMIN: '/auth/verify-admin',
   ACCOUNT_GUEST: '/guest-phones',
   DELTE_ACCOUNT_GUEST: '/guest-phones',
+  TOPICS: '/topics',
 };
 
 export const QUERY_KEY = {
@@ -23,4 +25,5 @@ export const QUERY_KEY = {
   VERIFY_ADMIN: 'verifyAdmin',
   ACCOUNT_GUEST: 'accountGuest',
   DELETE_ACCOUNT_GUEST: 'deleteAccountGuest',
+  GET_TOPICS: 'getTopics',
 };

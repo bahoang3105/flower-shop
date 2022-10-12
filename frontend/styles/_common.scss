@@ -26,7 +26,11 @@ body {
   display: none !important;
 }
 .error {
-  font-size: 12px;
-  font-weight: 400;
-  color: rgb(255, 60, 60);
+  font-size: 14px !important;
+  color: #ff4d4f !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.ant-form-item-explain-error {
+  @extend .error;
 }

@@ -64,12 +64,7 @@ export default function WebInfo() {
       <Row gutter={12}>
         {!isEdit ? (
           <Col>
-            <AppButton
-              className='web-info__button'
-              text='Cập nhật'
-              variant='secondary'
-              onClick={() => setIsEdit(true)}
-            />
+            <AppButton className='web-info__button' text='Cập nhật' variant='primary' onClick={() => setIsEdit(true)} />
           </Col>
         ) : (
           <>

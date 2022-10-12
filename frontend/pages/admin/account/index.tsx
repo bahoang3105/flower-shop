@@ -110,6 +110,7 @@ export default function AccountGuest() {
     <div className='account-guest'>
       <h1 className='page-title'>Quản lý tài khoản khách</h1>
       <AccountGuestForm setParams={setParams} />
+      <h4>{`Hiển thị ${data?.data?.meta?.itemCount} trên ${data?.data?.meta?.totalItems} kết quả`}</h4>
       <Tooltip title='Xóa những tài khoản khách được chọn'>
         <AppButton
           text='Xóa'

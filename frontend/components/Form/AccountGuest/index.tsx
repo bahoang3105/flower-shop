@@ -1,9 +1,8 @@
-import { Col, DatePicker, Form, Image, Input, Row } from 'antd';
-import SearchIcon from 'public/svg/search.svg';
-import ReloadIcon from 'public/svg/reload.svg';
-import DatePickerIcon from 'public/svg/date-picker.svg';
+import { Col, Form, Image, Input, Row } from 'antd';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from 'constants/common';
+import DatePickerInput from '../FormItem/DatePicker';
+import ResetButton from '../FormItem/ResetButton';
+import SearchIcon from 'public/svg/search.svg';
 
 export const DEFAULT_SEARCH_PARAMS = {
   keyword: undefined,
@@ -18,9 +17,9 @@ type PropsType = {
 export default function AccountGuestForm({ setParams }: PropsType) {
   const [form] = Form.useForm();
   const today = dayjs().hour(23).minute(59).second(59).millisecond(999);
-  const suffixIcon = <Image src={DatePickerIcon} height={16.67} width={16.67} alt='' />;
 
   const handleSearch = (values: any) => {
+    console.log(values);
     let _fromTimeAccess, _toTimeAccess;
     const { keyword, fromTimeAccess, toTimeAccess } = values;
     if (fromTimeAccess) {
@@ -61,63 +60,34 @@ export default function AccountGuestForm({ setParams }: PropsType) {
   };
   const handleResetForm = () => {
     form.resetFields();
-    setParams(undefined);
+    setParams(DEFAULT_SEARCH_PARAMS);
   };
   return (
-    <Form
-      className='account-guest-form'
-      name='basic'
-      initialValues={DEFAULT_SEARCH_PARAMS}
-      form={form}
-      onFinish={handleSearch}
-    >
+    <Form name='basic' initialValues={DEFAULT_SEARCH_PARAMS} form={form} onFinish={handleSearch}>
       <Row gutter={16}>
         <Col span={10}>
           <Form.Item name='keyword'>
             <Input
-              className='account-guest-form__input-search'
+              className='search-input'
               placeholder='Tìm kiếm theo SĐT'
               onKeyDown={handleKeyDown}
               prefix={<Image src={SearchIcon} preview={false} height={16} width={16} />}
+              autoComplete='off'
             />
           </Form.Item>
         </Col>
         <Col>
           <Form.Item name='fromTimeAccess'>
-            <DatePicker
-              format={DATE_FORMAT.DATE_MONTH_YEAR}
-              className='account-guest-form__date'
-              placeholder='Bắt đầu lúc'
-              inputReadOnly={true}
-              suffixIcon={suffixIcon}
-              disabledDate={disableFromTimeAccess}
-              onChange={submitForm}
-            />
+            <DatePickerInput placeholder='Bắt đầu lúc' disabledDate={disableFromTimeAccess} onChange={submitForm} />
           </Form.Item>
         </Col>
         <Col>
           <Form.Item name='toTimeAccess'>
-            <DatePicker
-              format={DATE_FORMAT.DATE_MONTH_YEAR}
-              className='account-guest-form__date'
-              placeholder='kết thúc lúc'
-              inputReadOnly={true}
-              suffixIcon={suffixIcon}
-              disabledDate={disableToTimeAccess}
-              onChange={submitForm}
-            />
+            <DatePickerInput placeholder='kết thúc lúc' disabledDate={disableToTimeAccess} onChange={submitForm} />
           </Form.Item>
         </Col>
         <Col>
-          <Image
-            className='account-guest-form__reset'
-            src={ReloadIcon}
-            height={16}
-            width={16}
-            alt=''
-            onClick={handleResetForm}
-            preview={false}
-          />
+          <ResetButton onClick={handleResetForm} />
         </Col>
       </Row>
     </Form>
