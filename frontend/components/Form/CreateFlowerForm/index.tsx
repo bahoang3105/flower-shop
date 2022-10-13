@@ -1,4 +1,6 @@
-import { Col, Form, Input, Row, Select } from 'antd';
+import { Col, Form, FormInstance, Input, Row, Select } from 'antd';
+import { useGetTopics } from 'hooks/topic';
+import { useState } from 'react';
 import InputNumber from '../FormItem/InputNumber';
 
 export const SIZE_OPTIONS = [
@@ -7,16 +9,28 @@ export const SIZE_OPTIONS = [
   { value: 3, label: 'Big' },
 ];
 
-export default function CreateFlowerForm() {
+type PropsType = {
+  form: FormInstance<any>;
+  initialValues: any;
+  onFinish: (values: any) => void;
+  disabled?: boolean;
+};
+
+export default function CreateFlowerForm({ form, initialValues, onFinish, disabled = false }: PropsType) {
+  const { data: topicList } = useGetTopics({
+    params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
+  });
+
   return (
     <Form
       name='basic'
       className='create-flower-form'
       form={form}
-      initialValues={INITIAL_VALUES}
-      onFinish={handleSubmit}
+      initialValues={initialValues}
+      onFinish={onFinish}
+      disabled={disabled}
     >
-      <Row>
+      <Row gutter={24}>
         <Col span={12}>
           <label>Tên hoa *</label>
           <Form.Item name='name' rules={[{ required: true, message: 'Vui lòng nhập tên hoa' }]}>
@@ -61,13 +75,7 @@ export default function CreateFlowerForm() {
         <Col span={24}>
           <label>Phân loại hoa</label>
           <Form.Item name='topicIds'>
-            <Select
-              mode='multiple'
-              placeholder='Phân loại hoa'
-              searchValue={searchTopic}
-              onSearch={handleSearchTopic}
-              filterOption={() => true}
-            >
+            <Select mode='multiple' placeholder='Phân loại hoa'>
               {topicList?.data?.map((topic: any) => (
                 <Select.Option key={topic.id} value={topic.id}>
                   {topic.name}
