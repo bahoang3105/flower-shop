@@ -32,6 +32,9 @@
     &__upload-icon {
       margin-top: 60px;
     }
+    &__upload {
+      display: none;
+    }
     p {
       font-size: 16px;
       margin-top: 24px;
@@ -85,12 +88,25 @@
     padding: 12px;
   }
   &__image {
-    min-height: 300px;
+    display: inline-block;
+    position: relative;
+    width: 100%;
     background-color: #707070;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    #dummy {
+      margin-top: 100%;
+    }
+    &__img,
+    &__default {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
     &__img {
       min-height: 300px;
       object-fit: contain;
@@ -99,7 +115,9 @@
       color: $color_white_1;
       font-weight: 600;
       font-size: 16px;
-      margin-top: 12px;
+      text-align: center;
+      margin: 12px;
+      line-height: 20px;
     }
   }
   &__name,

@@ -2,8 +2,9 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { PlusOutlined } from '@ant-design/icons';
-import { ReactElement, useMemo, useState } from 'react';
-import { Col, Form, Image, Input, Row, Select, Upload } from 'antd';
+import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
+import ImgCrop from 'antd-img-crop';
+import { Col, Form, Image as AntdImage, Input, Row, Select, Upload } from 'antd';
 import Admin from '@components//Layout/Admin';
 import AppButton from '@components//AppButton';
 import showMessage from '@components//Message';
@@ -30,6 +31,13 @@ export const SIZE_OPTIONS = [
   { value: 2, label: 'Medium' },
   { value: 3, label: 'Big' },
 ];
+const getSrcFromFile = (file: File) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+  });
+};
 
 export default function CreateFlower() {
   const [form] = Form.useForm();
@@ -42,6 +50,7 @@ export default function CreateFlower() {
   const { data: topicList } = useGetTopics({
     params: { keyword: searchTopic, limit: 20, page: 1, flowersPerTopic: 0 },
   });
+  const uploadRef = useRef<any>();
   const router = useRouter();
   const { mutateAsync: createFlower } = useCreateFlower({
     onSuccess: () => {
@@ -51,7 +60,7 @@ export default function CreateFlower() {
   });
   const previewThumbnail = useMemo(() => {
     if (!thumbnail) return '';
-    return URL.createObjectURL(thumbnail);
+    return URL.createObjectURL(thumbnail.originFileObj);
   }, [thumbnail]);
 
   const handleSubmit = async (values: any) => {
@@ -83,23 +92,29 @@ export default function CreateFlower() {
       setErrorThumbnail(false);
     }
   };
-  const handleClickFile = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
-    (e.target as any).value = null;
-  };
-  const handleSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files;
-    if (fileList) {
-      setThumbnail(fileList[0]);
-    }
+  const handleChangeThumbnail = (info: any) => {
+    setThumbnail(info.fileList.at(-1));
   };
   const handleChangeListImage = (info: any) => {
     setListImage(info.fileList);
   };
   const handlePreview = async (file: any) => {
+    const src: any = await getSrcFromFile(file);
+    const imgWindow = window.open(src);
+    if (imgWindow) {
+      const image = new Image();
+      image.src = src;
+      imgWindow.document.write(image.outerHTML);
+    } else {
+      window.location.href = src;
+    }
     return window.URL.createObjectURL(file);
   };
   const handleSearchTopic = (value: string) => {
     setSearchTopic(value);
+  };
+  const click = () => {
+    uploadRef.current.click();
   };
 
   return (
@@ -107,7 +122,78 @@ export default function CreateFlower() {
       <BackButton />
       <h1>Thêm mới hoa</h1>
       <Row gutter={24}>
-        <Col span={16}>
+        <Col xxl={18} xl={17} lg={16}>
+          <Row gutter={24}>
+            <Col span={24}>
+              <label>Ảnh đại diện của hoa *</label>
+              <div className='create-flower-form__thumbnail'>
+                {!thumbnail && (
+                  <>
+                    <AntdImage
+                      wrapperClassName='create-flower-form__thumbnail__upload-icon'
+                      src={ImageSvg.upload}
+                      width={120}
+                      height={87.32}
+                      preview={false}
+                    />
+                    <p>
+                      Tải lên <strong>JPG, JPEG, PNG, GIF</strong> file. Kích thước tối đa&nbsp;
+                      {process.env.NEXT_PUBLIC_MAX_SIZE_FILE}MB.
+                    </p>
+                  </>
+                )}
+                {thumbnail ? (
+                  <div className='create-flower-form__thumbnail__preview' onClick={click}>
+                    <AntdImage src={previewThumbnail} preview={false} />
+                    <div className='overlay center-flex-item'>+</div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={click}
+                    className={classNames('button', 'button--primary', 'ant-btn', 'ant-btn-default')}
+                  >
+                    <span>Tải lên</span>
+                  </div>
+                )}
+                <ImgCrop grid rotate>
+                  <Upload
+                    className='create-flower-form__thumbnail__upload'
+                    listType='picture-card'
+                    accept='.jpg, .jpeg, .png, .gif'
+                    multiple={true}
+                    fileList={thumbnail ? [thumbnail] : []}
+                    onChange={handleChangeThumbnail}
+                    onPreview={({ originFileObj }) => handlePreview(originFileObj)}
+                  >
+                    <div ref={uploadRef} />
+                  </Upload>
+                </ImgCrop>
+              </div>
+              {errorThumbnail && (
+                <div className='error' style={{ marginTop: -24, marginBottom: 24 }}>
+                  Vui lòng tải lên ảnh đại diện cho hoa
+                </div>
+              )}
+            </Col>
+            <Col span={24} style={{ marginBottom: 20 }}>
+              <label>Một số ảnh khác</label>
+              <ImgCrop grid rotate>
+                <Upload
+                  listType='picture-card'
+                  accept='.jpg, .jpeg, .png, .gif'
+                  multiple={true}
+                  fileList={listImage}
+                  onChange={handleChangeListImage}
+                  onPreview={({ originFileObj }) => handlePreview(originFileObj)}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Tải lên</div>
+                  </div>
+                </Upload>
+              </ImgCrop>
+            </Col>
+          </Row>
           <Form
             name='basic'
             className='create-flower-form'
@@ -115,69 +201,7 @@ export default function CreateFlower() {
             initialValues={INITIAL_VALUES}
             onFinish={handleSubmit}
           >
-            <Row gutter={24}>
-              <Col span={24}>
-                <label>Ảnh đại diện của hoa *</label>
-                <div className='create-flower-form__thumbnail'>
-                  {!thumbnail && (
-                    <>
-                      <Image
-                        wrapperClassName='create-flower-form__thumbnail__upload-icon'
-                        src={ImageSvg.upload}
-                        width={120}
-                        height={87.32}
-                        preview={false}
-                      />
-                      <p>
-                        Tải lên <strong>JPG, JPEG, PNG, GIF</strong> file. Kích thước tối đa&nbsp;
-                        {process.env.NEXT_PUBLIC_MAX_SIZE_FILE}MB.
-                      </p>
-                    </>
-                  )}
-                  <label htmlFor='upload-thumbnail'>
-                    {thumbnail ? (
-                      <div className='create-flower-form__thumbnail__preview'>
-                        <Image src={previewThumbnail} preview={false} />
-                        <div className='overlay center-flex-item'>+</div>
-                      </div>
-                    ) : (
-                      <div className={classNames('button', 'button--primary', 'ant-btn', 'ant-btn-default')}>
-                        <span>Tải lên</span>
-                      </div>
-                    )}
-                    <input
-                      id='upload-thumbnail'
-                      onChange={handleSelectFile}
-                      accept='.jpg, .jpeg, .png, .gif'
-                      onClick={handleClickFile}
-                      multiple={false}
-                      type='file'
-                      className='create-flower-form__thumbnail__input'
-                    />
-                  </label>
-                </div>
-                {errorThumbnail && (
-                  <div className='error' style={{ marginTop: -24, marginBottom: 24 }}>
-                    Vui lòng tải lên ảnh đại diện cho hoa
-                  </div>
-                )}
-              </Col>
-              <Col span={24} style={{ marginBottom: 20 }}>
-                <label>Một số ảnh khác</label>
-                <Upload
-                  listType='picture-card'
-                  accept='.jpg, .jpeg, .png, .gif'
-                  multiple={true}
-                  fileList={listImage}
-                  onChange={handleChangeListImage}
-                  previewFile={handlePreview}
-                >
-                  <div>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Tải lên</div>
-                  </div>
-                </Upload>
-              </Col>
+            <Row>
               <Col span={12}>
                 <label>Tên hoa *</label>
                 <Form.Item name='name' rules={[{ required: true, message: 'Vui lòng nhập tên hoa' }]}>
@@ -252,18 +276,19 @@ export default function CreateFlower() {
           </Form>
           <AppButton text='Thêm mới' variant='primary' onClick={handleCreateFlower} />
         </Col>
-        <Col span={8} className='create-flower-preview'>
+        <Col xxl={6} xl={7} lg={8} className='create-flower-preview'>
           <section>
             <label>Xem trước</label>
             <div className='create-flower-preview__border'>
               <div className='create-flower-preview__image'>
+                <div id='dummy'></div>
                 {thumbnail ? (
-                  <Image className='create-flower-preview__image__img' src={previewThumbnail} preview={false} />
+                  <AntdImage rootClassName='create-flower-preview__image__img' src={previewThumbnail} preview={false} />
                 ) : (
-                  <>
-                    <Image src={ImageSvg.previewImage} height={37} width={64} preview={false} />
+                  <div className='create-flower-preview__image__default'>
+                    <AntdImage src={ImageSvg.previewImage} height={37} width={64} preview={false} />
                     <div className='create-flower-preview__image__notice'>Hãy tải ảnh đại diện để xem trước</div>
-                  </>
+                  </div>
                 )}
               </div>
               <div className='create-flower-preview__name'>{name}</div>
