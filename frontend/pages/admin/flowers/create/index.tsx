@@ -1,10 +1,12 @@
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { ReactElement, useMemo, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
+import { ReactElement, useMemo, useState } from 'react';
 import { Col, Form, Image, Input, Row, Select, Upload } from 'antd';
 import Admin from '@components//Layout/Admin';
 import AppButton from '@components//AppButton';
+import showMessage from '@components//Message';
 import BackButton from '@components//BackButton';
 import withServerSideProps from 'hoc/withServerSideProps';
 import InputNumber from '@components//Form/FormItem/InputNumber';
@@ -12,7 +14,7 @@ import ImageSvg from 'public/svg';
 import { formatNumber } from 'utils/common';
 import { useGetTopics } from 'hooks/topic';
 import { useCreateFlower } from 'hooks/flower';
-import showMessage from '@components//Message';
+import { WEB_URL } from 'constants/routes';
 import { TYPE_MESSAGE } from 'constants/common';
 
 const INITIAL_VALUES = {
@@ -40,8 +42,12 @@ export default function CreateFlower() {
   const { data: topicList } = useGetTopics({
     params: { keyword: searchTopic, limit: 20, page: 1, flowersPerTopic: 0 },
   });
+  const router = useRouter();
   const { mutateAsync: createFlower } = useCreateFlower({
-    onSuccess: () => showMessage(TYPE_MESSAGE.SUCCESS, 'Thêm mới hoa thành công'),
+    onSuccess: () => {
+      showMessage(TYPE_MESSAGE.SUCCESS, 'Thêm mới hoa thành công');
+      router.push(WEB_URL.MANAGE_FLOWERS);
+    },
   });
   const previewThumbnail = useMemo(() => {
     if (!thumbnail) return '';
