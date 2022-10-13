@@ -99,26 +99,30 @@ export class TopicsService {
     const { keyword, limit, page, sortField, sortValue, flowersPerTopic } =
       searchTopicDto;
     try {
-      const queryBuilder = await this.topicsRepository
+      const queryBuilder = this.topicsRepository
         .createQueryBuilder('topic')
         .where('topic.name like :keyword', { keyword: `%${keyword}%` })
-        .andWhere('topic.isDeleted = false')
-        .leftJoinAndMapMany(
-          'topic.listFlower',
-          FlowerTopic,
-          'flowerTopic',
-          'flowerTopic.topicId = topic.id AND flowerTopic.isDeleted = false'
-        )
-        .leftJoinAndSelect(
-          'flowerTopic.flower',
-          'flower',
-          'flower.isDeleted = false'
-        )
+        .andWhere('topic.isDeleted = false');
+      if (flowersPerTopic > 0) {
+        queryBuilder
+          .leftJoinAndMapMany(
+            'topic.listFlower',
+            FlowerTopic,
+            'flowerTopic',
+            'flowerTopic.topicId = topic.id AND flowerTopic.isDeleted = false'
+          )
+          .leftJoinAndSelect(
+            'flowerTopic.flower',
+            'flower',
+            'flower.isDeleted = false'
+          );
+      }
+      const topics = await queryBuilder
         .orderBy(sortField, sortValue)
         .take(limit)
         .skip(limit * (page - 1))
         .getMany();
-      return ApiOk(queryBuilder);
+      return ApiOk(topics);
     } catch (e) {
       this.logger.log('=== Search Topic failed ===', e);
       return ApiError('Topic', e);

@@ -1,5 +1,7 @@
 import {
   forwardRef,
+  HttpException,
+  HttpStatus,
   Inject,
   Injectable,
   Logger,
@@ -8,6 +10,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
+import { VALUE } from 'src/common/constants';
 import { DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
@@ -31,18 +34,29 @@ export class FlowersService {
     private dataSource: DataSource
   ) {}
 
-  async create(createFlowerDto: CreateFlowerDto) {
+  async create(
+    createFlowerDto: CreateFlowerDto,
+    files: Array<Express.Multer.File>
+  ) {
     const queryRunner = this.dataSource.createQueryRunner();
-    const { topicIds, files, ...flowerInfo } = createFlowerDto;
+    const { topicIds, ...flowerInfo } = createFlowerDto;
     try {
       queryRunner.startTransaction();
+      // check files length and file size
+      if (files.length > VALUE.MAX_FILES_LENGTH) {
+        throw new HttpException('E3', HttpStatus.BAD_REQUEST);
+      }
+      files.forEach((file) => {
+        if (file.size > VALUE.MAX_FILE_SIZE) {
+          throw new HttpException('E4', HttpStatus.BAD_REQUEST);
+        }
+      });
       // create flower instance
       const newFlower = this.flowersRepository.create({
         ...flowerInfo,
         listImage: [testLink],
       });
       const savedFlower = await this.flowersRepository.save(newFlower);
-      console.log(savedFlower);
       // map topic and create flowersTopic instances
       topicIds &&
         (await Promise.all(
@@ -51,7 +65,6 @@ export class FlowersService {
             if (!topic) {
               throw NotFoundException;
             }
-            console.log(topic);
             await this.flowerTopicService.createByFlowerAndTopic(
               savedFlower,
               topic
@@ -79,7 +92,6 @@ export class FlowersService {
       sortValue,
       topicIds,
     } = searchFlowerDto;
-    console.log(topicIds);
     try {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')

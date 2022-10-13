@@ -6,5 +6,5 @@ export const getAccountGuests = (params: any) => {
 };
 
 export const deleteAccountGuests = (params: any) => {
-  return api.delete(API_URL.DELTE_ACCOUNT_GUEST, params);
+  return api.delete(API_URL.DELETE_ACCOUNT_GUEST, params);
 };

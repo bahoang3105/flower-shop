@@ -14,8 +14,9 @@ export const API_URL = {
   WEB_INFO: '/web-infos',
   VERIFY_ADMIN: '/auth/verify-admin',
   ACCOUNT_GUEST: '/guest-phones',
-  DELTE_ACCOUNT_GUEST: '/guest-phones',
+  DELETE_ACCOUNT_GUEST: '/guest-phones',
   TOPICS: '/topics',
+  CREATE_FLOWER: '/flowers',
 };
 
 export const QUERY_KEY = {
@@ -26,4 +27,5 @@ export const QUERY_KEY = {
   ACCOUNT_GUEST: 'accountGuest',
   DELETE_ACCOUNT_GUEST: 'deleteAccountGuest',
   GET_TOPICS: 'getTopics',
+  CREATE_FLOWER: 'createFlower',
 };

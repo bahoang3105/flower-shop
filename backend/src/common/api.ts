@@ -5,12 +5,12 @@ export type ApiOkType = {
 };
 
 export function ApiError(code = '', message: string | object): HttpException {
-  return new HttpException(
+  throw new HttpException(
     {
       code,
       message,
     },
-    400
+    (message as any)?.status || 400
   );
 }
 

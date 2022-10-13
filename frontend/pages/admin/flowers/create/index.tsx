@@ -10,6 +10,10 @@ import withServerSideProps from 'hoc/withServerSideProps';
 import InputNumber from '@components//Form/FormItem/InputNumber';
 import ImageSvg from 'public/svg';
 import { formatNumber } from 'utils/common';
+import { useGetTopics } from 'hooks/topic';
+import { useCreateFlower } from 'hooks/flower';
+import showMessage from '@components//Message';
+import { TYPE_MESSAGE } from 'constants/common';
 
 const INITIAL_VALUES = {
   name: '',
@@ -31,19 +35,39 @@ export default function CreateFlower() {
   const price = Form.useWatch('price', form);
   const [thumbnail, setThumbnail] = useState<any>(null);
   const [errorThumbnail, setErrorThumbnail] = useState(false);
+  const [searchTopic, setSearchTopic] = useState('');
   const [listImage, setListImage] = useState<any>([]);
+  const { data: topicList } = useGetTopics({
+    params: { keyword: searchTopic, limit: 20, page: 1, flowersPerTopic: 0 },
+  });
+  const { mutateAsync: createFlower } = useCreateFlower({
+    onSuccess: () => showMessage(TYPE_MESSAGE.SUCCESS, 'Thêm mới hoa thành công'),
+  });
   const previewThumbnail = useMemo(() => {
     if (!thumbnail) return '';
     return URL.createObjectURL(thumbnail);
   }, [thumbnail]);
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     if (!thumbnail) {
       setErrorThumbnail(true);
     } else {
       setErrorThumbnail(false);
+      const { topicIds, ...info } = values;
+      const formData = new FormData();
+      const imageFiles = listImage.map((image: any) => image.originFileObj);
+      const files = [thumbnail, ...imageFiles];
+      const listKey = Object.keys(info);
+      files?.forEach((file: File) => formData.append('files', file));
+      topicIds?.forEach((topicId: number) => formData.append('topicIds', String(topicId)));
+      listKey?.forEach((key: string) => {
+        if (info[key] !== undefined) {
+          formData.append(key, String(info[key]));
+        }
+      });
+      const res = await createFlower(formData);
+      console.log(res);
     }
-    console.log(values);
   };
   const handleCreateFlower = () => {
     form.submit();
@@ -67,6 +91,9 @@ export default function CreateFlower() {
   };
   const handlePreview = async (file: any) => {
     return window.URL.createObjectURL(file);
+  };
+  const handleSearchTopic = (value: string) => {
+    setSearchTopic(value);
   };
 
   return (
@@ -133,6 +160,7 @@ export default function CreateFlower() {
                 <label>Một số ảnh khác</label>
                 <Upload
                   listType='picture-card'
+                  accept='.jpg, .jpeg, .png, .gif'
                   multiple={true}
                   fileList={listImage}
                   onChange={handleChangeListImage}
@@ -188,7 +216,19 @@ export default function CreateFlower() {
               <Col span={24}>
                 <label>Phân loại hoa</label>
                 <Form.Item name='topicIds'>
-                  <Select mode='multiple' placeholder='Phân loại hoa'></Select>
+                  <Select
+                    mode='multiple'
+                    placeholder='Phân loại hoa'
+                    searchValue={searchTopic}
+                    onSearch={handleSearchTopic}
+                    filterOption={() => true}
+                  >
+                    {topicList?.data?.map((topic: any) => (
+                      <Select.Option key={topic.id} value={topic.id}>
+                        {topic.name}
+                      </Select.Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </Col>
               <Col span={24}>

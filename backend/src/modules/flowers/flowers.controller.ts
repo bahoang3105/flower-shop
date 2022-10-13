@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  HttpCode,
-  HttpStatus,
   UploadedFiles,
   UseInterceptors,
   UseGuards,
@@ -23,6 +21,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { SearchFlowerDto } from './dto/search-flower.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('flowers')
 @ApiTags('flowers')
@@ -34,12 +33,13 @@ export class FlowersController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  @HttpCode(HttpStatus.CREATED)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FilesInterceptor('files'))
   create(
     @Body() createFlowerDto: CreateFlowerDto,
-    @UploadedFiles() files: Express.Multer.File[]
+    @UploadedFiles() files: Array<Express.Multer.File>
   ) {
-    return this.flowersService.create(createFlowerDto);
+    return this.flowersService.create(createFlowerDto, files);
   }
 
   @Get()
