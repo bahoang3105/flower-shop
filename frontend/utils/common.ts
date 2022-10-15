@@ -28,3 +28,11 @@ export const formatSorter = (order: any) => {
   if (order === 'ascend') return SORT_TYPE.ASC;
   return SORT_TYPE.DESC;
 };
+
+export const getSrcFromFile = (file: File) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+  });
+};

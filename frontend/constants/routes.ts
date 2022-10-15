@@ -16,8 +16,7 @@ export const API_URL = {
   ACCOUNT_GUEST: '/guest-phones',
   DELETE_ACCOUNT_GUEST: '/guest-phones',
   TOPICS: '/topics',
-  CREATE_FLOWER: '/flowers',
-  GET_FLOWERS: '/flowers',
+  FLOWERS: '/flowers',
 };
 
 export const QUERY_KEY = {
@@ -30,4 +29,5 @@ export const QUERY_KEY = {
   GET_TOPICS: 'getTopics',
   CREATE_FLOWER: 'createFlower',
   GET_FLOWERS: 'getFlowers',
+  DETAIL_FLOWER: 'detailFlower',
 };

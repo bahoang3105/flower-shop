@@ -1,6 +1,5 @@
 import { Col, Form, FormInstance, Input, Row, Select } from 'antd';
 import { useGetTopics } from 'hooks/topic';
-import { useState } from 'react';
 import InputNumber from '../FormItem/InputNumber';
 
 export const SIZE_OPTIONS = [

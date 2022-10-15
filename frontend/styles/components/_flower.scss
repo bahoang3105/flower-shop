@@ -5,3 +5,24 @@
     right: 0;
   }
 }
+
+.flower-detail {
+  position: relative;
+  padding: 32px 0;
+  &__id {
+    border: 1px solid $color_border_1;
+    border-radius: 4px;
+    line-height: 32px;
+    padding: 0 32px;
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: 700;
+    width: fit-content;
+  }
+  &__buttons {
+    .button {
+      width: 100px;
+      margin-left: 12px;
+    }
+  }
+}

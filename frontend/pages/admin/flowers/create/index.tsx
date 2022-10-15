@@ -12,7 +12,7 @@ import BackButton from '@components//BackButton';
 import CreateFlowerForm from '@components//Form/CreateFlowerForm';
 import withServerSideProps from 'hoc/withServerSideProps';
 import ImageSvg from 'public/svg';
-import { formatNumber } from 'utils/common';
+import { formatNumber, getSrcFromFile } from 'utils/common';
 import { useCreateFlower } from 'hooks/flower';
 import { WEB_URL } from 'constants/routes';
 import { TYPE_MESSAGE } from 'constants/common';
@@ -31,13 +31,6 @@ export const SIZE_OPTIONS = [
   { value: 2, label: 'Medium' },
   { value: 3, label: 'Big' },
 ];
-const getSrcFromFile = (file: File) => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-  });
-};
 
 export default function CreateFlower() {
   const [form] = Form.useForm();
@@ -103,7 +96,6 @@ export default function CreateFlower() {
     } else {
       window.location.href = src;
     }
-    return window.URL.createObjectURL(file);
   };
   const click = () => {
     uploadRef.current.click();
