@@ -1,5 +1,6 @@
 import { Col, Form, Image, Input, Row } from 'antd';
 import SearchIcon from 'public/svg/search.svg';
+// import InputNumber from '../FormItem/InputNumber';
 import ResetButton from '../FormItem/ResetButton';
 
 type PropsType = {
@@ -7,17 +8,16 @@ type PropsType = {
 };
 
 export const DEFAULT_SEARCH_PARAMS = {
-  keyword: undefined,
-  fromTimeAccess: undefined,
-  toTimeAccess: undefined,
+  keyword: '',
+  priceFrom: 0,
+  priceTo: undefined,
 };
 
 export default function FlowerForm({ setParams }: PropsType) {
   const [form] = Form.useForm();
 
-  const handleSearch = (values: any) => {};
-  const submitForm = () => {
-    form.submit();
+  const handleSearch = (values: any) => {
+    setParams(values);
   };
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter') {
@@ -30,25 +30,45 @@ export default function FlowerForm({ setParams }: PropsType) {
   };
 
   return (
-    <Form name='basic' initialValues={DEFAULT_SEARCH_PARAMS} form={form} onFinish={handleSearch}>
+    <Form
+      name='basic'
+      initialValues={DEFAULT_SEARCH_PARAMS}
+      form={form}
+      onFinish={handleSearch}
+      className='flower-form'
+    >
       <Row gutter={16}>
         <Col span={10}>
           <Form.Item name='keyword'>
             <Input
               className='search-input'
-              placeholder='Tìm kiếm theo tên'
+              placeholder='Tìm kiếm theo tên hoa, ID'
               onKeyDown={handleKeyDown}
               prefix={<Image src={SearchIcon} preview={false} height={16} width={16} />}
               autoComplete='off'
             />
           </Form.Item>
         </Col>
+        {/* <label style={{ marginTop: 5, marginLeft: 24 }}>Giá từ</label>
         <Col>
-          <Form.Item name='fromTimeAccess'></Form.Item>
+          <Form.Item name='priceFrom' className='flower-form__input-number'>
+            <InputNumber
+              numberDigitsAfter={0}
+              value={form.getFieldValue('priceFrom')}
+              handleChangeValue={(value: string) => form.setFieldValue('priceFrom', value)}
+            />
+          </Form.Item>
         </Col>
+        <label style={{ marginTop: 5 }}>đến</label>
         <Col>
-          <Form.Item name='toTimeAccess'></Form.Item>
-        </Col>
+          <Form.Item name='price' className='flower-form__input-number'>
+            <InputNumber
+              numberDigitsAfter={0}
+              value={form.getFieldValue('priceTo')}
+              handleChangeValue={(value: string) => form.setFieldValue('priceTo', value)}
+            />
+          </Form.Item>
+        </Col> */}
         <Col>
           <ResetButton className='account-guest-form__reset' onClick={handleResetForm} />
         </Col>

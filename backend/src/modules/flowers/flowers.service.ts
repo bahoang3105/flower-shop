@@ -54,6 +54,7 @@ export class FlowersService {
       // create flower instance
       const newFlower = this.flowersRepository.create({
         ...flowerInfo,
+        createdAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
         listImage: [testLink],
       });
       const savedFlower = await this.flowersRepository.save(newFlower);
@@ -96,6 +97,7 @@ export class FlowersService {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')
         .where('flower.name like :keyword', { keyword: `%${keyword}%` })
+        .orWhere('flower.id like :keyword', { keyword: `%${keyword}%` })
         .andWhere('flower.isDeleted = false');
       if (priceFrom) {
         queryBuilder.andWhere('flower.price >= :priceFrom', { priceFrom });

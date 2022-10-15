@@ -27,6 +27,9 @@ export class Flower {
   @Column({ default: false })
   isDeleted: boolean;
 
+  @Column()
+  createdAt: Date;
+
   @OneToMany(() => FlowerTopic, (flowerTopic) => flowerTopic.flower)
   flowerTopics!: FlowerTopic[];
 }

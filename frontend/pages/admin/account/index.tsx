@@ -85,20 +85,17 @@ export default function AccountGuest() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSuccess = () => {};
+  const handleSuccess = () => {
+    showMessage(TYPE_MESSAGE.SUCCESS, 'Đã xóa thành công');
+    setOpen(false);
+    setCheckList([]);
+    setCheckedAll(false);
+    refetch();
+  };
 
   const { mutateAsync } = useDeleteAccountGuests({ onSuccess: handleSuccess });
   const handleDelete = async () => {
-    const res = await mutateAsync({ listGuestPhoneId: checkList });
-    if (res?.data?.data?.success) {
-      showMessage(TYPE_MESSAGE.SUCCESS, 'Đã xóa thành công');
-      setOpen(false);
-      setCheckList([]);
-      setCheckedAll(false);
-      refetch();
-    } else {
-      showMessage(TYPE_MESSAGE.ERROR, 'Lỗi: ' + res?.data?.response?.message?.message);
-    }
+    await mutateAsync({ listGuestPhoneId: checkList });
   };
   useEffect(() => {
     if (data?.data?.items?.length === 0 && page > 1) {
