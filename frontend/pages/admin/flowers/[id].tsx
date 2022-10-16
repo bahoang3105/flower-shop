@@ -2,18 +2,19 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { ReactElement, useMemo, useState } from 'react';
-import { Col, Form, Image as ImageAntd, Row } from 'antd';
+import { Col, Form, Image as ImageAntd, Modal, Row } from 'antd';
 import Slider from '@components//Slider';
 import Admin from '@components//Layout/Admin';
 import AppButton from '@components//AppButton';
 import BackButton from '@components//BackButton';
 import withServerSideProps from 'hoc/withServerSideProps';
 import CreateFlowerForm from '@components//Form/CreateFlowerForm';
-import { useGetDetailFlower, useUpdateFlower } from 'hooks/flower';
+import { useDeleteFlower, useGetDetailFlower, useUpdateFlower } from 'hooks/flower';
 import { formatNumber, getSrcFromFile } from 'utils/common';
 import ModalConfirmFlower from '@components//pages/flower/ModalConfirm';
 import showMessage from '@components//Message';
 import { TYPE_MESSAGE } from 'constants/common';
+import { WEB_URL } from 'constants/routes';
 
 export default function DetailFlower() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function DetailFlower() {
   const [isEdit, setisEdit] = useState(false);
   const [displayListThumbnail, setDisplayListThumbnail] = useState<boolean>(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
   const [modalInfo, setModalInfo] = useState<any>({ thumbnail: '', name: '', price: 0 });
   const [curThumbnail, setCurThumbnail] = useState<number>(0);
   const { mutateAsync: updateFlower } = useUpdateFlower({
@@ -32,6 +34,14 @@ export default function DetailFlower() {
       setisEdit(false);
       setOpenModalUpdate(false);
       showMessage(TYPE_MESSAGE.SUCCESS, 'Cập nhật thành công');
+    },
+  });
+  const { mutate } = useDeleteFlower({
+    id,
+    onSuccess: () => {
+      showMessage(TYPE_MESSAGE.SUCCESS, 'Xóa hoa thành công');
+      setOpenModalDelete(false);
+      router.push(WEB_URL.MANAGE_FLOWERS);
     },
   });
   const listImage = useMemo(() => {
@@ -70,6 +80,9 @@ export default function DetailFlower() {
   const showListThumbnail = () => {
     setDisplayListThumbnail(true);
   };
+  const handleClickDeleteButton = () => {
+    setOpenModalDelete(true);
+  };
   const hideListThumbnail = () => {
     setDisplayListThumbnail(false);
   };
@@ -85,7 +98,7 @@ export default function DetailFlower() {
       return (
         <>
           <AppButton text='Chỉnh sửa' variant='secondary' onClick={handleClickEdit} />
-          <AppButton text='Xóa hoa' variant='danger' />
+          <AppButton text='Xóa hoa' variant='danger' onClick={handleClickDeleteButton} />
         </>
       );
     }
@@ -138,6 +151,20 @@ export default function DetailFlower() {
         handleSubmit={handleSubmit}
         {...modalInfo}
       />
+      <Modal open={openModalDelete} onCancel={() => setOpenModalDelete(false)} title='Xóa hoa' footer={null}>
+        <h2>
+          Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn xóa&nbsp;<strong>{flowerInfo.name}</strong>
+          &nbsp;hay không?
+        </h2>
+        <Row className='modal-confirm-flower__buttons' gutter={24} justify='center'>
+          <Col>
+            <AppButton text='Hủy' variant='back' onClick={() => setOpenModalDelete(false)} />
+          </Col>
+          <Col>
+            <AppButton text='Xóa' variant='danger' onClick={() => mutate()} />
+          </Col>
+        </Row>
+      </Modal>
     </div>
   );
 }

@@ -31,4 +31,5 @@ export const QUERY_KEY = {
   GET_FLOWERS: 'getFlowers',
   DETAIL_FLOWER: 'detailFlower',
   UPDATE_FLOWER: 'updateFlower',
+  DELETE_FLOWER: 'deleteFlower',
 };

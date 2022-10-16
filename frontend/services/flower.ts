@@ -16,3 +16,7 @@ export const getFlowerDetail = (id: string) => {
 export const updateFlower = (id: string, params: any) => {
   return api.patch(API_URL.FLOWERS + '/' + id, params);
 };
+
+export const deleteFlower = (id: string) => {
+  return api.delete(API_URL.FLOWERS + '/' + id);
+};
