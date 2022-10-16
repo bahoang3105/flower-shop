@@ -40,6 +40,7 @@ export class FlowersService {
   ) {
     const queryRunner = this.dataSource.createQueryRunner();
     const { topicIds, ...flowerInfo } = createFlowerDto;
+    const topicIdList = Array.isArray(topicIds) ? topicIds : [topicIds];
     try {
       queryRunner.startTransaction();
       // check files length and file size
@@ -59,9 +60,9 @@ export class FlowersService {
       });
       const savedFlower = await this.flowersRepository.save(newFlower);
       // map topic and create flowersTopic instances
-      topicIds &&
+      topicIdList &&
         (await Promise.all(
-          topicIds.map(async (id: number) => {
+          topicIdList.map(async (id: number) => {
             const topic = await this.topicsService.findById(id);
             if (!topic) {
               throw NotFoundException;
@@ -75,6 +76,7 @@ export class FlowersService {
       await queryRunner.commitTransaction();
       return ApiOk(savedFlower);
     } catch (e) {
+      this.logger.log('=== Create Flower failed ===', e);
       await queryRunner.rollbackTransaction();
       return ApiError('Flower', e);
     } finally {
@@ -138,15 +140,29 @@ export class FlowersService {
   }
 
   async update(id: number, updateFlowerDto: UpdateFlowerDto) {
+    const { topicsAdd, topicsDel, ...flowerInfo } = updateFlowerDto;
+    const queryRunner = this.dataSource.createQueryRunner();
     try {
+      queryRunner.startTransaction();
+      topicsDel?.forEach(
+        async (topicId: number) =>
+          await this.flowerTopicService.removeByFlowerIdAndTopicId(id, topicId)
+      );
+      topicsAdd?.forEach(
+        async (topicId: number) =>
+          await this.flowerTopicService.create(id, topicId)
+      );
       const flower = await this.findById(id);
       return ApiOk(
         flower &&
-          (await this.flowersRepository.save({ ...flower, ...updateFlowerDto }))
+          (await this.flowersRepository.save({ ...flower, ...flowerInfo }))
       );
     } catch (e) {
+      await queryRunner.rollbackTransaction();
       this.logger.log('=== Update Flower failed ===', e);
       return ApiError('Flower', e);
+    } finally {
+      await queryRunner.release();
     }
   }
 

@@ -30,4 +30,5 @@ export const QUERY_KEY = {
   CREATE_FLOWER: 'createFlower',
   GET_FLOWERS: 'getFlowers',
   DETAIL_FLOWER: 'detailFlower',
+  UPDATE_FLOWER: 'updateFlower',
 };

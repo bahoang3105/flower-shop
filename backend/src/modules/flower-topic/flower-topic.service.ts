@@ -7,7 +7,6 @@ import { Flower } from '../flowers/entities/flower.entity';
 import { FlowersService } from '../flowers/flowers.service';
 import { Topic } from '../topics/entities/topic.entity';
 import { TopicsService } from '../topics/topics.service';
-import { CreateFlowerTopicDto } from './dto/create-flower-topic.dto';
 import { FlowerTopic } from './entities/flower-topic.entity';
 
 @Injectable()
@@ -30,35 +29,27 @@ export class FlowerTopicService {
     return await this.flowerTopicsRepository.save(newFlowerTopic);
   }
 
-  async create(createFlowerTopicDto: CreateFlowerTopicDto) {
-    try {
-      const { flowerId, topicId } = createFlowerTopicDto;
-      const flowerTopic = await this.flowerTopicsRepository
-        .createQueryBuilder('flowerTopic')
-        .where('flowerTopic.flowerId = :flowerId', { flowerId })
-        .andWhere('flowerTopic.topicId = :topicId', { topicId })
-        .getOne();
-      const flower = await this.flowersService.findById(flowerId);
-      const topic = await this.topicsService.findById(topicId);
-      if (flower && topic) {
-        if (!flowerTopic) {
-          return ApiOk(await this.createByFlowerAndTopic(flower, topic));
-        } else if (flowerTopic.isDeleted) {
-          return ApiOk(
-            await this.flowerTopicsRepository.save({
-              ...flowerTopic,
-              isDeleted: false,
-            })
-          );
-        } else {
-          return ApiError('E2', 'Flower or Topic does not exist');
-        }
+  async create(flowerId: number, topicId: number) {
+    const flowerTopic = await this.flowerTopicsRepository
+      .createQueryBuilder('flowerTopic')
+      .where('flowerTopic.flowerId = :flowerId', { flowerId })
+      .andWhere('flowerTopic.topicId = :topicId', { topicId })
+      .getOne();
+    const flower = await this.flowersService.findById(flowerId);
+    const topic = await this.topicsService.findById(topicId);
+    if (flower && topic) {
+      if (!flowerTopic) {
+        await this.createByFlowerAndTopic(flower, topic);
+      } else if (flowerTopic.isDeleted) {
+        await this.flowerTopicsRepository.save({
+          ...flowerTopic,
+          isDeleted: false,
+        });
       } else {
         return ApiError('E1', 'FlowerTopic existed');
       }
-    } catch (e) {
-      this.logger.log('=== Create FlowerTopic failed ===', e);
-      return ApiError('FlowerTopic', e);
+    } else {
+      return ApiError('E2', 'Flower or Topic does not exist');
     }
   }
 
@@ -87,6 +78,16 @@ export class FlowerTopicService {
       .update()
       .set({ isDeleted: true })
       .where('topicId = :id ', { id })
+      .execute();
+  }
+
+  async removeByFlowerIdAndTopicId(flowerId: number, topicId: number) {
+    await this.flowerTopicsRepository
+      .createQueryBuilder()
+      .update(FlowerTopic)
+      .set({ isDeleted: true })
+      .where('flowerId = :flowerId', { flowerId })
+      .andWhere('topicId = :topicId', { topicId })
       .execute();
   }
 

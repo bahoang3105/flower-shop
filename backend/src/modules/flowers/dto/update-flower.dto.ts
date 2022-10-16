@@ -34,4 +34,16 @@ export class UpdateFlowerDto {
   @Type(() => Number)
   @IsNumber()
   price: number;
+
+  @ApiProperty({ required: false, type: [Number] })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({}, { each: true })
+  topicsAdd: number[];
+
+  @ApiProperty({ required: false, type: [Number] })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({}, { each: true })
+  topicsDel: number[];
 }

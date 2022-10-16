@@ -1,6 +1,6 @@
 import { QUERY_KEY } from 'constants/routes';
 import { useMutation, useQuery } from 'react-query';
-import { createFlower, getFlowers, getFlowerDetail } from 'services/flower';
+import { createFlower, getFlowers, getFlowerDetail, updateFlower } from 'services/flower';
 
 export const useCreateFlower = ({ onSuccess }: any) => {
   return useMutation([QUERY_KEY.CREATE_FLOWER], (formData: FormData) => createFlower(formData), {
@@ -17,5 +17,11 @@ export const useGetFlowers = ({ params }: any) => {
 export const useGetDetailFlower = (id: string) => {
   return useQuery([QUERY_KEY.DETAIL_FLOWER, id], () => getFlowerDetail(id), {
     select: (res) => res?.data?.data || {},
+  });
+};
+
+export const useUpdateFlower = ({ id, onSuccess }: { id: string; onSuccess: any }) => {
+  return useMutation([QUERY_KEY.UPDATE_FLOWER, id], (params: any) => updateFlower(id, params), {
+    onSuccess,
   });
 };

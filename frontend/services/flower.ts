@@ -12,3 +12,7 @@ export const getFlowers = (params: any) => {
 export const getFlowerDetail = (id: string) => {
   return api.get(API_URL.FLOWERS + '/' + id);
 };
+
+export const updateFlower = (id: string, params: any) => {
+  return api.patch(API_URL.FLOWERS + '/' + id, params);
+};

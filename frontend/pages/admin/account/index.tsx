@@ -131,7 +131,7 @@ export default function AccountGuest() {
         onChange={handleChangePage}
         onChangePageSize={handleChangePageSize}
       />
-      <Modal visible={open} onCancel={handleClose} title='Xóa bản ghi tài khoản khách' footer={null}>
+      <Modal open={open} onCancel={handleClose} title='Xóa bản ghi tài khoản khách' footer={null}>
         <div className='modal-account-content'>
           Bạn có chắc chắn muốn <span>xóa&nbsp;{checkList.length} bản ghi tài khoản khách</span> hay không?
         </div>
