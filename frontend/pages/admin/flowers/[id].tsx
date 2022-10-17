@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
-import { ReactElement, useMemo, useState } from 'react';
-import { Col, Form, Image as ImageAntd, Modal, Row } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { Col, Collapse, Form, Image as ImageAntd, Modal, Row, Tooltip, Upload } from 'antd';
 import Slider from '@components//Slider';
 import Admin from '@components//Layout/Admin';
 import AppButton from '@components//AppButton';
@@ -15,12 +16,14 @@ import ModalConfirmFlower from '@components//pages/flower/ModalConfirm';
 import showMessage from '@components//Message';
 import { TYPE_MESSAGE } from 'constants/common';
 import { WEB_URL } from 'constants/routes';
+import ImgCrop from 'antd-img-crop';
 
 export default function DetailFlower() {
   const router = useRouter();
   const id = String(router.query.id);
   const { data, refetch } = useGetDetailFlower(id);
   const [form] = Form.useForm();
+  const [listImage, setListImage] = useState<any>([]);
   const [isEdit, setisEdit] = useState(false);
   const [displayListThumbnail, setDisplayListThumbnail] = useState<boolean>(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
@@ -44,31 +47,46 @@ export default function DetailFlower() {
       router.push(WEB_URL.MANAGE_FLOWERS);
     },
   });
-  const listImage = useMemo(() => {
-    return data?.flower?.listImage?.map((srcImage: string, index: number) => ({ uid: index - 1, url: srcImage })) || [];
-  }, [data]);
-  const topicIds = useMemo(() => {
-    return data?.listTopics?.map((topic: any) => topic.id);
-  }, [data]);
-  const flowerInfo = useMemo(() => {
-    return { ...data?.flower, topicIds };
-  }, [data]);
+  const topicIds = data?.listTopics?.map((topic: any) => topic.id);
+  const flowerInfo = { ...data?.flower, topicIds };
 
   const handleSubmitEdit = (values: any) => {
     setModalInfo({ ...values, thumbnail: data?.flower?.listImage[0] || '' });
     setOpenModalUpdate(true);
   };
   const handleSubmit = async () => {
-    const { topicIds: updateTopicIds } = modalInfo;
+    const formData = new FormData();
+    const { topicIds: updateTopicIds, ...flowerInfo } = modalInfo;
     const topicsDel = topicIds?.filter((id: number) => !updateTopicIds?.includes(id));
     const topicsAdd = updateTopicIds?.filter((id: number) => !topicIds?.includes(id));
-    await updateFlower({ ...modalInfo, topicsDel, topicsAdd });
+    const listImageUploaded = listImage?.filter((image: any) => !!image.url)?.map((image: any) => image.url);
+    const newImages = listImage
+      ?.filter((image: any) => !!image.originFileObj)
+      ?.map((image: any) => image.originFileObj);
+
+    topicsDel.forEach((topicId: number) => formData.append('topicsDel', String(topicId)));
+    topicsAdd.forEach((topicId: number) => formData.append('topicsAdd', String(topicId)));
+    Object.keys(flowerInfo).forEach((field: string) => formData.append(field, flowerInfo[field]));
+    listImageUploaded?.forEach((imageSrc: string) => formData.append('listImage', imageSrc));
+    newImages.forEach((file: any) => formData.append('additionImages', file));
+    await updateFlower(formData);
   };
   const handleClickSave = () => {
     form.submit();
   };
   const handleClickEdit = () => {
     setisEdit(true);
+  };
+  const handlePreview = async (file: any) => {
+    const src: any = await getSrcFromFile(file);
+    const imgWindow = window.open(src);
+    if (imgWindow) {
+      const image = new Image();
+      image.src = src;
+      imgWindow.document.write(image.outerHTML);
+    } else {
+      window.location.href = src;
+    }
   };
   const handleClickCancleEdit = () => {
     setisEdit(false);
@@ -110,6 +128,15 @@ export default function DetailFlower() {
       </div>
     ));
   };
+  const handleChangeListImage = (info: any) => {
+    setListImage(info.fileList);
+  };
+
+  useEffect(() => {
+    setListImage(
+      data?.flower?.listImage?.map((srcImage: string, index: number) => ({ uid: index - 1, url: srcImage })) || [],
+    );
+  }, [data]);
 
   return (
     <div className='flower-detail'>
@@ -134,7 +161,39 @@ export default function DetailFlower() {
               </Slider>
             </div>
           </Row>
-          <Row></Row>
+          <Row className='flower-detail__update-thumbnail'>
+            <Collapse collapsible={isEdit ? 'header' : 'disabled'} activeKey={isEdit ? ['1'] : []}>
+              <Collapse.Panel
+                header={
+                  <Tooltip title={isEdit ? '' : 'Nhấn chỉnh sửa để cập nhật danh sách ảnh hoa'}>
+                    Cập nhật danh sách ảnh hoa
+                  </Tooltip>
+                }
+                key='1'
+              >
+                <ImgCrop grid rotate>
+                  <Upload
+                    listType='picture-card'
+                    accept='.jpg, .jpeg, .png, .gif'
+                    multiple={true}
+                    fileList={listImage}
+                    onChange={handleChangeListImage}
+                    onPreview={({ originFileObj }) => handlePreview(originFileObj)}
+                    showUploadList={{
+                      showDownloadIcon: false,
+                      showPreviewIcon: true,
+                      showRemoveIcon: listImage.length > 1,
+                    }}
+                  >
+                    <div>
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>Tải lên</div>
+                    </div>
+                  </Upload>
+                </ImgCrop>
+              </Collapse.Panel>
+            </Collapse>
+          </Row>
         </Col>
         <Col span={12}>
           <div className='flower-detail__id'>#{formatNumber(Number(id))}</div>

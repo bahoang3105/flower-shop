@@ -21,7 +21,7 @@ export const useGetDetailFlower = (id: string) => {
 };
 
 export const useUpdateFlower = ({ id, onSuccess }: { id: string; onSuccess: any }) => {
-  return useMutation([QUERY_KEY.UPDATE_FLOWER, id], (params: any) => updateFlower(id, params), {
+  return useMutation([QUERY_KEY.UPDATE_FLOWER, id], (formData: FormData) => updateFlower(id, formData), {
     onSuccess,
   });
 };

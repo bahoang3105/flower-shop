@@ -9,8 +9,8 @@ type PropsType = {
   onCancel: Void;
   title: string;
   thumbnail: string;
-  name: string;
-  price: number;
+  name?: string;
+  price?: number;
   size?: number;
   quantity?: number;
   description?: string;
@@ -33,7 +33,7 @@ export default function ModalConfirmFlower({
 }: PropsType) {
   const infoList = [
     { label: 'Tên hoa', value: name },
-    { label: 'Giá', value: formatNumber(price) + ' VND' },
+    { label: 'Giá', value: formatNumber(Number(price)) + ' VND' },
     { label: 'Kích cỡ', value: size },
     { label: 'Số lượng', value: quantity ? formatNumber(quantity) : '' },
   ];

@@ -40,13 +40,11 @@ export class FlowerTopicService {
     if (flower && topic) {
       if (!flowerTopic) {
         await this.createByFlowerAndTopic(flower, topic);
-      } else if (flowerTopic.isDeleted) {
+      } else {
         await this.flowerTopicsRepository.save({
           ...flowerTopic,
           isDeleted: false,
         });
-      } else {
-        return ApiError('E1', 'FlowerTopic existed');
       }
     } else {
       return ApiError('E2', 'Flower or Topic does not exist');

@@ -74,6 +74,23 @@
       }
     }
   }
+  &__update-thumbnail {
+    .ant-collapse,
+    .ant-collapse-header,
+    .ant-collapse-content,
+    .ant-collapse-item {
+      background-color: transparent;
+      border: none !important;
+    }
+    .ant-collapse-header-text {
+      text-decoration: underline;
+      cursor: default !important;
+    }
+    .ant-collapse-header {
+      margin-top: 24px;
+      padding-bottom: 0 !important;
+    }
+  }
 }
 
 .modal-confirm-flower {

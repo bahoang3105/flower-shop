@@ -58,7 +58,7 @@ const api = {
     });
   },
 
-  delete: (endpoint: string, params: any) => {
+  delete: (endpoint: string, params?: any) => {
     return axios.delete(getFullUrl(endpoint), {
       data: params,
       headers: HEADERS,

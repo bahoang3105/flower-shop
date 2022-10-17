@@ -13,8 +13,8 @@ export const getFlowerDetail = (id: string) => {
   return api.get(API_URL.FLOWERS + '/' + id);
 };
 
-export const updateFlower = (id: string, params: any) => {
-  return api.patch(API_URL.FLOWERS + '/' + id, params);
+export const updateFlower = (id: string, formData: FormData) => {
+  return api.patch(API_URL.FLOWERS + '/' + id, formData);
 };
 
 export const deleteFlower = (id: string) => {

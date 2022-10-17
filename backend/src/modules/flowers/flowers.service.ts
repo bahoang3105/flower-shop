@@ -11,7 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
 import { VALUE } from 'src/common/constants';
-import { DataSource, Repository } from 'typeorm';
+import { Brackets, DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { TopicsService } from '../topics/topics.service';
@@ -98,8 +98,13 @@ export class FlowersService {
     try {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')
-        .where('flower.name like :keyword', { keyword: `%${keyword}%` })
-        .orWhere('flower.id like :keyword', { keyword: `%${keyword}%` })
+        .where(
+          new Brackets((qb) => {
+            qb.where('flower.name like :keyword', {
+              keyword: `%${keyword}%`,
+            }).orWhere('flower.id like :keyword', { keyword: `%${keyword}%` });
+          })
+        )
         .andWhere('flower.isDeleted = false');
       if (priceFrom) {
         queryBuilder.andWhere('flower.price >= :priceFrom', { priceFrom });
@@ -139,23 +144,42 @@ export class FlowersService {
     return this.flowersRepository.findOne({ where: { id, isDeleted: false } });
   }
 
-  async update(id: number, updateFlowerDto: UpdateFlowerDto) {
-    const { topicsAdd, topicsDel, ...flowerInfo } = updateFlowerDto;
+  async update(
+    id: number,
+    updateFlowerDto: UpdateFlowerDto,
+    files?: Array<Express.Multer.File>
+  ) {
+    const { topicsAdd, topicsDel, listImage, ...flowerInfo } = updateFlowerDto;
+    const topicIdsDel = Array.isArray(topicsDel) ? topicsDel : [topicsDel];
+    const topicIdsAdd = Array.isArray(topicsAdd) ? topicsAdd : [topicsAdd];
+    const listSrcImage = Array.isArray(listImage) ? listImage : [listImage];
     const queryRunner = this.dataSource.createQueryRunner();
     try {
       queryRunner.startTransaction();
-      topicsDel?.forEach(
-        async (topicId: number) =>
-          await this.flowerTopicService.removeByFlowerIdAndTopicId(id, topicId)
-      );
-      topicsAdd?.forEach(
-        async (topicId: number) =>
-          await this.flowerTopicService.create(id, topicId)
-      );
+      if (!!topicsDel) {
+        topicIdsDel?.forEach(
+          async (topicId: number) =>
+            await this.flowerTopicService.removeByFlowerIdAndTopicId(
+              id,
+              topicId
+            )
+        );
+      }
+      if (topicsAdd) {
+        topicIdsAdd?.forEach(
+          async (topicId: number) =>
+            await this.flowerTopicService.create(id, topicId)
+        );
+      }
       const flower = await this.findById(id);
+      const { flowerTopics, ...currentInfo } = flower;
       return ApiOk(
         flower &&
-          (await this.flowersRepository.save({ ...flower, ...flowerInfo }))
+          (await this.flowersRepository.save({
+            ...currentInfo,
+            ...flowerInfo,
+            listImage: !!listImage ? listSrcImage : [],
+          }))
       );
     } catch (e) {
       await queryRunner.rollbackTransaction();

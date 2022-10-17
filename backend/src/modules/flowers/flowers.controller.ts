@@ -56,8 +56,14 @@ export class FlowersController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  update(@Param('id') id: string, @Body() updateFlowerDto: UpdateFlowerDto) {
-    return this.flowersService.update(+id, updateFlowerDto);
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FilesInterceptor('additionImages'))
+  update(
+    @Param('id') id: string,
+    @Body() updateFlowerDto: UpdateFlowerDto,
+    @UploadedFiles() files: Array<Express.Multer.File>
+  ) {
+    return this.flowersService.update(+id, updateFlowerDto, files);
   }
 
   @Delete(':id')

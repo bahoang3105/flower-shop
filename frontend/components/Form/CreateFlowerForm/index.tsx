@@ -3,9 +3,9 @@ import { useGetTopics } from 'hooks/topic';
 import InputNumber from '../FormItem/InputNumber';
 
 export const SIZE_OPTIONS = [
-  { value: 1, label: 'Small' },
-  { value: 2, label: 'Medium' },
-  { value: 3, label: 'Big' },
+  { value: 'Nhỏ', label: 'Nhỏ' },
+  { value: 'Trung bình', label: 'Trung bình' },
+  { value: 'Lớn', label: 'Lớn' },
 ];
 
 type PropsType = {
@@ -33,7 +33,7 @@ export default function CreateFlowerForm({ form, initialValues, onFinish, disabl
         <Col span={12}>
           <label>Tên hoa *</label>
           <Form.Item name='name' rules={[{ required: true, message: 'Vui lòng nhập tên hoa' }]}>
-            <Input placeholder='Tên hoa' autoComplete='off' />
+            <Input placeholder='Tên hoa' autoComplete='off' maxLength={512} />
           </Form.Item>
         </Col>
         <Col span={12}>

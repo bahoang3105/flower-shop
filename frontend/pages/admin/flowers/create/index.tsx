@@ -10,6 +10,7 @@ import AppButton from '@components//AppButton';
 import showMessage from '@components//Message';
 import BackButton from '@components//BackButton';
 import CreateFlowerForm from '@components//Form/CreateFlowerForm';
+import ModalConfirmFlower from '@components//pages/flower/ModalConfirm';
 import withServerSideProps from 'hoc/withServerSideProps';
 import ImageSvg from 'public/svg';
 import { formatNumber, getSrcFromFile } from 'utils/common';
@@ -26,16 +27,12 @@ const INITIAL_VALUES = {
   quantity: undefined,
   topicIds: [],
 };
-export const SIZE_OPTIONS = [
-  { value: 1, label: 'Small' },
-  { value: 2, label: 'Medium' },
-  { value: 3, label: 'Big' },
-];
 
 export default function CreateFlower() {
   const [form] = Form.useForm();
   const name = Form.useWatch('name', form);
   const price = Form.useWatch('price', form);
+  const [open, setOpen] = useState(false);
   const [thumbnail, setThumbnail] = useState<any>(null);
   const [errorThumbnail, setErrorThumbnail] = useState(false);
   const [listImage, setListImage] = useState<any>([]);
@@ -44,6 +41,7 @@ export default function CreateFlower() {
   const { mutateAsync: createFlower } = useCreateFlower({
     onSuccess: () => {
       showMessage(TYPE_MESSAGE.SUCCESS, 'Thêm mới hoa thành công');
+      setOpen(false);
       router.push(WEB_URL.MANAGE_FLOWERS);
     },
   });
@@ -179,7 +177,7 @@ export default function CreateFlower() {
             </Col>
           </Row>
           <CreateFlowerForm form={form} initialValues={INITIAL_VALUES} onFinish={handleSubmit} />
-          <AppButton text='Thêm mới' variant='primary' onClick={handleCreateFlower} />
+          <AppButton text='Thêm mới' variant='primary' onClick={() => setOpen(true)} />
         </Col>
         <Col xxl={6} xl={7} lg={8} className='create-flower-preview'>
           <section>
@@ -202,6 +200,15 @@ export default function CreateFlower() {
           </section>
         </Col>
       </Row>
+      <ModalConfirmFlower
+        title='Xác nhận thông tin hoa'
+        submitTitle='Thêm mới'
+        {...form.getFieldsValue()}
+        open={open}
+        onCancel={() => setOpen(false)}
+        thumbnail={previewThumbnail}
+        handleSubmit={handleCreateFlower}
+      />
     </div>
   );
 }
