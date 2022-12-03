@@ -2,7 +2,7 @@ html,
 body {
   font-size: 15px;
   font-family: 'Open Sans', sans-serif;
-  background-color: $color_background_3;
+  background-color: $color_white_1;
   color: $color_black_1;
 
   #root {
@@ -33,4 +33,14 @@ body {
 
 .ant-form-item-explain-error {
   @extend .error;
+}
+
+.app-search {
+  border-color: #4d2c4b;
+  height: 32px;
+  .ant-input {
+    font-size: 12px;
+    line-height: 24px;
+    margin-top: 1px;
+  }
 }

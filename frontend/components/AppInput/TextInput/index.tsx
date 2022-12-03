@@ -1,6 +1,6 @@
 import { Input } from 'antd';
-import classNames from 'classnames';
-import { ChangeEvent } from 'react';
+import { Void } from 'constants/type';
+import { ChangeEvent, ReactNode } from 'react';
 
 type PropsType = {
   disabled?: boolean;
@@ -8,19 +8,29 @@ type PropsType = {
   onChange: (value: string) => void;
   className?: string;
   placeholder?: string;
+  onPressEnter?: Void;
+  prefix?: ReactNode | string;
 };
 
-export default function TextInput({ disabled = false, value, onChange, className, placeholder = '' }: PropsType) {
+export default function TextInput({
+  disabled = false,
+  value,
+  onChange,
+  className,
+  placeholder = '',
+  ...props
+}: PropsType) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
   return (
     <Input
-      className={classNames({ className })}
+      className={className}
       disabled={disabled}
       value={value}
       onChange={handleChange}
       placeholder={placeholder}
+      {...props}
     />
   );
 }

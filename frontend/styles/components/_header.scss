@@ -4,169 +4,32 @@
   z-index: 1000;
   width: 100vw;
   max-width: 100%;
-  background-color: $color_background_2;
-  background-image: linear-gradient($color_background_2 0%, $color_background_2 90%, $color_background_3 100%);
-  &__logo {
-    display: flex;
-    align-items: center;
+  background-color: $color_white_1;
+  height: 80px;
+  &__main {
+    height: 100%;
+    padding: 0 6%;
   }
-  &__menu {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.3s;
-    &:hover {
-      opacity: 0.8;
+  &__search {
+    .ant-input-affix-wrapper {
+      width: 267px;
     }
   }
-  padding: 32px 40px;
-  &__connect-wallet-button {
-    height: 58px;
-    width: 219px;
-    border-radius: 100px;
-    font-size: 16px;
-    text-transform: uppercase;
-    &.button--secondary {
-      text-transform: none;
-      font-weight: 400;
-    }
-  }
-  .header-items {
-    justify-content: center;
-    display: flex;
-    width: calc(100% - 419px);
+  &__navbar {
+    width: calc(100% - 600px);
+    max-width: 800px;
+    flex: 1;
     &__item {
-      padding: 10px 16px 0;
-      display: flex;
-      align-items: baseline;
-      &__link {
-        font-weight: 600;
-        font-size: 15px;
-        a {
-          color: $color_white_1;
-          &:hover {
-            color: $color_text_link_blue_1;
-            opacity: 0.8;
-          }
-        }
-      }
-      &__coming-soon {
-        @extend .header-items__item__link;
-        div {
-          color: $color_button_yellow_1;
-          font-weight: 400;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-  &_content {
-    width: 100%;
-  }
-  &__dropdown {
-    position: absolute;
-    right: 0;
-    margin: 10px -40px 0 0;
-    padding-bottom: 20px;
-    &__button {
-      z-index: 1000;
-      height: 32px;
-      width: 32px;
+      flex: 1;
       text-align: center;
-      padding-top: 7px;
-      border-radius: 100px;
       cursor: pointer;
-    }
-  }
-}
-.header-dropdown-overlay {
-  .ant-dropdown-menu {
-    background-color: $color_background_4;
-    padding: 0;
-    border-radius: 4px;
-    .ant-dropdown-menu-item {
-      border-bottom: 1px solid $color_border_1;
-      height: 48px;
-      color: $color_white_1;
+      transition: 0.3s;
       font-size: 14px;
-      &.ant-dropdown-menu-item-active {
-        background-color: $color_background_4;
-        filter: brightness(1.5);
-      }
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-  }
-  &__item {
-    .ant-dropdown-menu-title-content {
-      .ant-image {
-        margin-right: 10px;
-      }
-    }
-  }
-}
-.header-account-list {
-  position: absolute;
-  bottom: 120px;
-  &__item {
-    cursor: pointer;
-    margin: 40px 0;
-    font-size: 15px;
-    font-weight: 600;
-    transition: 0.2s;
-    .ant-image {
-      margin-right: 15px;
-    }
-    &:hover {
-      color: $color_text_link_blue_1;
-      opacity: 0.8;
-    }
-  }
-}
-
-@media (max-width: $breakpoint_large_desktop_max) {
-  .header-items {
-    display: block;
-    &__item {
-      margin-top: 20px;
-      height: 60px;
-      &__link {
+      &:hover {
+        color: $color_text_highlight;
+        text-shadow: 1px whitesmoke;
         font-weight: 600;
-        font-size: 18px;
-        a {
-          color: $color_white_1;
-          &:hover {
-            color: $color_text_link_blue_1;
-            opacity: 0.8;
-          }
-        }
       }
-      &__coming-soon {
-        font-weight: 600;
-        font-size: 18px;
-        a {
-          color: $color_white_1;
-          &:hover {
-            color: $color_text_link_blue_1;
-            opacity: 0.8;
-          }
-        }
-        div {
-          color: $color_button_yellow_1;
-          font-weight: 400;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-  .header {
-    &__button-drawer {
-      position: absolute;
-      bottom: 20px;
-      width: 330px;
-      text-align: center;
     }
   }
 }

@@ -1,4 +1,3 @@
-import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/lib/storage';
 import { createWrapper } from 'next-redux-wrapper';
 import { configureStore, combineReducers, getDefaultMiddleware, EnhancedStore, AnyAction } from '@reduxjs/toolkit';
@@ -7,7 +6,6 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, pers
 import { namespace as AddressNamespace } from './address/slice';
 import { namespace as ConnectionNamespace } from './connection/slice';
 import rootReducer from 'redux/rootReducer';
-import rootSaga from 'redux/rootSaga';
 import { Dispatch } from 'react';
 
 export let storeGlobal: EnhancedStore | undefined;
@@ -27,7 +25,6 @@ const persistedReducer = persistReducer(persistConfig, combineReducers(rootReduc
 function makeStore(preloadedState = {}) {
   const env = process.env.NODE_ENV;
   let store: any;
-  const sagaMiddleware = createSagaMiddleware();
   const isClient = typeof window !== 'undefined';
   if (isClient) {
     store = configureStore({
@@ -42,11 +39,9 @@ function makeStore(preloadedState = {}) {
             ignoredActionPaths: ['payload.callback'],
           },
         }),
-        sagaMiddleware,
       ],
     });
     store.__persistor = persistStore(store);
-    (store as any).sagaTask = sagaMiddleware.run(rootSaga);
     storeGlobal = store;
     return store;
   } else {
@@ -57,10 +52,8 @@ function makeStore(preloadedState = {}) {
         ...getDefaultMiddleware({
           thunk: false,
         }),
-        sagaMiddleware,
       ],
     });
-    (storeServer as any).sagaTask = sagaMiddleware.run(rootSaga);
     return storeServer;
   }
 }
