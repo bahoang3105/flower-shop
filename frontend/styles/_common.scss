@@ -44,3 +44,17 @@ body {
     margin-top: 1px;
   }
 }
+
+.container {
+  max-width: 1840px;
+  margin: auto;
+  padding: {
+    right: 80px;
+    left: 80px;
+  }
+}
+
+.app_link {
+  cursor: pointer;
+  color: black;
+}
