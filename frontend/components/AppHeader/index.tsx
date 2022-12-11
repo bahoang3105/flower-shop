@@ -1,4 +1,5 @@
 import { Col, Image, Row } from 'antd';
+import { APP_URL } from 'constants/common';
 import { useWindowSize } from 'hooks/useWindowSize';
 import ImageSvg from 'public/svg';
 import { useState } from 'react';
@@ -8,11 +9,11 @@ type HeaderProps = Record<string, never>;
 
 const MINI_SCREEN = 1199;
 const NAVBAR_LIST = [
-  { key: 2, value: 'Trang chủ' },
-  { key: 3, value: 'Bộ sưu tập' },
-  { key: 4, value: 'Phân loại' },
-  { key: 5, value: 'Bán chạy nhất' },
-  { key: 6, value: 'Liên hệ' },
+  { key: 2, value: 'Trang chủ', url: APP_URL.HOME },
+  { key: 3, value: 'Bộ sưu tập', url: '' },
+  { key: 4, value: 'Phân loại', url: '' },
+  { key: 5, value: 'Bán chạy nhất', url: APP_URL.PRODUCT_LIST },
+  { key: 6, value: 'Liên hệ', url: '' },
 ];
 
 const Header: React.FC<HeaderProps> = () => {
@@ -27,10 +28,10 @@ const Header: React.FC<HeaderProps> = () => {
   const handleSearch = () => {};
 
   const renderNavBar = () =>
-    NAVBAR_LIST.map((navbar) => (
-      <div key={navbar.key} className='header__navbar__item'>
-        {navbar.value}
-      </div>
+    NAVBAR_LIST.map(({ key, value, url }) => (
+      <a key={key} href={url} className='header__navbar__item app_link'>
+        {value}
+      </a>
     ));
 
   return (
@@ -38,7 +39,7 @@ const Header: React.FC<HeaderProps> = () => {
       {smallScreen ? (
         <></>
       ) : (
-        <Row className='header__main' justify='space-between'>
+        <Row className='header__main container' justify='space-between'>
           <Col className='header__logo center-flex-item'>
             <Image src={ImageSvg.logo} preview={false} width={267} height={41} />
           </Col>
