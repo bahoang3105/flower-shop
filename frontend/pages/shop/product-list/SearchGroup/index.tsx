@@ -9,12 +9,14 @@ const { Panel } = Collapse;
 
 const SEARCH_GROUP_COLLAPSE_KEY = {
   SEARCH_BAR: 'SEARCH_BAR',
+  PRICE_RANGE: 'PRICE_RANGE',
   PRODUCT_TYPE: 'PRODUCT_TYPE',
 };
 
 const PRICE_MARK = [0, 25, 50, 75, 100];
 
 export type filterType = {
+  keyword: string;
   priceRange: {
     priceFrom: number | boolean;
     priceTo: number | boolean;
@@ -44,7 +46,19 @@ function SearchGroup() {
         defaultActiveKey={[SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR, SEARCH_GROUP_COLLAPSE_KEY.PRODUCT_TYPE]}
         expandIconPosition='end'
       >
-        <Panel header='Price' key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
+        <Panel header='Search' key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
+          <input
+            className='search-group__keyword'
+            onChange={(e) =>
+              setFilter((prev: filterType) => ({
+                ...prev,
+                keyword: e?.target?.value,
+              }))
+            }
+            placeholder='Please input'
+          />
+        </Panel>
+        <Panel header='Price' key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
           <Row className='search-group__price-range-input' wrap={false} justify='space-between' align='middle'>
             <Col flex='0 0 100px' className='search-group__price-range-input__item'>
               <input

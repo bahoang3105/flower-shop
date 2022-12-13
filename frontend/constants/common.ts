@@ -20,16 +20,19 @@ export const DATE_FORMAT = {
 export const APP_URL = {
   HOME: '/',
   PRODUCT_LIST: '/shop/product-list',
+  PRODUCT_DETAIL: '/shop/product/[id]',
 };
 
-export type appBreadcrumbType = 'product-list' | 'shop';
+export type appBreadcrumbType = 'product-list' | 'shop' | 'product';
 
 export const BREADCRUMB_TEXT = {
   ['shop']: 'Home',
   ['product-list']: 'Product List',
+  ['product']: 'Product',
 };
 
 export const BREADCRUMB_LINK = {
   ['shop']: APP_URL.HOME,
   ['product-list']: APP_URL.PRODUCT_LIST,
+  ['product']: APP_URL.PRODUCT_DETAIL,
 };
