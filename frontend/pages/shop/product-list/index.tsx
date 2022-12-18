@@ -12,10 +12,11 @@ import NoDataImg from 'public/svg/no_data.svg';
 import TagList from '@components//TagList';
 import Link from 'next/link';
 import { APP_URL } from 'constants/common';
+import { isEmpty } from 'lodash';
 
 export const ProductListContext = createContext({});
 
-function ProductList() {
+function ProductList({ topicIds }: any) {
   const [filter, setFilter] = useState<filterType>({
     keyword: '',
     priceRange: { priceFrom: false, priceTo: false },
@@ -29,11 +30,12 @@ function ProductList() {
     params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
   });
 
-  const fetchProductList = async () => {
+  const fetchProductList = async (filterProps: { topicIds?: any }) => {
+    const { topicIds } = filterProps || {};
     const res = await getFlowers({
       limit: 12,
       page,
-      topicIds: filter?.productType,
+      topicIds: isEmpty(topicIds) ? topicIds : filter?.productType,
       keyword: filter?.keyword,
       // priceFrom: filter?.priceRange?.priceFrom || 0,
       // priceTo: filter?.priceRange?.priceTo || 11,
@@ -42,7 +44,14 @@ function ProductList() {
   };
 
   useEffect(() => {
-    fetchProductList();
+    setFilter((prev: any) => {
+      const newProductType = [...prev?.productType, parseInt(topicIds, 10)];
+      fetchProductList({ topicIds: newProductType });
+      return {
+        ...prev,
+        productType: newProductType,
+      };
+    });
   }, []);
 
   const getProductTypeText = useMemo(() => {
@@ -65,14 +74,12 @@ function ProductList() {
 
   const onClickTagItem = (productTypeId: string) => {
     setFilter((prev: filterType) => ({ ...prev, productType: [productTypeId] }));
-    fetchProductList();
+    fetchProductList({});
     scrollToElement({
       id: 'product-list__list',
       yOffset: -80,
     });
   };
-
-  console.log(flowerList);
 
   return (
     <ProductListContext.Provider value={{ filter, topicList, setFilter, fetchProductList }}>
@@ -139,11 +146,12 @@ function ProductItem({ data }: { data: { name: string; price: number; thumbnail:
   );
 }
 
-export const getServerSideProps: GetServerSideProps = withServerSideProps(async (context: any) => {
-  // Pass data to the page via props
-  return { props: context };
-});
-
+export async function getServerSideProps(context: any) {
+  const { topicIds } = context?.query || {};
+  return {
+    props: { topicIds: topicIds || null }, // will be passed to the page component as props
+  };
+}
 ProductList.getLayout = function getLayout(page: ReactElement) {
   return <PublicLayout>{page}</PublicLayout>;
 };
