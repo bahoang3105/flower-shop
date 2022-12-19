@@ -20,7 +20,7 @@ function AppBreadcrumb() {
   const getBreadcrumbPath = () => {
     return router?.pathname
       ?.split('/')
-      ?.filter((item: string) => item)
+      ?.filter((item: string) => Object.keys(BREADCRUMB_TEXT)?.includes(item))
       ?.map((item: string) => {
         return {
           url: BREADCRUMB_LINK[item as appBreadcrumbType],

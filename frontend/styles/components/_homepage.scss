@@ -1,14 +1,18 @@
 .homepage {
   &__thumbnail {
     margin-bottom: 100px;
+    .ant-image {
+      width: 100%;
+    }
   }
 }
 
 .collection {
   flex: 1;
-  padding: 0 6%;
+  padding: 0 20px;
   margin-bottom: 16px;
-  width: calc(100% - 16px);
+  max-width: 1720px;
+  margin: 0 auto !important;
   &__item {
     flex: 1;
     .button-buy-now {
