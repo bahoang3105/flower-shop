@@ -22,12 +22,22 @@ export default function Footer() {
 
   return (
     <footer>
-      <Row className='footer' justify='space-around'>
-        <Col>
+      <div className='footer'>
+        <div className='footer__item'>
           <Image src={ImageSvg.logo} preview={false} />
+        </div>
+        <div className='footer__item'>
           <div className='footer-social-list'>{renderSocialList()}</div>
-        </Col>
-      </Row>
+        </div>
+        {/* <div className='footer__item footer-get-in-touch'>GET IN TOUCH</div>
+        <div className='footer__item footer-get-in-touch__content'>
+          <p>0912345678</p>
+          <p>
+            Email: support@vprintes.com Support Time: Mon - Fri: 9AM-5PM EST Add: 68 Circular Road #02-01, 049422,
+            Singapore
+          </p>
+        </div> */}
+      </div>
       <Row className='copyright center-flex-item' justify='center'>
         &#169; 2022 Tuyet Ho Diep Flower Shop
       </Row>

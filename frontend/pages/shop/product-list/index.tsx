@@ -16,7 +16,7 @@ import { isEmpty } from 'lodash';
 
 export const ProductListContext = createContext({});
 
-function ProductList({ topicIds }: any) {
+function ProductList({ topicIds, keyword }: any) {
   const [filter, setFilter] = useState<filterType>({
     keyword: '',
     priceRange: { priceFrom: false, priceTo: false },
@@ -36,7 +36,7 @@ function ProductList({ topicIds }: any) {
       limit: 12,
       page,
       topicIds: isEmpty(topicIds) ? topicIds : filter?.productType,
-      keyword: filter?.keyword,
+      keyword: keyword || filter?.keyword,
       // priceFrom: filter?.priceRange?.priceFrom || 0,
       // priceTo: filter?.priceRange?.priceTo || 11,
     });
@@ -95,7 +95,7 @@ function ProductList({ topicIds }: any) {
         <div className='product-list__list-container'>
           <div className='product-list__search-group'>
             <div className='product-list__search-group__content'>
-              <SearchGroup />
+              <SearchGroup defaultValueInput={keyword} />
             </div>
           </div>
           <Row className='product-list__list' id='product-list__list'>
@@ -147,9 +147,9 @@ function ProductItem({ data }: { data: { name: string; price: number; thumbnail:
 }
 
 export async function getServerSideProps(context: any) {
-  const { topicIds } = context?.query || {};
+  const { topicIds, keyword } = context?.query || {};
   return {
-    props: { topicIds: topicIds || null }, // will be passed to the page component as props
+    props: { topicIds: topicIds || null, keyword: keyword || null }, // will be passed to the page component as props
   };
 }
 ProductList.getLayout = function getLayout(page: ReactElement) {

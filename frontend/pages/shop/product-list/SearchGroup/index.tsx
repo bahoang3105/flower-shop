@@ -25,7 +25,7 @@ export type filterType = {
   price: number;
 };
 
-function SearchGroup() {
+function SearchGroup({ defaultValueInput }: any) {
   const { filter, setFilter, fetchProductList } = useContext<any>(ProductListContext);
 
   const { data: topicList } = useGetTopics({
@@ -48,6 +48,7 @@ function SearchGroup() {
       >
         <Panel header='Search' key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
           <input
+            defaultValue={defaultValueInput}
             className='search-group__keyword'
             onChange={(e) =>
               setFilter((prev: filterType) => ({
