@@ -144,28 +144,33 @@
       width: 100%;
       height: 100%;
       &__collection-group {
-        flex: 1;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 58px;
         margin-bottom: 16px;
         background-color: #fbf6fd;
         font-weight: 600;
         font-size: 28px;
         line-height: 50px;
         color: #25424c;
+        z-index: 10;
       }
       &__image-group {
         position: relative;
+        padding-top: 74px;
         width: 100%;
-        height: 82%;
-        background-color: gray;
+        height: 100%;
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
         &__button-buy-now {
+          cursor: pointer;
           font-weight: 600;
-          font-size: 16px;
-          line-height: 24px;
+          font-size: 1em;
           color: #4d2c4b;
           text-align: center;
           width: 26%;
@@ -173,7 +178,7 @@
           border: 1px solid #4d2c4b;
           border-radius: 30px;
           position: absolute;
-          top: 60%;
+          top: 67%;
           left: 5%;
           background-color: #fbf6fd;
         }
@@ -192,9 +197,9 @@
       height: 100%;
     }
     &__button-buy-now {
+      cursor: pointer;
       font-weight: 600;
-      font-size: 16px;
-      line-height: 24px;
+      font-size: 1em;
       color: #4d2c4b;
       text-align: center;
       width: 26%;
@@ -217,6 +222,25 @@
     &-4 {
       top: 60%;
       left: 10%;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .flower-collection {
+    &__common-item {
+      &__button-buy-now {
+        display: none;
+      }
+    }
+    &__first-item {
+      &__content {
+        &__image-group {
+          &__button-buy-now {
+            display: none;
+          }
+        }
+      }
     }
   }
 }

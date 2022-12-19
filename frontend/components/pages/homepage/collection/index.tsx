@@ -23,10 +23,10 @@ export default function FlowerCollection() {
         <Col span={24} lg={12}>
           <div className='flower-collection__first-item'>
             <div className='flower-collection__first-item__content'>
-              <div className='flower-collection__first-item__content__collection-group center-flex-item'>
-                <div>BỘ SƯU TẬP</div>
-              </div>
               <div className='flower-collection__first-item__content__image-group'>
+                <div className='flower-collection__first-item__content__collection-group center-flex-item'>
+                  <div>BỘ SƯU TẬP</div>
+                </div>
                 <img src={PublicImage.banner1} alt='' />
                 <div className='flower-collection__first-item__content__image-group__button-buy-now'>Mua Ngay</div>
               </div>
