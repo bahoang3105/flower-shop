@@ -4,10 +4,10 @@ import { GetServerSideProps } from 'next';
 import PublicLayout from '@components//Layout/Public';
 import withServerSideProps from 'hoc/withServerSideProps';
 import PublicImage from 'public/images';
-import FollewCollection from '@components//pages/homepage/collection';
 import RecommendProduct from '@components//pages/homepage/RecommendProductInfiniteScroll';
 import { useGetTopics } from 'hooks/topic';
 import ArrowRight from 'public/svg/arrow_right';
+import FollowerCollection from '@components//pages/homepage/collection';
 
 function Home() {
   return (
@@ -15,7 +15,7 @@ function Home() {
       <div className='homepage__thumbnail'>
         <Image src={PublicImage.banner} preview={false} />
       </div>
-      <FollewCollection />
+      <FollowerCollection />
       <div className='recommend-product__group'>
         <RecommendProductWrapper />
       </div>

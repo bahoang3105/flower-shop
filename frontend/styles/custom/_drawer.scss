@@ -1,9 +1,9 @@
 .ant-drawer-header {
-  background-color: $color_background_2;
-  background-image: linear-gradient($color_background_2 0%, $color_background_2 90%, $color_background_3 100%);
+  // background-color: $color_background_2;
+  // background-image: linear-gradient($color_background_2 0%, $color_background_2 90%, $color_background_3 100%);
   border-bottom: none;
   .anticon.anticon-close {
-    color: white;
+    // color: white;
   }
   .ant-drawer-title {
     text-align: right;
@@ -11,5 +11,5 @@
 }
 
 .ant-drawer-body {
-  background-color: $color_background_3;
+  // background-color: $color_background_3;
 }
