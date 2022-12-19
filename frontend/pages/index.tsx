@@ -7,7 +7,7 @@ import PublicImage from 'public/images';
 import RecommendProduct from '@components//pages/homepage/RecommendProductInfiniteScroll';
 import { useGetTopics } from 'hooks/topic';
 import ArrowRight from 'public/svg/arrow_right';
-import FollowerCollection from '@components//pages/homepage/collection';
+import FlowerCollection from '@components//pages/homepage/collection';
 
 function Home() {
   return (
@@ -15,7 +15,7 @@ function Home() {
       <div className='homepage__thumbnail'>
         <Image src={PublicImage.banner} preview={false} />
       </div>
-      <FollowerCollection />
+      <FlowerCollection />
       <div className='recommend-product__group'>
         <RecommendProductWrapper />
       </div>
