@@ -7,71 +7,86 @@
   }
 }
 
-.collection {
-  flex: 1;
-  padding: 0 20px;
-  margin-bottom: 16px;
-  max-width: 1720px;
-  margin: 0 auto !important;
-  &__item {
-    flex: 1;
-    .button-buy-now {
-      @extend .center-flex-item;
-      cursor: pointer;
-      z-index: 2;
-      position: absolute;
-      border: 1px solid #4d2c4b;
-      background-color: #fbf6fd;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 14px;
-      height: 44px;
-      width: 154px;
-      color: #4d2c4b;
-      bottom: 20%;
-      transition: 0.3s;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
-    &__1 {
-      .button-buy-now {
-        left: 5%;
-      }
-    }
-    &__2 {
-      height: 100%;
-      .ant-image,
-      .ant-image-img {
-        height: 100%;
-        object-fit: cover;
-      }
-      .button-buy-now {
-        right: 15%;
-      }
-    }
-    &__3 {
-      .button-buy-now {
-        right: 9%;
-      }
-    }
-    &__4 {
-      .button-buy-now {
-        left: 7%;
-      }
-    }
-  }
-  &__title {
-    text-align: center;
-    height: 70px;
-    margin-bottom: 16px;
-    background-color: #fbf6fd;
-    color: #25424c;
-    text-transform: uppercase;
-    font-size: 28px;
-    font-weight: 600;
-  }
-}
+// .flower-collection {
+//   padding: 0 20px;
+//   max-width: 1720px;
+//   margin: 68px auto !important;
+//   &__item {
+//     position: relative;
+//     padding-top: 56%;
+//     .item-img {
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100% !important;
+//       height: 100% !important;
+//     }
+//     .button-buy-now {
+//       position: absolute;
+//     }
+
+//     // &__2 {
+//     //   .button-buy-now {
+//     //     top: 70%;
+//     //     right: 5%;
+//     //   }
+//     // }
+//     // &__3 {
+//     //   .button-buy-now {
+//     //     top: 70%;
+//     //     right: 5%;
+//     //   }
+//     // }
+//     // &__4 {
+//     //   .button-buy-now {
+//     //     top: 70%;
+//     //     left: 5%;
+//     //   }
+//     // }
+//   }
+//   &__first-item {
+//     position: relative;
+//     padding-top: 56%;
+//     &__item {
+//       display: flex;
+//       flex-direction: column;
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 100%;
+//       &__title {
+//         text-align: center;
+//         font-weight: 600;
+//         font-size: 28px;
+//         line-height: 50px;
+//         color: #25424c;
+//         background-color: #fbf6fd;
+//         flex: 1;
+//         margin-bottom: 16px;
+//       }
+//       &__main-img {
+//         width: 100%;
+//         height: 82%;
+//         object-fit: cover;
+//       }
+//       .button-buy-now {
+//         top: 70%;
+//         left: 5%;
+//       }
+//     }
+//   }
+//   .button-buy-now {
+//     padding: 16px 60px;
+//     position: absolute;
+//     background: #fbf6fd;
+//     border: 1px solid #4d2c4b;
+//     border-radius: 30px;
+//     font-weight: 600;
+//     font-size: 16px;
+//     line-height: 24px;
+//   }
+// }
 
 @media (min-width: $breakpoint_ultra_desktop_max) {
   .collection__item {
@@ -109,5 +124,99 @@
   }
   .collection__title {
     font-size: 20px;
+  }
+}
+
+.flower-collection {
+  padding: 0 20px;
+  max-width: 1720px;
+  margin: 68px auto !important;
+  &__first-item {
+    position: relative;
+    padding-top: 56%;
+    &__content {
+      display: flex;
+      flex-direction: column;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      &__collection-group {
+        flex: 1;
+        margin-bottom: 16px;
+        background-color: #fbf6fd;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 50px;
+        color: #25424c;
+      }
+      &__image-group {
+        position: relative;
+        width: 100%;
+        height: 82%;
+        background-color: gray;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        &__button-buy-now {
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #4d2c4b;
+          text-align: center;
+          width: 26%;
+          padding: 2% 0;
+          border: 1px solid #4d2c4b;
+          border-radius: 30px;
+          position: absolute;
+          top: 60%;
+          left: 5%;
+          background-color: #fbf6fd;
+        }
+      }
+    }
+  }
+  &__common-item {
+    position: relative;
+    padding-top: 56%;
+    &__image-group {
+      position: absolute;
+      object-fit: cover;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &__button-buy-now {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: #4d2c4b;
+      text-align: center;
+      width: 26%;
+      padding: 2% 0;
+      border: 1px solid #4d2c4b;
+      border-radius: 30px;
+      position: absolute;
+      background-color: #fbf6fd;
+    }
+  }
+  .btn-buynow-type {
+    &-2 {
+      top: 67%;
+      right: 5%;
+    }
+    &-3 {
+      top: 60%;
+      right: 10%;
+    }
+    &-4 {
+      top: 60%;
+      left: 10%;
+    }
   }
 }
