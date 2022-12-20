@@ -6,6 +6,9 @@ import Header from '@components//AppHeader';
 import Footer from '@components//AppFooter';
 import LoadingIcon from 'elements/LoadingIcon';
 import { withTranslation } from 'next-i18next';
+import ImageSvg from 'public/svg';
+
+const META_DESCRIPTION = 'Đại lý chuyên bán buôn hoa hồ điệp miền Bắc';
 
 const Layout: FC<{
   children: any;
@@ -19,14 +22,14 @@ const Layout: FC<{
   faviconImageUrl?: string;
 }> = ({
   children,
-  title = '',
+  title = 'Tuyết hồ điệp',
   notShowFooter,
   notShowHeader,
   className,
-  metaDescription,
+  metaDescription = META_DESCRIPTION,
   socialImageUrl,
   name = '',
-  faviconImageUrl,
+  faviconImageUrl = ImageSvg.miniLogo,
 }) => {
   const defaultPreviewImage = '';
   // 'https://nftify.s3.ap-southeast-1.amazonaws.com/';
