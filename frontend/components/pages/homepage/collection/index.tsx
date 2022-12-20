@@ -35,7 +35,7 @@ export default function FlowerCollection() {
         </Col>
         {[PublicImage.banner2, PublicImage.banner3, PublicImage.banner4]?.map((src, index) => {
           return (
-            <Col span={24} lg={12}>
+            <Col key={index} span={24} lg={12}>
               {renderCommonCollectionItem(src, BTN_BUYNOW_TYPE_CLASSNAME[(index + 2) as BtnBuyNowType])}
             </Col>
           );
