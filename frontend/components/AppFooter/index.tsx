@@ -1,4 +1,4 @@
-import { Col, Image, Row } from 'antd';
+import { Image, Row } from 'antd';
 import PublicImage from 'public/images';
 import ImageSvg from 'public/svg';
 

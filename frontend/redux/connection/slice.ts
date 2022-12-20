@@ -1,5 +1,4 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
-import { get } from 'lodash';
 import { HYDRATE } from 'next-redux-wrapper';
 import { AppState } from 'redux/configStore';
 
