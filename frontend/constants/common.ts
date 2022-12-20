@@ -1,4 +1,6 @@
-export const LOCAL_STORAGE = {};
+export const LOCAL_STORAGE = {
+  TOKEN: 'token',
+};
 
 export const TYPE_MESSAGE = {
   SUCCESS: 'success',
