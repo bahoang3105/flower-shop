@@ -20,7 +20,7 @@ async function bootstrap() {
     cors: true,
   });
 
-  app.useStaticAssets(join(__dirname, '..', 'images'));
+  app.useStaticAssets(join(__dirname, '..', 'files', 'images'));
 
   app.startAllMicroservices();
 

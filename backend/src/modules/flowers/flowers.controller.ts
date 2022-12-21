@@ -40,7 +40,7 @@ export class FlowersController {
   @UseInterceptors(
     FilesInterceptor('files', 10, {
       storage: diskStorage({
-        destination: './images',
+        destination: './files/images',
         filename: (req, file, callback) => {
           const randomName = Array(32)
             .fill(null)

@@ -45,11 +45,11 @@ import { Image } from './modules/images/entities/image.entity';
     UsersModule,
     GuestPhonesModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'images'),
-      serveRoot: '/images/',
+      rootPath: join(__dirname, '..', 'files', 'images'),
+      serveRoot: '/files/images/',
     }),
     MulterModule.register({
-      dest: './images',
+      dest: './files/images',
     }),
   ],
   controllers: [AppController],
