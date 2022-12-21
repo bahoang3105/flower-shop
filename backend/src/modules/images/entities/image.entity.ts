@@ -12,8 +12,8 @@ export class Image {
   @Column()
   fileName: string;
 
-  @Column({ type: 'bytea' })
-  fileData: Uint8Array;
+  @Column()
+  filePath: string;
 
   @Column()
   createdAt: Date;

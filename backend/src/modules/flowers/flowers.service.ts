@@ -41,7 +41,11 @@ export class FlowersService {
   ) {
     const queryRunner = this.dataSource.createQueryRunner();
     const { topicIds, ...flowerInfo } = createFlowerDto;
-    const topicIdList = Array.isArray(topicIds) ? topicIds : [topicIds];
+    const topicIdList = topicIds
+      ? Array.isArray(topicIds)
+        ? topicIds
+        : [topicIds]
+      : [];
     try {
       queryRunner.startTransaction();
 
@@ -60,8 +64,8 @@ export class FlowersService {
       files.forEach((file) => {
         const image = this.imagesRepository.create({
           createdAt: Utils.getCurrentDate(),
-          fileName: file.filename,
-          fileData: file.buffer,
+          fileName: file.originalname,
+          filePath: file.path,
         });
         const imagePromise = this.imagesRepository.save(image);
         listPromise.push(imagePromise);
@@ -77,7 +81,7 @@ export class FlowersService {
       const savedFlower = await this.flowersRepository.save(newFlower);
 
       // map topic and create flowersTopic instances
-      topicIdList &&
+      topicIdList.length > 0 &&
         (await Promise.all(
           topicIdList.map(async (id: number) => {
             const topic = await this.topicsService.findById(id);
@@ -158,7 +162,10 @@ export class FlowersService {
   }
 
   async findById(id: number) {
-    return this.flowersRepository.findOne({ where: { id, isDeleted: false } });
+    return this.flowersRepository.findOne({
+      where: { id, isDeleted: false },
+      relations: { listImage: true },
+    });
   }
 
   async update(

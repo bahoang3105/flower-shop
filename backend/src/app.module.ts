@@ -1,11 +1,14 @@
 import 'dotenv/config';
+import { join } from 'path';
+import { DataSource } from 'typeorm';
 import { Module } from '@nestjs/common';
+import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AuthModule } from './modules/auth/auth.module';
-import { DataSource } from 'typeorm';
+import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TopicsModule } from './modules/topics/topics.module';
 import { FlowersModule } from './modules/flowers/flowers.module';
 import { WebInfosModule } from './modules/web-infos/web-infos.module';
@@ -41,6 +44,13 @@ import { Image } from './modules/images/entities/image.entity';
     WebInfosModule,
     UsersModule,
     GuestPhonesModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'images'),
+      serveRoot: '/images/',
+    }),
+    MulterModule.register({
+      dest: './images',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

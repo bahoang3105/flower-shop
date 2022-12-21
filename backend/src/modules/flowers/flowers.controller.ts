@@ -10,7 +10,10 @@ import {
   UseInterceptors,
   UseGuards,
   Query,
+  Res,
 } from '@nestjs/common';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { FlowersService } from './flowers.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
 import { UpdateFlowerDto } from './dto/update-flower.dto';
@@ -34,7 +37,20 @@ export class FlowersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(
+    FilesInterceptor('files', 10, {
+      storage: diskStorage({
+        destination: './images',
+        filename: (req, file, callback) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return callback(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    })
+  )
   create(
     @Body() createFlowerDto: CreateFlowerDto,
     @UploadedFiles() files: Array<Express.Multer.File>

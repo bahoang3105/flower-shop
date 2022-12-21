@@ -34,3 +34,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# images
+/backend/images
+
+# package log
+package.lock
+yarn.lock

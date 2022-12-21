@@ -11,12 +11,16 @@ import * as expressBasicAuth from 'express-basic-auth';
 import { AllExceptionFilter } from './common/exception/exception.filter';
 import { ValidationPipe } from './common/validation/validation.pipe';
 import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: process.env.LOG_LEVEL.split(',') as LogLevel[],
     cors: true,
   });
+
+  app.useStaticAssets(join(__dirname, '..', 'images'));
 
   app.startAllMicroservices();
 
