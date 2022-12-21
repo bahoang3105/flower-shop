@@ -11,22 +11,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
 import { VALUE } from 'src/common/constants';
+import { Utils } from 'src/common/utils';
 import { Brackets, DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
+import { Image } from '../images/entities/image.entity';
 import { TopicsService } from '../topics/topics.service';
 import { CreateFlowerDto } from './dto/create-flower.dto';
 import { SearchFlowerDto } from './dto/search-flower.dto';
 import { UpdateFlowerDto } from './dto/update-flower.dto';
 import { Flower } from './entities/flower.entity';
 
-const testLink =
-  'https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80';
 @Injectable()
 export class FlowersService {
   private logger: Logger = new Logger(FlowersService.name);
   constructor(
     @InjectRepository(Flower) private flowersRepository: Repository<Flower>,
+    @InjectRepository(Image) private imagesRepository: Repository<Image>,
     @Inject(forwardRef(() => TopicsService))
     private topicsService: TopicsService,
     @Inject(forwardRef(() => FlowerTopicService))
@@ -43,6 +44,7 @@ export class FlowersService {
     const topicIdList = Array.isArray(topicIds) ? topicIds : [topicIds];
     try {
       queryRunner.startTransaction();
+
       // check files length and file size
       if (files.length > VALUE.MAX_FILES_LENGTH) {
         throw new HttpException('E3', HttpStatus.BAD_REQUEST);
@@ -52,13 +54,28 @@ export class FlowersService {
           throw new HttpException('E4', HttpStatus.BAD_REQUEST);
         }
       });
+
+      // save images
+      const listPromise: Promise<Image>[] = [];
+      files.forEach((file) => {
+        const image = this.imagesRepository.create({
+          createdAt: Utils.getCurrentDate(),
+          fileName: file.filename,
+          fileData: file.buffer,
+        });
+        const imagePromise = this.imagesRepository.save(image);
+        listPromise.push(imagePromise);
+      });
+      const listImage = await Promise.all(listPromise);
+
       // create flower instance
       const newFlower = this.flowersRepository.create({
         ...flowerInfo,
-        createdAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        listImage: [testLink],
+        createdAt: Utils.getCurrentDate(),
+        listImage: listImage,
       });
       const savedFlower = await this.flowersRepository.save(newFlower);
+
       // map topic and create flowersTopic instances
       topicIdList &&
         (await Promise.all(
@@ -178,7 +195,7 @@ export class FlowersService {
           (await this.flowersRepository.save({
             ...currentInfo,
             ...flowerInfo,
-            listImage: !!listImage ? listSrcImage : [],
+            // listImage: !!listImage ? listSrcImage : [],
           }))
       );
     } catch (e) {

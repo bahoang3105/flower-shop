@@ -1,7 +1,6 @@
 import { Logger } from '@nestjs/common';
 import ObjectID from 'bson-objectid';
 import { Types } from 'mongoose';
-import BigNumber from 'bignumber.js';
 const CryptoJS = require('crypto-js');
 
 export class Utils {
@@ -45,21 +44,6 @@ export class Utils {
    */
   public static toObjectIds(strList: string[]): Types.ObjectId[] {
     return strList.map((str) => this.toObjectId(str));
-  }
-
-  /**
-   * Convert price
-   * @param {any} value
-   * @param {number} coinDecimal
-   * @return {string}
-   */
-  public static convertPrice(value, coinDecimal = 18): string {
-    BigNumber.config({
-      EXPONENTIAL_AT: 100,
-    });
-    return new BigNumber(value)
-      .multipliedBy(new BigNumber(Math.pow(10, coinDecimal)))
-      .toString();
   }
 
   /**
@@ -178,5 +162,14 @@ export class Utils {
       pagingOptions.projection = query.projection;
     }
     return model.aggregatePaginate(model.aggregate(pipe), pagingOptions);
+  }
+
+
+  /**
+   * Get string current date to save in database
+   * @returns {string}
+   */
+  public static getCurrentDate(): string {
+    return new Date().toISOString().slice(0, 19).replace('T', ' ');
   }
 }

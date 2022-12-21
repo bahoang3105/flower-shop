@@ -1,4 +1,5 @@
 import { FlowerTopic } from 'src/modules/flower-topic/entities/flower-topic.entity';
+import { Image } from 'src/modules/images/entities/image.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -15,8 +16,8 @@ export class Flower {
   @Column({ nullable: true })
   size: string;
 
-  @Column('simple-array')
-  listImage: string[];
+  @OneToMany(() => Image, (image) => image.flower)
+  listImage: Image[];
 
   @Column({ nullable: true })
   quantity: number;
