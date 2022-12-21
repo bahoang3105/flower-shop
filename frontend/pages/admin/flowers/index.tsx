@@ -20,7 +20,11 @@ export default function Flowers() {
   const [sortValue, setSortValue] = useState<string>(SORT_TYPE.ASC);
   const { data } = useGetFlowers({ params: { ...params, limit: pageSize, page, sortField, sortValue } });
   const tableData = useMemo(() => {
-    return data?.items?.map((flower: any) => ({ ...flower, key: flower.id, thumbnail: flower.listImage[0]?.filePath }));
+    return data?.items?.map((flower: any) => ({
+      ...flower,
+      key: flower.id,
+      thumbnail: process.env.NEXT_PUBLIC_WEB_URL + flower.listImage[0]?.filePath,
+    }));
   }, [data]);
 
   const handleChange = (pagination: any, filters: any, sorter: any): void => {

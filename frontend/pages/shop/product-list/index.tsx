@@ -69,7 +69,11 @@ function ProductList({ topicIds, keyword }: any) {
   }, [topicList, filter]);
 
   const flowerList = useMemo(() => {
-    return data?.items?.map((flower: any) => ({ ...flower, key: flower.id, thumbnail: flower.listImage[0]?.filePath }));
+    return data?.items?.map((flower: any) => ({
+      ...flower,
+      key: flower.id,
+      thumbnail: process.env.NEXT_PUBLIC_WEB_URL + flower.listImage[0]?.filePath,
+    }));
   }, [data]);
 
   const onClickTagItem = (productTypeId: string) => {

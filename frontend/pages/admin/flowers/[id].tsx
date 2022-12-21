@@ -16,7 +16,8 @@ import ModalConfirmFlower from '@components//pages/flower/ModalConfirm';
 import showMessage from '@components//Message';
 import { TYPE_MESSAGE } from 'constants/common';
 import { WEB_URL } from 'constants/routes';
-import ImgCrop from 'antd-img-crop';
+import dynamic from 'next/dynamic';
+const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
 
 export default function DetailFlower() {
   const router = useRouter();
@@ -78,7 +79,11 @@ export default function DetailFlower() {
     setisEdit(true);
   };
   const handlePreview = async (file: any) => {
-    const src: any = await getSrcFromFile(file);
+    if (file.url) {
+      window.open(file.url);
+      return;
+    }
+    const src: any = await getSrcFromFile(file.originFileObj);
     const imgWindow = window.open(src);
     if (imgWindow) {
       const image = new Image();
@@ -134,7 +139,10 @@ export default function DetailFlower() {
 
   useEffect(() => {
     setListImage(
-      data?.flower?.listImage?.map((srcImage: string, index: number) => ({ uid: index - 1, url: srcImage })) || [],
+      data?.flower?.listImage?.map((srcImage: any, index: number) => ({
+        uid: index - 1,
+        url: process.env.NEXT_PUBLIC_WEB_URL + srcImage.filePath,
+      })) || [],
     );
   }, [data]);
 
@@ -148,7 +156,7 @@ export default function DetailFlower() {
       </Row>
       <br />
       <Row gutter={40}>
-        <Col span={12}>
+        <Col span={8}>
           <Row className='flower-detail__preview' onMouseEnter={showListThumbnail} onMouseLeave={hideListThumbnail}>
             {listImage[curThumbnail] && <ImageAntd src={listImage[curThumbnail].url} preview={false} />}
             <div
@@ -156,7 +164,7 @@ export default function DetailFlower() {
                 show: displayListThumbnail,
               })}
             >
-              <Slider curSlide={curThumbnail} setCurSlide={setCurThumbnail} lastSlide={listImage.length}>
+              <Slider curSlide={curThumbnail} setCurSlide={setCurThumbnail} lastSlide={listImage.length - 1}>
                 {renderListImage()}
               </Slider>
             </div>
@@ -178,7 +186,7 @@ export default function DetailFlower() {
                     multiple={true}
                     fileList={listImage}
                     onChange={handleChangeListImage}
-                    onPreview={({ originFileObj }) => handlePreview(originFileObj)}
+                    onPreview={(image) => handlePreview(image)}
                     showUploadList={{
                       showDownloadIcon: false,
                       showPreviewIcon: true,
@@ -195,7 +203,7 @@ export default function DetailFlower() {
             </Collapse>
           </Row>
         </Col>
-        <Col span={12}>
+        <Col span={16}>
           <div className='flower-detail__id'>#{formatNumber(Number(id))}</div>
           {data?.flower && (
             <CreateFlowerForm form={form} disabled={!isEdit} onFinish={handleSubmitEdit} initialValues={flowerInfo} />
