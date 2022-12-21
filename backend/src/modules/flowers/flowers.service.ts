@@ -65,7 +65,7 @@ export class FlowersService {
         const image = this.imagesRepository.create({
           createdAt: Utils.getCurrentDate(),
           fileName: file.originalname,
-          filePath: file.path,
+          filePath: '/' + file.path,
         });
         const imagePromise = this.imagesRepository.save(image);
         listPromise.push(imagePromise);
@@ -142,6 +142,7 @@ export class FlowersService {
           { topicIds }
         );
       }
+      queryBuilder.leftJoinAndSelect('flower.listImage', 'image');
       queryBuilder.orderBy(sortField, sortValue);
       return ApiOk(await paginate(queryBuilder, { limit, page }));
     } catch (e) {
