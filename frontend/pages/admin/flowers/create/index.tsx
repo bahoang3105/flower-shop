@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import ImgCrop from 'antd-img-crop';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { PlusOutlined } from '@ant-design/icons';
@@ -17,6 +16,8 @@ import { formatNumber, getSrcFromFile } from 'utils/common';
 import { useCreateFlower } from 'hooks/flower';
 import { WEB_URL } from 'constants/routes';
 import { TYPE_MESSAGE } from 'constants/common';
+import dynamic from 'next/dynamic';
+const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
 
 const INITIAL_VALUES = {
   name: '',
