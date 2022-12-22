@@ -1,11 +1,11 @@
-import { Col, Form, FormInstance, Input, Row, Select } from "antd";
-import { useGetTopics } from "hooks/topic";
-import InputNumber from "../FormItem/InputNumber";
+import { Col, Form, FormInstance, Input, Row, Select } from 'antd';
+import { useGetTopics } from 'hooks/topic';
+import InputNumber from '../FormItem/InputNumber';
 
 export const SIZE_OPTIONS = [
-  { value: "Nhỏ", label: "Nhỏ" },
-  { value: "Trung bình", label: "Trung bình" },
-  { value: "Lớn", label: "Lớn" },
+  { value: 'Nhỏ', label: 'Nhỏ' },
+  { value: 'Trung bình', label: 'Trung bình' },
+  { value: 'Lớn', label: 'Lớn' },
 ];
 
 type PropsType = {
@@ -39,7 +39,7 @@ export default function CreateFlowerForm({
           <label>Tên hoa *</label>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: "Vui lòng nhập tên hoa" }]}
+            rules={[{ required: true, message: 'Vui lòng nhập tên hoa' }]}
           >
             <Input placeholder="Tên hoa" autoComplete="off" maxLength={512} />
           </Form.Item>
@@ -60,14 +60,14 @@ export default function CreateFlowerForm({
           <label>Giá *</label>
           <Form.Item
             name="price"
-            rules={[{ required: true, message: "Vui lòng nhập giá hoa" }]}
+            rules={[{ required: true, message: 'Vui lòng nhập giá hoa' }]}
           >
             <InputNumber
               placeholder="Giá hoa"
               numberDigitsAfter={0}
-              value={form.getFieldValue("price")}
+              value={form.getFieldValue('price')}
               handleChangeValue={(value: string) =>
-                form.setFieldValue("price", value)
+                form.setFieldValue('price', value)
               }
             />
           </Form.Item>
@@ -79,9 +79,9 @@ export default function CreateFlowerForm({
               placeholder="Số lượng hoa"
               numberDigitsAfter={0}
               numberDigitsBefore={6}
-              value={form.getFieldValue("quantity")}
+              value={form.getFieldValue('quantity')}
               handleChangeValue={(value: string) =>
-                form.setFieldValue("quantity", value)
+                form.setFieldValue('quantity', value)
               }
             />
           </Form.Item>
@@ -90,12 +90,11 @@ export default function CreateFlowerForm({
           <label>Phân loại hoa</label>
           <Form.Item name="topicIds">
             <Select mode="multiple" placeholder="Phân loại hoa">
-              {topicList?.length &&
-                topicList?.data?.map((topic: any) => (
-                  <Select.Option key={topic.id} value={topic.id}>
-                    {topic.name}
-                  </Select.Option>
-                ))}
+              {topicList?.data?.items?.map((topic: any) => (
+                <Select.Option key={topic.id} value={topic.id}>
+                  {topic.name}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>

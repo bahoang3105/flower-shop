@@ -1,13 +1,17 @@
 .layout {
   &__logo {
+    color: rgb(204, 204, 204);
+    font-size: 20px;
     justify-content: center;
     align-items: center;
     display: flex;
     height: 60px;
+    font-weight: 600;
   }
   &__header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     &__expand {
       -webkit-filter: grayscale(1) invert(1);
       filter: grayscale(1) invert(1);

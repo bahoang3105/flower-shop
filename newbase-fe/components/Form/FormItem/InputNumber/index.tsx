@@ -8,10 +8,12 @@ const InputNumber: FC<{
   numberDigitsBefore?: number;
   numberDigitsAfter?: number;
   autoComplete?: string;
+  onKeyDown?: any;
 }> = ({
   placeholder,
   value,
   handleChangeValue,
+  onKeyDown,
   numberDigitsBefore = 12,
   numberDigitsAfter = 3,
   autoComplete = 'off',
@@ -27,7 +29,9 @@ const InputNumber: FC<{
       const splitValue = value?.split(dot);
       const dotPosition = value?.indexOf(dot);
       if (value?.indexOf(dot) === 0) {
-        handleChangeValue('0'.concat('.').concat(splitValue[1].substring(0, numberDigitsAfter)));
+        handleChangeValue(
+          '0'.concat('.').concat(splitValue[1].substring(0, numberDigitsAfter))
+        );
         return;
       }
       if (value?.startsWith('0') && !value?.startsWith('0.')) {
@@ -40,7 +44,10 @@ const InputNumber: FC<{
         return;
       } else {
         const handledValue = splitValue[0]
-          .substring(0, dotPosition < numberDigitsBefore ? dotPosition : numberDigitsBefore)
+          .substring(
+            0,
+            dotPosition < numberDigitsBefore ? dotPosition : numberDigitsBefore
+          )
           .concat('.')
           .concat(splitValue[1].substring(0, numberDigitsAfter));
         handleChangeValue(handledValue);
@@ -53,7 +60,12 @@ const InputNumber: FC<{
   const handleKeyDown = (e: any) => {
     try {
       const value = e.target.value;
-      if (!listNumberKey.includes(e.key) && !extensionKey.includes(e.key) && e.key !== backspace && e.key !== dot) {
+      if (
+        !listNumberKey.includes(e.key) &&
+        !extensionKey.includes(e.key) &&
+        e.key !== backspace &&
+        e.key !== dot
+      ) {
         e.preventDefault();
       }
       if (listNumberKey.includes(e.key)) {
@@ -65,12 +77,16 @@ const InputNumber: FC<{
       }
     } catch (error) {
       console.error(e);
+    } finally {
+      onKeyDown && onKeyDown(e);
     }
   };
   const handleBlur = (e: any) => {
     try {
       const value = e.target.value;
-      handleChangeValue(value ? (isNaN(Number(value)) ? '' : Number(value)) : '');
+      handleChangeValue(
+        value ? (isNaN(Number(value)) ? '' : Number(value)) : ''
+      );
     } catch (error) {
       console.error(error);
     }

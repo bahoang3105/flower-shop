@@ -26,7 +26,7 @@ function RecommendProduct(props: any) {
               >
                 <a>
                   <div className='recommend-product__list__item__thumbnail-img'>
-                    <img src={listImage[0]} alt='' />
+                    <img src={listImage[0].filePath} alt='' />
                   </div>
                   <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
                   <div className='recommend-product__list__item__price centrelize-text'>From ${price}</div>
