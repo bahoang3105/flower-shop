@@ -15,7 +15,7 @@ import { useCreateFlower } from "hooks/flower";
 import { WEB_URL } from "constants/routes";
 import { TYPE_MESSAGE } from "constants/common";
 import dynamic from "next/dynamic";
-// const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
+const ImgCrop = dynamic(import("antd-img-crop"), { ssr: false });
 
 const INITIAL_VALUES = {
   name: "",
@@ -147,19 +147,21 @@ export default function CreateFlower() {
                     <span>Tải lên</span>
                   </div>
                 )}
-                {/* <ImgCrop grid rotate>
+                <ImgCrop grid rotate>
                   <Upload
-                    className='create-flower-form__thumbnail__upload'
-                    listType='picture-card'
-                    accept='.jpg, .jpeg, .png, .gif'
+                    className="create-flower-form__thumbnail__upload"
+                    listType="picture-card"
+                    accept=".jpg, .jpeg, .png, .gif"
                     multiple={true}
                     fileList={thumbnail ? [thumbnail] : []}
                     onChange={handleChangeThumbnail}
-                    onPreview={({ originFileObj }) => handlePreview(originFileObj)}
+                    onPreview={({ originFileObj }) =>
+                      handlePreview(originFileObj)
+                    }
                   >
                     <div ref={uploadRef} />
                   </Upload>
-                </ImgCrop> */}
+                </ImgCrop>
               </div>
               {errorThumbnail && (
                 <div
@@ -172,21 +174,23 @@ export default function CreateFlower() {
             </Col>
             <Col span={24} style={{ marginBottom: 20 }}>
               <label>Một số ảnh khác</label>
-              {/* <ImgCrop grid rotate>
+              <ImgCrop grid rotate>
                 <Upload
-                  listType='picture-card'
-                  accept='.jpg, .jpeg, .png, .gif'
+                  listType="picture-card"
+                  accept=".jpg, .jpeg, .png, .gif"
                   multiple={true}
                   fileList={listImage}
                   onChange={handleChangeListImage}
-                  onPreview={({ originFileObj }) => handlePreview(originFileObj)}
+                  onPreview={({ originFileObj }) =>
+                    handlePreview(originFileObj)
+                  }
                 >
                   <div>
                     <PlusOutlined />
                     <div style={{ marginTop: 8 }}>Tải lên</div>
                   </div>
                 </Upload>
-              </ImgCrop> */}
+              </ImgCrop>
             </Col>
           </Row>
           <CreateFlowerForm

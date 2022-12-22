@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
-// import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import {
   Col,
@@ -28,7 +28,7 @@ import showMessage from "components//Message";
 import { TYPE_MESSAGE } from "constants/common";
 import { WEB_URL } from "constants/routes";
 import dynamic from "next/dynamic";
-// const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
+const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
 
 export default function DetailFlower() {
   const router = useRouter();
@@ -246,7 +246,7 @@ export default function DetailFlower() {
                 }
                 key="1"
               >
-                {/* <ImgCrop grid rotate>
+                <ImgCrop grid rotate>
                   <Upload
                     listType='picture-card'
                     accept='.jpg, .jpeg, .png, .gif'
@@ -265,7 +265,7 @@ export default function DetailFlower() {
                       <div style={{ marginTop: 8 }}>Tải lên</div>
                     </div>
                   </Upload>
-                </ImgCrop> */}
+                </ImgCrop>
               </Collapse.Panel>
             </Collapse>
           </Row>
