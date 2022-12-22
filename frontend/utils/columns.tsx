@@ -109,3 +109,40 @@ export const flowerListColumns = () => [
     render: (props: any) => <Link href={WEB_URL.MANAGE_FLOWERS + '/' + props.id}>Xem chi tiết</Link>,
   },
 ];
+
+export const topicListColumns = () => [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+    width: '25px',
+    render: (id: number) => <Row wrap={false}>{formatNumber(id)}</Row>,
+  },
+  {
+    title: 'Tên loại hoa',
+    dataIndex: 'name',
+    key: 'name',
+    width: '500px',
+  },
+  {
+    title: 'Mô tả',
+    dataIndex: 'description',
+    key: 'description',
+    width: '500px',
+  },
+  {
+    title: 'Thời điểm tạo',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    sorter: true,
+    sortField: 'flower.createdAt',
+    width: '300px',
+    render: (createdAt: string) => <div>{moment(new Date(createdAt)).format(DATE_FORMAT.FULL_TIME)}</div>,
+  },
+  {
+    title: '',
+    key: 'detail',
+    width: '100px',
+    render: (props: any) => <Link href={WEB_URL.MANAGE_TOPICS + '/' + props.id}>Xem chi tiết</Link>,
+  },
+];

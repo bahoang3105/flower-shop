@@ -8,10 +8,12 @@ const InputNumber: FC<{
   numberDigitsBefore?: number;
   numberDigitsAfter?: number;
   autoComplete?: string;
+  onKeyDown?: any;
 }> = ({
   placeholder,
   value,
   handleChangeValue,
+  onKeyDown,
   numberDigitsBefore = 12,
   numberDigitsAfter = 3,
   autoComplete = 'off',
@@ -65,6 +67,8 @@ const InputNumber: FC<{
       }
     } catch (error) {
       console.error(e);
+    } finally {
+      onKeyDown && onKeyDown(e);
     }
   };
   const handleBlur = (e: any) => {

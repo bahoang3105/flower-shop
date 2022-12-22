@@ -65,7 +65,7 @@ export class FlowersService {
         const image = this.imagesRepository.create({
           createdAt: Utils.getCurrentDate(),
           fileName: file.originalname,
-          filePath: '/' + file.path,
+          filePath: process.env.IMAGE_URL + '/' + file.path,
         });
         const imagePromise = this.imagesRepository.save(image);
         listPromise.push(imagePromise);

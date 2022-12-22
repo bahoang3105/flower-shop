@@ -141,7 +141,7 @@ export default function DetailFlower() {
     setListImage(
       data?.flower?.listImage?.map((srcImage: any, index: number) => ({
         uid: index - 1,
-        url: process.env.NEXT_PUBLIC_WEB_URL + srcImage.filePath,
+        url: srcImage.filePath,
       })) || [],
     );
   }, [data]);

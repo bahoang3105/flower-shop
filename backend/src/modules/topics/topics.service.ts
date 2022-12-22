@@ -1,7 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
-import { DataSource, Repository } from 'typeorm';
+import { Utils } from 'src/common/utils';
+import { Brackets, DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { FlowersService } from '../flowers/flowers.service';
@@ -26,7 +28,10 @@ export class TopicsService {
     try {
       queryRunner.startTransaction();
       // create new topic
-      const newTopic = this.topicsRepository.create(topicInfo);
+      const newTopic = this.topicsRepository.create({
+        ...topicInfo,
+        createdAt: Utils.getCurrentDate(),
+      });
       const savedTopic = await this.topicsRepository.save(newTopic);
       // map flower and create flowerTopic instances
       flowerIds &&
@@ -101,7 +106,13 @@ export class TopicsService {
     try {
       const queryBuilder = this.topicsRepository
         .createQueryBuilder('topic')
-        .where('topic.name like :keyword', { keyword: `%${keyword}%` })
+        .where(
+          new Brackets((qb) => {
+            qb.where('topic.name like :keyword', {
+              keyword: `%${keyword}%`,
+            }).orWhere('topic.id like :keyword', { keyword: `%${keyword}%` });
+          })
+        )
         .andWhere('topic.isDeleted = false');
       if (flowersPerTopic > 0) {
         queryBuilder
@@ -117,12 +128,7 @@ export class TopicsService {
             'flower.isDeleted = false'
           );
       }
-      const topics = await queryBuilder
-        .orderBy(sortField, sortValue)
-        .take(limit)
-        .skip(limit * (page - 1))
-        .getMany();
-      return ApiOk(topics);
+      return ApiOk(await paginate(queryBuilder, { limit, page }));
     } catch (e) {
       this.logger.log('=== Search Topic failed ===', e);
       return ApiError('Topic', e);

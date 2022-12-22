@@ -62,14 +62,24 @@ const AdminLayout: FC<{
       logo: <InfoCircleOutlined />,
     },
   ];
-  const getCurrentPage = {
-    [WEB_URL.MANAGE_FLOWERS]: ITEM_KEY.MANAGE_FLOWERS,
-    [WEB_URL.MANAGE_TOPICS]: ITEM_KEY.MANAGE_TOPICS,
-    [WEB_URL.MANEGE_USERS]: ITEM_KEY.MANEGE_USERS,
-    [WEB_URL.MANAGE_ACCOUNT]: ITEM_KEY.MANAGE_ACCOUNT,
-    [WEB_URL.MANAGE_WEB_INFO]: ITEM_KEY.MANAGE_WEB_INFO,
+  const getCurrentPage = (pathname: string) => {
+    if (pathname.includes(WEB_URL.MANAGE_FLOWERS)) {
+      return ITEM_KEY.MANAGE_FLOWERS;
+    }
+    if (pathname.includes(WEB_URL.MANAGE_TOPICS)) {
+      return ITEM_KEY.MANAGE_TOPICS;
+    }
+    if (pathname.includes(WEB_URL.MANEGE_USERS)) {
+      return ITEM_KEY.MANEGE_USERS;
+    }
+    if (pathname.includes(WEB_URL.MANAGE_ACCOUNT)) {
+      return ITEM_KEY.MANAGE_ACCOUNT;
+    }
+    if (pathname.includes(WEB_URL.MANAGE_WEB_INFO)) {
+      return ITEM_KEY.MANAGE_WEB_INFO;
+    }
   };
-  const [currentPage, setCurrentPage] = useState('1');
+  const [currentPage, setCurrentPage] = useState(ITEM_KEY.MANAGE_FLOWERS);
 
   const handleClickItem = (route: string, keyPage: string) => {
     setCurrentPage(keyPage);
@@ -106,8 +116,8 @@ const AdminLayout: FC<{
   };
 
   useEffect(() => {
-    setCurrentPage(getCurrentPage[router.pathname]);
-  }, []);
+    setCurrentPage(getCurrentPage(router.pathname) || ITEM_KEY.MANAGE_FLOWERS);
+  }, [router.pathname]);
 
   return (
     <Spin indicator={<LoadingIcon />} spinning={false}>

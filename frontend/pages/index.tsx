@@ -31,7 +31,7 @@ function RecommendProductWrapper() {
 
   return (
     <>
-      {topicList?.data?.map((data: any) => {
+      {topicList?.data?.items?.map((data: any) => {
         return <RecommendProduct data={data} />;
       })}
       <div className='recommend-product__group__see-more-btn center-flex-item cursor-pointer'>

@@ -51,12 +51,23 @@ export default function CreateFlower() {
     return URL.createObjectURL(thumbnail.originFileObj);
   }, [thumbnail]);
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = () => {
     if (!thumbnail) {
       setErrorThumbnail(true);
     } else {
       setErrorThumbnail(false);
-      const { topicIds, ...info } = values;
+      const fieldErrorIndex = form.getFieldsError().findIndex((field) => field.errors.length > 0);
+      if (fieldErrorIndex < 0) {
+        setOpen(true);
+      }
+    }
+  };
+  const handleCreateFlower = async () => {
+    if (!thumbnail) {
+      setErrorThumbnail(true);
+    } else {
+      setErrorThumbnail(false);
+      const { topicIds, ...info } = form.getFieldsValue();
       const formData = new FormData();
       const imageFiles = listImage.map((image: any) => image.originFileObj);
       const files = [thumbnail.originFileObj, ...imageFiles];
@@ -69,14 +80,6 @@ export default function CreateFlower() {
         }
       });
       await createFlower(formData);
-    }
-  };
-  const handleCreateFlower = () => {
-    form.submit();
-    if (!thumbnail) {
-      setErrorThumbnail(true);
-    } else {
-      setErrorThumbnail(false);
     }
   };
   const handleChangeThumbnail = (info: any) => {
@@ -178,7 +181,7 @@ export default function CreateFlower() {
             </Col>
           </Row>
           <CreateFlowerForm form={form} initialValues={INITIAL_VALUES} onFinish={handleSubmit} />
-          <AppButton text='Thêm mới' variant='primary' onClick={() => setOpen(true)} />
+          <AppButton text='Thêm mới' variant='primary' onClick={form.submit} />
         </Col>
         <Col xxl={6} xl={7} lg={8} className='create-flower-preview'>
           <section>

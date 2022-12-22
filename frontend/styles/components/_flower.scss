@@ -125,3 +125,10 @@
     }
   }
 }
+
+.topic-form {
+  .ant-select-selection-item,
+  .ant-select-selection-item-content {
+    height: fit-content;
+  }
+}

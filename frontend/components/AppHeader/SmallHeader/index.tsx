@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import TextInput from '@components//AppInput/TextInput';
 import ImageSvg from 'public/svg';
-import { Collapse, Drawer, Image } from 'antd';
+import { Drawer, Image } from 'antd';
 import MenuIcon from 'public/svg/menu_icon';
 import { NAVBAR_LIST } from '..';
-
-const { Panel } = Collapse;
 
 const SmallHeader = ({ onSubmitSearch, setSearchText, searchText }: any) => {
   const [showMenu, setShowMenu] = useState(false);
