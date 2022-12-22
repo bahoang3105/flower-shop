@@ -1,0 +1,69 @@
+{
+  "common": {
+    "about": "About",
+    "team": "Team",
+    "partnersInvestors": "Partners/Investors",
+    "dadToken": "DAD Token Utility",
+    "roadMap": "Roadmap",
+    "smartContractAudit": "Smart Contract Audit",
+    "diamondMarketplace": "Diamond Marketplace",
+    "nftArtGallery": "NFT Art Gallery",
+    "faq": "FAQ",
+    "teamsAndConditions": "Teams And Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "copyright": "@2022 All Rights Reserved by Diamond Alpha ",
+    "marketplace": "Marketplace",
+    "resources": "Resources",
+    "fNftPools": "F-NFT Pools",
+    "tieringPool": "Tiering Pool",
+    "comingSoon": "(Coming Soon)",
+    "connectWallet": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "days": "day(s)",
+    "none": "None",
+    "seeMore": "See more",
+    "preparation": "Preparation",
+    "approve": "Approve",
+    "enterAmount": "Enter Amount",
+    "confirmation": "Confirmation",
+    "undefined": "undefined"
+  },
+  "header": {
+    "undefined": "undefined"
+  },
+  "footer": {
+    "projectFeatures": "Project Features",
+    "undefined": "undefined"
+  },
+  "fNftPool": {
+    "myFNftPools": "My F-NFT Pools",
+    "introduction": "<span> Each NFT Pool you see here below represents a batch of diamond seeds. </span>\n<span> In order to participate, users have to hold a specific amount of DAD tokens. The amount of tokens you hold determines your tier.\n</span>\n<span>Your tier determines how much Fractional NFTs you can purchase from each pool.\n</span>\n<span>Before you purchase, choose the path which you wish to partake in and the Series of NFT Pools which you prefer. Every series is a surprise. \n</span>\n<span>Purchasing these Fractional NFTs allows users to benefit in the journey of growing diamond seeds into a rough diamond.</span>",
+    "introductionTitle": "Introduction",
+    "viewHistorical": "View all Diamond Seed Historical Reports",
+    "scopeSerires": "Horoscope Series",
+    "undefined": "undefined"
+  },
+  "staking": {
+    "myStakingHistory": "My Staking History",
+    "undefined": "undefined"
+  },
+  "tieringPool": {
+    "totalValueLocked": "Total Value Locked",
+    "myStakingBalance": "My Staking Balance",
+    "connectToView": "Connect Wallet To View",
+    "stake": "Stake",
+    "unStake": "Unstake",
+    "history": "History",
+    "historyNotice": "Your staking and unstaking history in the last {{lastDays}} days:",
+    "stakingHistory": "<span>&#60;staking, {{time}}&#62; </span><span>Value: {{value}} - Balance: {{balance}}</span>",
+    "unStakingHistory": "<span>&#60;unstaking, {{time}}&#62; </span><span>Value: {{value}} - Balance: {{balance}}</span>",
+    "undefined": "undefined"
+  },
+  "table": {
+    "dadRequired": "DAD Required",
+    "stakedDaysRequired": "Staked days required\nbefore pool opens",
+    "allocationType": "Allocation Type",
+    "lockDuration": "Lock Duration",
+    "withdrawalDelay": "Withdrawal Delay Duration"
+  }
+}

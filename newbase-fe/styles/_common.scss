@@ -1,0 +1,71 @@
+html,
+body {
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  background-color: $color_white_1;
+  color: $color_black_1;
+
+  #root {
+    height: 100%;
+
+    .App {
+      height: 100%;
+    }
+  }
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
+.center-flex-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.display-none {
+  display: none !important;
+}
+.error {
+  font-size: 14px !important;
+  color: #ff4d4f !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.ant-form-item-explain-error {
+  @extend .error;
+}
+
+.app-search {
+  border-color: #4d2c4b;
+  height: 32px;
+  .ant-input {
+    font-size: 12px;
+    line-height: 24px;
+    margin-top: 1px;
+  }
+}
+
+.container {
+  max-width: 1840px;
+  margin: auto;
+  padding: 0 80px;
+  @media only screen and (max-width: 1280px) {
+    padding: 0 40px;
+  }
+  @media only screen and (max-width: 786px) {
+    padding: 0 20px;
+  }
+}
+
+.app_link {
+  cursor: pointer;
+  color: black;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.centrelize-text {
+  text-align: center;
+}

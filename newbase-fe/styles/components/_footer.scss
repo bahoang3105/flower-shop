@@ -1,0 +1,38 @@
+.footer {
+  background-color: #fbf6fd;
+  padding: 68px 0;
+  &__item {
+    text-align: center;
+    margin: 0 auto;
+    width: fit-content;
+    .footer-social-list__item {
+      margin: 12px;
+    }
+  }
+}
+
+.footer-get-in-touch {
+  padding: 16px;
+  border-bottom: 1px solid #4d2c4b;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  color: #25424c;
+}
+
+.copyright {
+  background-color: #4d2c4b;
+  height: 36px;
+  color: $color_white_1;
+  font-size: 12px;
+}
+
+.footer-social-list {
+  flex: 1;
+  margin: 20px 0;
+  display: flex;
+  &__item {
+    flex: 1;
+    text-align: center;
+  }
+}

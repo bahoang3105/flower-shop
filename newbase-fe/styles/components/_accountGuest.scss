@@ -1,0 +1,22 @@
+.account-guest {
+  .my-pagination {
+    margin-top: 24px;
+  }
+  &__delete-button {
+    padding: 0 40px;
+    margin-bottom: 20px;
+  }
+}
+
+.modal-account-content {
+  font-size: 16px;
+  span {
+    font-weight: 700;
+  }
+}
+
+.ant-modal-header {
+  .ant-modal-title {
+    font-size: 18px;
+  }
+}
