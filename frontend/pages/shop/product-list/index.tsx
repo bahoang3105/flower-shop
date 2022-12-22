@@ -72,7 +72,7 @@ function ProductList({ topicIds, keyword }: any) {
     return data?.items?.map((flower: any) => ({
       ...flower,
       key: flower.id,
-      thumbnail: process.env.NEXT_PUBLIC_WEB_URL + flower.listImage[0]?.filePath,
+      thumbnail: flower.listImage[0]?.filePath,
     }));
   }, [data]);
 
