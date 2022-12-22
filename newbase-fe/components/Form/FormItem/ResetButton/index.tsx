@@ -1,4 +1,4 @@
-import { Image } from 'antd';
+import Image from 'next/image';
 import classNames from 'classnames';
 import { Void } from 'constants/type';
 import ReloadIcon from 'public/svg/reload.svg';
@@ -16,7 +16,7 @@ export default function ResetButton({ className, onClick }: PropsType) {
       height={16}
       width={16}
       onClick={onClick}
-      preview={false}
+      alt=''
     />
   );
 }

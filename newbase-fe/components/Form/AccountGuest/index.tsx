@@ -1,4 +1,5 @@
-import { Col, Form, Image, Input, Row } from 'antd';
+import { Col, Form, Input, Row } from 'antd';
+import Image from 'next/image';
 import dayjs from 'dayjs';
 import DatePickerInput from '../FormItem/DatePicker';
 import ResetButton from '../FormItem/ResetButton';
@@ -71,7 +72,7 @@ export default function AccountGuestForm({ setParams }: PropsType) {
               className='search-input'
               placeholder='Tìm kiếm theo SĐT'
               onKeyDown={handleKeyDown}
-              prefix={<Image src={SearchIcon} preview={false} height={16} width={16} />}
+              prefix={<Image src={SearchIcon} height={16} width={16} alt='' />}
               autoComplete='off'
             />
           </Form.Item>

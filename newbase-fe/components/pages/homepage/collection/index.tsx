@@ -63,13 +63,3 @@ export default function FlowerCollection() {
     </>
   );
 }
-
-{
-  /* <div className='flower-collection__first-item'>
-            <div className='flower-collection__first-item__item'>
-              <div className='flower-collection__first-item__item__title center-flex-item'>Bộ sưu tập</div>
-              <img className='flower-collection__first-item__item__main-img' src={PublicImage.banner1} alt='' />
-              <div className='button-buy-now btn__1'>Mua Ngay</div>
-            </div>
-          </div> */
-}

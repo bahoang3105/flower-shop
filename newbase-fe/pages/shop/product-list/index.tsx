@@ -1,7 +1,6 @@
 import {
   createContext,
   ReactElement,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -169,7 +168,7 @@ function ProductItem({
     >
       <div className="product-list__list__item">
         <div className="product-list__list__item__thumbnail">
-          <img
+          <Image
             className="product-list__list__item__thumbnail__main-img"
             src={thumbnail}
             alt={name || ""}

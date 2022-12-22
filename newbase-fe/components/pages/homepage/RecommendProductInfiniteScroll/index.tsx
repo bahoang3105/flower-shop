@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Image, Row } from 'antd';
 import { APP_URL } from 'constants/common';
 import { useGetFlowers } from 'hooks/flower';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ function RecommendProduct(props: any) {
               >
                 <a>
                   <div className='recommend-product__list__item__thumbnail-img'>
-                    <img src={listImage[0].filePath} alt='' />
+                    <Image src={listImage[0].filePath} alt='' />
                   </div>
                   <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
                   <div className='recommend-product__list__item__price centrelize-text'>From ${price}</div>

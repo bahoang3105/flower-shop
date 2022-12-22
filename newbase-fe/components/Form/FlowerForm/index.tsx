@@ -1,4 +1,5 @@
-import { Col, Form, Image, Input, Row } from 'antd';
+import { Col, Form, Input, Row } from 'antd';
+import Image from 'next/image';
 import SearchIcon from 'public/svg/search.svg';
 import InputNumber from '../FormItem/InputNumber';
 import ResetButton from '../FormItem/ResetButton';
@@ -47,9 +48,9 @@ export default function FlowerForm({ setParams }: PropsType) {
               prefix={
                 <Image
                   src={SearchIcon}
-                  preview={false}
                   height={16}
                   width={16}
+                  alt=''
                 />
               }
               autoComplete='off'

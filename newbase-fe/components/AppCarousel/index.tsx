@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import NextBtnSVG from 'public/svg/next-btn';
 import PrevBtnSVG from 'public/svg/prev-btn';
+import { Image } from 'antd';
 
 const NAV_ACTION_KEY = {
   PREV: 'PREV',
@@ -90,7 +91,7 @@ function AppCarousel(props: any) {
                 }}
               >
                 <div>
-                  <img src={url} alt='' />
+                  <Image src={url} alt='' />
                 </div>
               </div>
             );
