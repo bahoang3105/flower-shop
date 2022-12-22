@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
+import NextImage from 'next/image';
 import { PlusOutlined } from '@ant-design/icons';
 import { ReactElement, useMemo, useRef, useState } from 'react';
 import { Col, Form, Image as AntdImage, Row, Upload } from 'antd';
@@ -91,7 +91,7 @@ export default function CreateFlower() {
     const src: any = await getSrcFromFile(file);
     const imgWindow = window.open(src);
     if (imgWindow) {
-      const image = new Image();
+      const image: any = new Image();
       image.src = src;
       imgWindow.document.write(image.outerHTML);
     } else {
@@ -114,12 +114,12 @@ export default function CreateFlower() {
               <div className='create-flower-form__thumbnail'>
                 {!thumbnail && (
                   <>
-                    <AntdImage
-                      wrapperClassName='create-flower-form__thumbnail__upload-icon'
+                    <NextImage
+                      className='create-flower-form__thumbnail__upload-icon'
                       src={ImageSvg.upload}
                       width={120}
                       height={87.32}
-                      preview={false}
+                      alt=''
                     />
                     <p>
                       Tải lên <strong>JPG, JPEG, PNG, GIF</strong> file. Kích thước tối đa&nbsp;
@@ -161,7 +161,7 @@ export default function CreateFlower() {
               )}
             </Col>
             <Col span={24} style={{ marginBottom: 20 }}>
-              <label>Một số ảnh khác</label>
+              <label style={{ lineHeight: '32px' }}>Một số ảnh khác</label>
               <ImgCrop grid rotate>
                 <Upload
                   listType='picture-card'
@@ -192,7 +192,7 @@ export default function CreateFlower() {
                   <AntdImage rootClassName='create-flower-preview__image__img' src={previewThumbnail} preview={false} />
                 ) : (
                   <div className='create-flower-preview__image__default'>
-                    <AntdImage src={ImageSvg.previewImage} height={37} width={64} preview={false} />
+                    <NextImage src={ImageSvg.previewImage} height={37} width={64} alt='' />
                     <div className='create-flower-preview__image__notice'>Hãy tải ảnh đại diện để xem trước</div>
                   </div>
                 )}
