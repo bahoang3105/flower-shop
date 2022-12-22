@@ -1,10 +1,10 @@
 import { ReactElement, useMemo, useRef, useState } from 'react';
 import Admin from '@components//Layout/Admin';
 import SearchIcon from 'public/svg/search.svg';
-import { GetServerSideProps } from 'next';
 import AppButton from '@components//AppButton';
 import { WEB_URL } from 'constants/routes';
-import { Col, Image, Input, Row, Table } from 'antd';
+import { Col, Input, Row, Table } from 'antd';
+import Image from 'next/image';
 import { useGetTopics } from 'hooks/topic';
 import Pagination, { PAGE_SIZE } from '@components//Pagination';
 import { SORT_TYPE } from 'constants/common';
@@ -63,7 +63,7 @@ export default function Topics() {
             className='search-input'
             placeholder='Tìm kiếm theo tên loại hoa, ID'
             onKeyDown={handleKeyDown}
-            prefix={<Image src={SearchIcon} preview={false} height={16} width={16} />}
+            prefix={<Image src={SearchIcon} alt='' height={16} width={16} />}
             autoComplete='off'
           />
         </Col>

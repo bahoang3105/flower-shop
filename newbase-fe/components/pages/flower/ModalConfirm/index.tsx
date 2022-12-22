@@ -1,5 +1,4 @@
 import AppButton from "components//AppButton";
-import EllipsisText from "components//EllipsisText";
 import { Col, Image, Modal, Row, Tooltip } from "antd";
 import { Void } from "constants/type";
 import { formatNumber } from "utils/common";

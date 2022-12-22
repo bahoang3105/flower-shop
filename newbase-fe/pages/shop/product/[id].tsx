@@ -2,7 +2,7 @@ import { ReactElement, useMemo, useState } from "react";
 import PublicLayout from "components//Layout/Public";
 import TagList from "components//TagList";
 import AppBreadcrumb from "components//AppBreadCrumb";
-import { Col, Form, Input, Modal, Row } from "antd";
+import { Col, Form, Image, Input, Modal, Row } from "antd";
 import { useGetDetailFlower, useGetFlowers } from "hooks/flower";
 import AppCarousel from "components//AppCarousel";
 import { useWindowSize } from "hooks/useWindowSize";
@@ -25,7 +25,7 @@ function ProductDetail({ id }: any) {
     return (
       <>
         <div className="product-detail__page-info__main-img">
-          <img src={mainImg} alt="" />
+          <Image src={mainImg?.filePath} preview={false} alt="" />
         </div>
         <AppCarousel
           list={listImage}
@@ -82,7 +82,7 @@ function ProductDetail({ id }: any) {
             return (
               <Col span={24} sm={12} lg={6}>
                 <div className="product-detail__more-item__item">
-                  <img src={listImage[0]} alt="" />
+                  <Image src={listImage[0].filePath} preview={false} alt="" />
                 </div>
                 <p className="product-detail__more-item__item-name">{name}</p>
                 <p className="product-detail__more-item__item-price">

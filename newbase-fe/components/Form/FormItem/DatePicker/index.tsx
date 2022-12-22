@@ -1,4 +1,5 @@
-import { DatePicker, Image } from 'antd';
+import { DatePicker } from 'antd';
+import Image from 'next/image';
 import DatePickerIcon from 'public/svg/date-picker.svg';
 import { DATE_FORMAT } from 'constants/common';
 

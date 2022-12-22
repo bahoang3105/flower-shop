@@ -1,4 +1,3 @@
-import { Inter } from "@next/font/google";
 import { ReactElement, useState } from "react";
 import Image from "next/image";
 import PublicLayout from "components//Layout/Public";
@@ -7,8 +6,6 @@ import RecommendProduct from "components//pages/homepage/RecommendProductInfinit
 import { useGetTopics } from "hooks/topic";
 import ArrowRight from "public/svg/arrow_right";
 import FlowerCollection from "components//pages/homepage/collection";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (

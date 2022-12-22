@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import { ReactElement, useState } from 'react';
-import { Col, Form, Input, Modal, Row } from 'antd';
+import { Col, Form, Image, Input, Modal, Row } from 'antd';
 import Admin from '@components//Layout/Admin';
 import AppButton from '@components//AppButton';
 import BackButton from '@components//BackButton';
 import { useGetFlowers } from 'hooks/flower';
 import { formatNumber } from 'utils/common';
 import showMessage from '@components//Message';
-import { APP_URL, TYPE_MESSAGE } from 'constants/common';
+import { TYPE_MESSAGE } from 'constants/common';
 import { WEB_URL } from 'constants/routes';
 import { useDeleteTopic, useGetDetailTopic, useUpdateTopic } from 'hooks/topic';
 import Link from 'next/link';
@@ -82,7 +81,7 @@ export default function DetailTopic() {
                 >
                   <a>
                     <div className='recommend-product__list__item__thumbnail-img'>
-                      <img src={listImage[0].filePath} alt='' />
+                      <Image src={listImage[0].filePath} alt='' />
                     </div>
                     <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
                     <div className='recommend-product__list__item__price centrelize-text'>

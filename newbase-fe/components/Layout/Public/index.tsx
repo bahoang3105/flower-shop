@@ -5,7 +5,6 @@ import { NextSeo } from "next-seo";
 import Header from "components//AppHeader";
 import Footer from "components//AppFooter";
 import LoadingIcon from "elements/LoadingIcon";
-import ImageSvg from "public/svg";
 
 const META_DESCRIPTION = "Đại lý chuyên bán buôn hoa hồ điệp miền Bắc";
 
@@ -27,8 +26,6 @@ const Layout: FC<{
   className,
   metaDescription = META_DESCRIPTION,
   socialImageUrl,
-  name = "",
-  faviconImageUrl = ImageSvg.miniLogo,
 }) => {
   const defaultPreviewImage = "";
   // 'https://nftify.s3.ap-southeast-1.amazonaws.com/';
@@ -55,10 +52,9 @@ const Layout: FC<{
           }}
           additionalLinkTags={[
             {
-              rel: "icon",
-              type: "image/png",
-              href: (faviconImageUrl || undefined) as any,
-            },
+              rel: 'icon',
+              href: '/static/favicon.ico'
+            }
           ]}
           additionalMetaTags={[
             {
