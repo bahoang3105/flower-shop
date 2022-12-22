@@ -1,7 +1,5 @@
-import { createContext, ReactElement, useContext, useEffect, useMemo, useState } from 'react';
-import { GetServerSideProps } from 'next';
+import { createContext, ReactElement, useEffect, useMemo, useState } from 'react';
 import PublicLayout from '@components//Layout/Public';
-import withServerSideProps from 'hoc/withServerSideProps';
 import AppBreadcrumb from '@components//AppBreadCrumb';
 import { Col, Pagination, Row } from 'antd';
 import { useGetTopics } from 'hooks/topic';

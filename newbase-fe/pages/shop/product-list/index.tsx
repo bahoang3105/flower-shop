@@ -62,8 +62,8 @@ function ProductList({ topicIds, keyword }: any) {
 
   const getProductTypeText = useMemo(() => {
     return (
-      topicList?.data?.length > 0 &&
-      topicList?.data
+      topicList?.data?.items?.length > 0 &&
+      topicList?.data?.items
         ?.filter((topicItem: any) => {
           return filter?.productType?.includes(topicItem?.id);
         })
@@ -78,8 +78,7 @@ function ProductList({ topicIds, keyword }: any) {
     return data?.items?.map((flower: any) => ({
       ...flower,
       key: flower.id,
-      thumbnail:
-        process.env.NEXT_PUBLIC_WEB_URL + flower.listImage[0]?.filePath,
+      thumbnail: flower.listImage[0]?.filePath,
     }));
   }, [data]);
 

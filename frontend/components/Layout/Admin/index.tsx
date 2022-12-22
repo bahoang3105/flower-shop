@@ -9,7 +9,6 @@ import {
   InfoCircleOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-import { withTranslation } from 'next-i18next';
 import LoadingIcon from 'elements/LoadingIcon';
 import ImageSvg from 'public/svg';
 import { WEB_URL } from 'constants/routes';
@@ -43,12 +42,12 @@ const AdminLayout: FC<{
       logo: <AppstoreAddOutlined />,
     },
     { label: 'Quản lý loại hoa', value: ITEM_KEY.MANAGE_TOPICS, route: WEB_URL.MANAGE_TOPICS, logo: <ShopOutlined /> },
-    {
-      label: 'Quản lý người dùng',
-      value: ITEM_KEY.MANEGE_USERS,
-      route: WEB_URL.MANEGE_USERS,
-      logo: <UsergroupAddOutlined />,
-    },
+    // {
+    //   label: 'Quản lý người dùng',
+    //   value: ITEM_KEY.MANEGE_USERS,
+    //   route: WEB_URL.MANEGE_USERS,
+    //   logo: <UsergroupAddOutlined />,
+    // },
     {
       label: 'Quản lý tài khoản khách',
       value: ITEM_KEY.MANAGE_ACCOUNT,
@@ -163,7 +162,7 @@ const AdminLayout: FC<{
         />
         <Layout className='layout'>
           <Sider trigger={null} collapsible collapsed={collapsed} className='side-wrapper' width={243}>
-            <div className='layout__logo'>Logo</div>
+            <div className='layout__logo'><Image src={ImageSvg.miniLogo} alt='logo' /></div>
             <Menu theme='dark' mode='inline' selectedKeys={[currentPage]} expandIcon={null}>
               {renderListItem()}
             </Menu>
@@ -191,4 +190,4 @@ const AdminLayout: FC<{
   );
 };
 
-export default withTranslation('common')(AdminLayout);
+export default AdminLayout;

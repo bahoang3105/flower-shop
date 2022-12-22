@@ -5,7 +5,6 @@ import { NextSeo } from 'next-seo';
 import Header from '@components//AppHeader';
 import Footer from '@components//AppFooter';
 import LoadingIcon from 'elements/LoadingIcon';
-import { withTranslation } from 'next-i18next';
 import ImageSvg from 'public/svg';
 
 const META_DESCRIPTION = 'Đại lý chuyên bán buôn hoa hồ điệp miền Bắc';
@@ -85,4 +84,4 @@ const Layout: FC<{
   );
 };
 
-export default withTranslation('common')(Layout);
+export default Layout;

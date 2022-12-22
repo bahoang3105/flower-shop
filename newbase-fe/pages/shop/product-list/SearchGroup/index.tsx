@@ -150,7 +150,7 @@ function SearchGroup({ defaultValueInput }: any) {
             >
               <Row>
                 {topicList?.length &&
-                  topicList?.data?.map(
+                  topicList?.data?.items?.map(
                     ({
                       name,
                       id,
