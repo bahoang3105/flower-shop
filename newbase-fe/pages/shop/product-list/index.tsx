@@ -1,22 +1,30 @@
-import { createContext, ReactElement, useContext, useEffect, useMemo, useState } from 'react';
-import PublicLayout from 'components//Layout/Public';
-import AppBreadcrumb from 'components//AppBreadCrumb';
-import { Col, Pagination, Row } from 'antd';
-import { useGetTopics } from 'hooks/topic';
-import SearchGroup, { filterType } from './SearchGroup';
-import { getFlowers } from 'services/flower';
-import { scrollToElement } from 'utils/helper';
-import NoDataImg from 'public/svg/no_data.svg';
-import TagList from 'components//TagList';
-import Link from 'next/link';
-import { APP_URL } from 'constants/common';
-import { isEmpty } from 'lodash';
+import {
+  createContext,
+  ReactElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import PublicLayout from "components//Layout/Public";
+import AppBreadcrumb from "components//AppBreadCrumb";
+import { Col, Pagination, Row } from "antd";
+import { useGetTopics } from "hooks/topic";
+import SearchGroup, { filterType } from "./SearchGroup";
+import { getFlowers } from "services/flower";
+import { scrollToElement } from "utils/helper";
+import NoDataImg from "public/svg/no_data.svg";
+import TagList from "components//TagList";
+import Link from "next/link";
+import { APP_URL } from "constants/common";
+import { isEmpty } from "lodash";
+import Image from "next/image";
 
 export const ProductListContext = createContext({});
 
 function ProductList({ topicIds, keyword }: any) {
   const [filter, setFilter] = useState<filterType>({
-    keyword: '',
+    keyword: "",
     priceRange: { priceFrom: false, priceTo: false },
     productType: [],
     price: 0,
@@ -62,7 +70,7 @@ function ProductList({ topicIds, keyword }: any) {
         ?.map((topicItem: any) => {
           return topicItem?.name;
         })
-        ?.join(' , ')
+        ?.join(" , ")
     );
   }, [topicList, filter]);
 
@@ -70,52 +78,75 @@ function ProductList({ topicIds, keyword }: any) {
     return data?.items?.map((flower: any) => ({
       ...flower,
       key: flower.id,
-      thumbnail: process.env.NEXT_PUBLIC_WEB_URL + flower.listImage[0]?.filePath,
+      thumbnail:
+        process.env.NEXT_PUBLIC_WEB_URL + flower.listImage[0]?.filePath,
     }));
   }, [data]);
 
   const onClickTagItem = (productTypeId: string) => {
-    setFilter((prev: filterType) => ({ ...prev, productType: [productTypeId] }));
+    setFilter((prev: filterType) => ({
+      ...prev,
+      productType: [productTypeId],
+    }));
     fetchProductList({});
     scrollToElement({
-      id: 'product-list__list',
+      id: "product-list__list",
       yOffset: -80,
     });
   };
 
   return (
-    <ProductListContext.Provider value={{ filter, topicList, setFilter, fetchProductList }}>
-      <main className='container product-list'>
+    <ProductListContext.Provider
+      value={{ filter, topicList, setFilter, fetchProductList }}
+    >
+      <main className="container product-list">
         <TagList onClick={onClickTagItem} />
-        <div className='product-list__breadcrum'>
+        <div className="product-list__breadcrum">
           <AppBreadcrumb />
         </div>
-        <div className='product-list__page-title'>TRENDING NOW</div>
-        <div className='product-list__result-number'>
-          Showing <b>{data?.meta?.totalItems}</b> results {getProductTypeText && `for " ${getProductTypeText} "`}
+        <div className="product-list__page-title">TRENDING NOW</div>
+        <div className="product-list__result-number">
+          Showing <b>{data?.meta?.totalItems}</b> results{" "}
+          {getProductTypeText && `for " ${getProductTypeText} "`}
         </div>
-        <div className='product-list__list-container'>
-          <div className='product-list__search-group'>
-            <div className='product-list__search-group__content'>
+        <div className="product-list__list-container">
+          <div className="product-list__search-group">
+            <div className="product-list__search-group__content">
               <SearchGroup defaultValueInput={keyword} />
             </div>
           </div>
-          <Row className='product-list__list' id='product-list__list'>
+          <Row className="product-list__list" id="product-list__list">
             {flowerList?.length > 0 ? (
               flowerList?.map((itemData: any) => {
                 return (
-                  <Col key={itemData?.key} xs={24} sm={12} md={12} lg={8} xl={6}>
+                  <Col
+                    key={itemData?.key}
+                    xs={24}
+                    sm={12}
+                    md={12}
+                    lg={8}
+                    xl={6}
+                  >
                     <ProductItem data={itemData} />
                   </Col>
                 );
               })
             ) : (
-              <div className='product-list__no-data'>
-                <img className='product-list__no-data__main-img' src={NoDataImg} alt='' />
+              <div className="product-list__no-data">
+                <Image
+                  className="product-list__no-data__main-img"
+                  src={NoDataImg}
+                  alt=""
+                />
               </div>
             )}
-            <div className='product-list__pagination'>
-              <Pagination onChange={setPage} showSizeChanger={false} pageSize={12} total={data?.meta?.totalItems} />
+            <div className="product-list__pagination">
+              <Pagination
+                onChange={setPage}
+                showSizeChanger={false}
+                pageSize={12}
+                total={data?.meta?.totalItems}
+              />
             </div>
           </Row>
         </div>
@@ -124,7 +155,11 @@ function ProductList({ topicIds, keyword }: any) {
   );
 }
 
-function ProductItem({ data }: { data: { name: string; price: number; thumbnail: string; id: string | number } }) {
+function ProductItem({
+  data,
+}: {
+  data: { name: string; price: number; thumbnail: string; id: string | number };
+}) {
   const { name, thumbnail, price, id } = data || {};
   return (
     <Link
@@ -133,15 +168,19 @@ function ProductItem({ data }: { data: { name: string; price: number; thumbnail:
         query: { id },
       }}
     >
-      <div className='product-list__list__item'>
-        <div className='product-list__list__item__thumbnail'>
-          <img className='product-list__list__item__thumbnail__main-img' src={thumbnail} alt={name || ''} />
+      <div className="product-list__list__item">
+        <div className="product-list__list__item__thumbnail">
+          <img
+            className="product-list__list__item__thumbnail__main-img"
+            src={thumbnail}
+            alt={name || ""}
+          />
         </div>
-        <div className='product-list__list__item__info'>
-          <p className='product-list__list__item__info__name'>
+        <div className="product-list__list__item__info">
+          <p className="product-list__list__item__info__name">
             <b>{name}</b>
           </p>
-          <p className='product-list__list__item__info__price'>From ${price}</p>
+          <p className="product-list__list__item__info__price">From ${price}</p>
         </div>
       </div>
     </Link>

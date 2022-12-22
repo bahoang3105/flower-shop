@@ -1,4 +1,5 @@
-import { Col, Image, Row } from "antd";
+import { Col, Row } from "antd";
+import Image from "next/image";
 import { APP_URL } from "constants/common";
 import { useWindowSize } from "hooks/useWindowSize";
 import { useRouter } from "next/router";
@@ -21,7 +22,6 @@ export const NAVBAR_LIST = [
 const Header: React.FC<HeaderProps> = () => {
   const { width } = useWindowSize();
   const [smallScreen, setSmallScreen] = useState(false);
-
   useEffect(() => {
     setSmallScreen(width <= MINI_SCREEN);
   }, []);
@@ -60,12 +60,7 @@ const Header: React.FC<HeaderProps> = () => {
         ) : (
           <Row>
             <Col flex="0 0 267px" className="center-flex-item">
-              <Image
-                src={ImageSvg.logo}
-                preview={false}
-                width={267}
-                height={41}
-              />
+              <Image src={ImageSvg.logo} alt="" width={267} height={41} />
             </Col>
             <Col flex="1" className="header__navbar center-flex-item">
               <div className="header__navbar__content">{renderNavBar()}</div>
@@ -79,7 +74,7 @@ const Header: React.FC<HeaderProps> = () => {
                 onPressEnter={handleSearch}
                 prefix={
                   <div onClick={handleSearch}>
-                    <Image src={ImageSvg.search} preview={false} />
+                    <Image src={ImageSvg.search} alt="" />
                   </div>
                 }
               />

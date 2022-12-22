@@ -9,6 +9,8 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
+module.exports = withImages();
+
 module.exports = withPlugins([
   {
     sassOptions: {
@@ -17,13 +19,12 @@ module.exports = withPlugins([
   },
   {
     images: {
-      disableStaticImages: true,
+      disableStaticImages: false,
       domains: [],
       deviceSizes: [375, 720, 1080],
       imageSizes: [300, 600, 900],
     },
   },
-  [withImages],
 ]);
 
 module.exports = nextConfig;

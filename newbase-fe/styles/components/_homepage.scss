@@ -1,7 +1,9 @@
 .homepage {
   &__thumbnail {
     margin-bottom: 100px;
-    .ant-image {
+    .main-img {
+      height: 50vh;
+      object-fit: cover;
       width: 100%;
     }
   }

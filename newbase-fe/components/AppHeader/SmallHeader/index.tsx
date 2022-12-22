@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import TextInput from "components//AppInput/TextInput";
 import ImageSvg from "public/svg";
-import { Collapse, Drawer, Image } from "antd";
+import Image from "next/image";
+import { Collapse, Drawer } from "antd";
 import MenuIcon from "public/svg/menu_icon";
 import { NAVBAR_LIST } from "..";
 
@@ -24,7 +25,7 @@ const SmallHeader = ({ onSubmitSearch, setSearchText, searchText }: any) => {
           onPressEnter={onSubmitSearch}
           prefix={
             <div onClick={onSubmitSearch}>
-              <Image src={ImageSvg.search} preview={false} />
+              <Image src={ImageSvg.search} alt="" />
             </div>
           }
         />

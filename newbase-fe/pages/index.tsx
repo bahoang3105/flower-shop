@@ -1,6 +1,6 @@
 import { Inter } from "@next/font/google";
 import { ReactElement, useState } from "react";
-import { Image } from "antd";
+import Image from "next/image";
 import PublicLayout from "components//Layout/Public";
 import PublicImage from "public/images";
 import RecommendProduct from "components//pages/homepage/RecommendProductInfiniteScroll";
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main className="homepage">
       <div className="homepage__thumbnail">
-        <Image src={PublicImage.banner} preview={false} />
+        <Image className="main-img" src={PublicImage.banner} alt="" />
       </div>
       <FlowerCollection />
       <div className="recommend-product__group">
@@ -32,9 +32,10 @@ function RecommendProductWrapper() {
 
   return (
     <>
-      {topicList?.data?.map((data: any) => {
-        return <RecommendProduct data={data} />;
-      })}
+      {topicList?.lenght &&
+        topicList?.data?.map((data: any) => {
+          return <RecommendProduct data={data} />;
+        })}
       <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
         <span
           onClick={() => {
