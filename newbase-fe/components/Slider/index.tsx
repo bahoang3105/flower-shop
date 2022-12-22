@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { useRef } from "react";
 import classNames from "classnames";
-import Slick from "react-slick";
+// import Slick from "react-slick";
 import LeftArrow from "public/svg/arrow_left_white.svg";
 import RightArrow from "public/svg/arrow_right_white.svg";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
 
 export default function Slider({
   curSlide,
@@ -59,9 +59,9 @@ export default function Slider({
       >
         <Image src={LeftArrow} height={13.2} width={7.78} alt="" />
       </div>
-      <Slick {...defaultSettings()} {...settings} ref={slickRef}>
+      {/* <Slick {...defaultSettings()} {...settings} ref={slickRef}>
         {children}
-      </Slick>
+      </Slick> */}
       <div
         className={classNames("slick-next-custom", {
           "not-allowed": curSlide === lastSlide,
