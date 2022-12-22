@@ -75,7 +75,7 @@ export default function CreateFlowerForm({ form, initialValues, onFinish, disabl
           <label>Phân loại hoa</label>
           <Form.Item name='topicIds'>
             <Select mode='multiple' placeholder='Phân loại hoa'>
-              {topicList?.data?.map((topic: any) => (
+              {topicList?.data?.items?.map((topic: any) => (
                 <Select.Option key={topic.id} value={topic.id}>
                   {topic.name}
                 </Select.Option>

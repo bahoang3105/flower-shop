@@ -17,4 +17,7 @@ export class Topic {
 
   @OneToMany(() => FlowerTopic, (flowerTopic) => flowerTopic.topic)
   flowerTopics!: FlowerTopic[];
+
+  @Column({ nullable: true })
+  createdAt: Date;
 }

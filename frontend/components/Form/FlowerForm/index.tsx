@@ -1,6 +1,6 @@
 import { Col, Form, Image, Input, Row } from 'antd';
 import SearchIcon from 'public/svg/search.svg';
-// import InputNumber from '../FormItem/InputNumber';
+import InputNumber from '../FormItem/InputNumber';
 import ResetButton from '../FormItem/ResetButton';
 
 type PropsType = {
@@ -49,13 +49,14 @@ export default function FlowerForm({ setParams }: PropsType) {
             />
           </Form.Item>
         </Col>
-        {/* <label style={{ marginTop: 5, marginLeft: 24 }}>Giá từ</label>
+        <label style={{ marginTop: 5, marginLeft: 24 }}>Giá từ</label>
         <Col>
           <Form.Item name='priceFrom' className='flower-form__input-number'>
             <InputNumber
               numberDigitsAfter={0}
               value={form.getFieldValue('priceFrom')}
               handleChangeValue={(value: string) => form.setFieldValue('priceFrom', value)}
+              onKeyDown={handleKeyDown}
             />
           </Form.Item>
         </Col>
@@ -66,9 +67,10 @@ export default function FlowerForm({ setParams }: PropsType) {
               numberDigitsAfter={0}
               value={form.getFieldValue('priceTo')}
               handleChangeValue={(value: string) => form.setFieldValue('priceTo', value)}
+              onKeyDown={handleKeyDown}
             />
           </Form.Item>
-        </Col> */}
+        </Col>
         <Col>
           <ResetButton className='account-guest-form__reset' onClick={handleResetForm} />
         </Col>

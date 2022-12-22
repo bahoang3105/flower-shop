@@ -56,8 +56,8 @@ function ProductList({ topicIds, keyword }: any) {
 
   const getProductTypeText = useMemo(() => {
     return (
-      topicList?.data?.length > 0 &&
-      topicList?.data
+      topicList?.data?.items?.length > 0 &&
+      topicList?.data?.items
         ?.filter((topicItem: any) => {
           return filter?.productType?.includes(topicItem?.id);
         })

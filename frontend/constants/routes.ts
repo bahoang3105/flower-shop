@@ -7,6 +7,7 @@ export const WEB_URL = {
   MANAGE_ACCOUNT: '/admin/account',
   MANAGE_WEB_INFO: '/admin/web-info',
   CREATE_FLOWER: '/admin/flowers/create',
+  CREATE_TOPIC: '/admin/topics/create',
 };
 
 export const API_URL = {
@@ -27,9 +28,13 @@ export const QUERY_KEY = {
   ACCOUNT_GUEST: 'accountGuest',
   DELETE_ACCOUNT_GUEST: 'deleteAccountGuest',
   GET_TOPICS: 'getTopics',
+  CREATE_TOPIC: 'createTopic',
   CREATE_FLOWER: 'createFlower',
   GET_FLOWERS: 'getFlowers',
   DETAIL_FLOWER: 'detailFlower',
   UPDATE_FLOWER: 'updateFlower',
   DELETE_FLOWER: 'deleteFlower',
+  DETAIL_TOPIC: 'detailTopic',
+  UPDATE_TOPIC: 'updateTopic',
+  DELETE_TOPIC: 'deleteTopic',
 };

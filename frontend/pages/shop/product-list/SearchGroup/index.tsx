@@ -119,7 +119,7 @@ function SearchGroup({ defaultValueInput }: any) {
               }}
             >
               <Row>
-                {topicList?.data?.map(
+                {topicList?.data?.items?.map(
                   ({ name, id }: { name: string; description: string; id: number; isDelete: boolean }) => {
                     return (
                       <Col key={id} span={24}>
