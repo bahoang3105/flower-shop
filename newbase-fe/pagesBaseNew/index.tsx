@@ -1,4 +1,3 @@
-import { Inter } from "@next/font/google";
 import { ReactElement, useState } from "react";
 import { Image } from "antd";
 import PublicLayout from "components//Layout/Public";
@@ -8,9 +7,7 @@ import { useGetTopics } from "hooks/topic";
 import ArrowRight from "public/svg/arrow_right";
 import FlowerCollection from "components//pages/homepage/collection";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+function Home() {
   return (
     <main className="homepage">
       <div className="homepage__thumbnail">
@@ -59,3 +56,5 @@ export async function getServerSideProps(context: any) {
 Home.getLayout = function getLayout(page: ReactElement) {
   return <PublicLayout>{page}</PublicLayout>;
 };
+
+export default Home;

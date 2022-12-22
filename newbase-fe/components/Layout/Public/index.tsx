@@ -77,7 +77,7 @@ const Layout: FC<{
         />
 
         {!notShowHeader && <Header />}
-        <div>{children}</div>
+        <main>{children}</main>
         {!notShowFooter && <Footer />}
       </div>
     </Spin>

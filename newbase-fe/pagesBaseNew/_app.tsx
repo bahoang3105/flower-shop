@@ -1,37 +1,22 @@
-import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
+
 import "antd/dist/reset.css";
 import "../styles/_app.scss";
-import { ReactElement, ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { getToken } from "services/api";
-
 import HTTP_STATUS_CONSTANTS from "constants/httpStatus";
 import showMessage from "components//Message";
 import { LOCAL_STORAGE, TYPE_MESSAGE } from "constants/common";
 import { useRouter } from "next/router";
 import { WEB_URL } from "constants/routes";
 import AppAuthWrapper from "components//AppAuthWrapper";
-import { NextPage } from "next";
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
+const onBeforeLift = (store: any) => () => {};
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+const MyApp = ({ Component, pageProps }: any) => {
   const router = useRouter();
-  const getLayout = Component.getLayout ?? ((page) => page);
-
-  useEffect(() => {
-    const token = localStorage.getItem(LOCAL_STORAGE.TOKEN);
-    if (token) {
-      getToken(token);
-    }
-  }, []);
-
+  const isClient = typeof window !== "undefined";
+  const getLayout = Component.getLayout ?? ((page: any) => page);
   const handleError = (error: any) => {
     console.log(error);
     if (error?.response?.status === HTTP_STATUS_CONSTANTS.UNAUTHORIZED) {
@@ -54,9 +39,26 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     },
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem(LOCAL_STORAGE.TOKEN);
+    if (token) {
+      getToken(token);
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <AppAuthWrapper>{getLayout(<Component {...pageProps} />)}</AppAuthWrapper>
+      {isClient ? (
+        <AppAuthWrapper>
+          {getLayout(<Component {...pageProps} />)}
+        </AppAuthWrapper>
+      ) : (
+        <AppAuthWrapper>
+          <Component {...pageProps} />
+        </AppAuthWrapper>
+      )}
     </QueryClientProvider>
   );
-}
+};
+
+export default MyApp;
