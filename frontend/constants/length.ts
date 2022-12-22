@@ -1,5 +1,0 @@
-const LENGTH_CONSTANTS = {
-  MAX_LENGTH_INPUT: 256,
-};
-
-export default LENGTH_CONSTANTS;

@@ -2,9 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Spin, Layout, Menu, Dropdown } from 'antd';
 import Image from 'next/image';
 import { NextSeo } from 'next-seo';
-import LogoIcon from 'public/svg/logo.svg';
 import {
-  UsergroupAddOutlined,
   AppstoreAddOutlined,
   ApartmentOutlined,
   ShopOutlined,
