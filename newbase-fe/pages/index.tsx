@@ -29,7 +29,7 @@ function RecommendProductWrapper() {
 
   return (
     <>
-      {topicList?.lenght &&
+      {topicList?.data?.items?.length &&
         topicList?.data?.items?.map((data: any) => {
           return <RecommendProduct data={data} />;
         })}
