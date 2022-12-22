@@ -24,13 +24,11 @@ function RecommendProduct(props: any) {
                   query: { id },
                 }}
               >
-                <a>
-                  <div className='recommend-product__list__item__thumbnail-img'>
-                    <Image src={listImage[0].filePath} alt='' />
-                  </div>
-                  <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
-                  <div className='recommend-product__list__item__price centrelize-text'>From ${price}</div>
-                </a>
+                <div className='recommend-product__list__item__thumbnail-img'>
+                  <Image src={listImage[0].filePath} alt='' />
+                </div>
+                <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
+                <div className='recommend-product__list__item__price centrelize-text'>From ${price}</div>
               </Link>
             </Col>
           );
@@ -45,9 +43,7 @@ function RecommendProduct(props: any) {
             },
           }}
         >
-          <a>
-            See all for {topicName} <ArrowRight />
-          </a>
+          See all for {topicName} <ArrowRight />
         </Link>
       </div>
     </div>

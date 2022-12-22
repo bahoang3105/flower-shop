@@ -48,8 +48,8 @@ export default function FlowerForm({ setParams }: PropsType) {
               prefix={
                 <Image
                   src={SearchIcon}
-                  height={16}
-                  width={16}
+                  height={24}
+                  width={24}
                   alt=''
                 />
               }

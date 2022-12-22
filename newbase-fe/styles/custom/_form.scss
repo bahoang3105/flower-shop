@@ -1,6 +1,9 @@
 .search-input {
   .ant-input-prefix {
-    margin-top: -10px;
+    position: absolute;
+  }
+  input {
+    margin-left: 28px;
   }
 }
 
