@@ -76,11 +76,6 @@ export default function Flowers() {
   );
 }
 
-export async function getServerSideProps(context: any) {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
 Flowers.getLayout = function getLayout(page: ReactElement) {
   return <Admin>{page}</Admin>;
 };

@@ -8,12 +8,13 @@ type PropsType = { children: ReactNode };
 
 export default function AppAuthWrapper({ children }: PropsType) {
   const router = useRouter();
+  const isAdminLoginRoute = router.pathname === WEB_URL.ADMIN_LOGIN;
+  const isAdminRoute = router.pathname.startsWith(WEB_URL.ADMIN) && !isAdminLoginRoute;
   const handleError = () => {
     localStorage.removeItem(LOCAL_STORAGE.TOKEN);
     router.push(WEB_URL.ADMIN_LOGIN);
   };
   const handleSuccess = () => {
-    const isAdminLoginRoute = router.pathname === WEB_URL.ADMIN_LOGIN;
     if (isAdminLoginRoute) {
       router.push(WEB_URL.MANAGE_FLOWERS);
     }
@@ -22,8 +23,6 @@ export default function AppAuthWrapper({ children }: PropsType) {
 
   useEffect(() => {
     const token = localStorage.getItem(LOCAL_STORAGE.TOKEN);
-    const isAdminLoginRoute = router.pathname === WEB_URL.ADMIN_LOGIN;
-    const isAdminRoute = router.pathname.startsWith(WEB_URL.ADMIN) && !isAdminLoginRoute;
     if (token) {
       verifyAdmin();
     }

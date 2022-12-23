@@ -63,7 +63,7 @@ export default function Topics() {
             className='search-input'
             placeholder='Tìm kiếm theo tên loại hoa, ID'
             onKeyDown={handleKeyDown}
-            prefix={<Image src={SearchIcon} alt='' height={16} width={16} />}
+            prefix={<Image src={SearchIcon} alt='' height={24} width={24} />}
             autoComplete='off'
           />
         </Col>
