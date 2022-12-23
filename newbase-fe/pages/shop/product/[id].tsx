@@ -2,16 +2,20 @@ import { ReactElement, useEffect, useMemo, useState } from "react";
 import PublicLayout from "components//Layout/Public";
 import TagList from "components//TagList";
 import AppBreadcrumb from "components//AppBreadCrumb";
-import { Col, Form, Image, Input, Modal, Row } from "antd";
+import { Col, Form, Image, Input, message, Modal, Row } from "antd";
 import ImageNext from "next/image";
 import { useGetDetailFlower, useGetFlowers } from "hooks/flower";
 import AppCarousel from "components//AppCarousel";
 import { useWindowSize } from "hooks/useWindowSize";
 import PublicImage from "public/images";
 import AppImage from "@components//AppImage";
+import { postAccountGuests } from "services/accountGuest";
+import { useRouter } from "next/router";
 
 function ProductDetail({ id }: any) {
+  const [messageApi, contextHolder] = message.useMessage();
   const { width } = useWindowSize();
+  const router = useRouter();
   const { data } = useGetDetailFlower(id);
   const { data: moreItemList } = useGetFlowers({
     params: { limit: 4, page: 1 },
@@ -53,8 +57,33 @@ function ProductDetail({ id }: any) {
     );
   }, [mainImg, listImage]);
 
+  const onSubmitUserInfo = (values: any) => {
+    postAccountGuests(
+      {
+        phoneNumber: values?.phone,
+        pageLink: router?.asPath,
+        pageTitle: flowerName,
+        timeAccess: new Date(Date.now()).toISOString(),
+      },
+      () => {
+        messageApi.open({
+          type: "success",
+          content: "Gửi thông tin thành công , xin cảm ơn quý khách",
+        });
+      },
+      () => {
+        messageApi.open({
+          type: "error",
+          content: "Gửi thông tin thất bại , xin vui lòng thử lại",
+        });
+      }
+    );
+    setOpenModalSendInquiry(false);
+  };
+
   return (
     <main className="container product-detail">
+      {contextHolder}
       <TagList onClick={() => {}} />
       <div className="product-detail__breadcrum">
         <AppBreadcrumb />
@@ -139,11 +168,11 @@ function ProductDetail({ id }: any) {
         <Form
           form={form}
           layout="vertical"
-          onFinish={() => {}}
-          onFinishFailed={() => {}}
+          onFinish={onSubmitUserInfo}
+          // onFinishFailed={() => {}}
           autoComplete="off"
         >
-          <Form.Item
+          {/* <Form.Item
             name="name"
             label="Your name"
             rules={[{ required: true }, { type: "string", min: 6 }]}
@@ -156,22 +185,21 @@ function ProductDetail({ id }: any) {
             rules={[{ required: true }, { type: "email" }]}
           >
             <Input placeholder="" />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name="phone"
             label="Phone Number"
-            rules={[{ required: true }, { type: "number", min: 9 }]}
+            rules={[{ required: true }, { type: "string", min: 9 }]}
           >
             <Input placeholder="" />
           </Form.Item>
+          <button
+            key="submit"
+            className="product-detail__send-inquiry-modal__submit-btn"
+          >
+            Contact Us Now
+          </button>
         </Form>
-        <button
-          key="submit"
-          className="product-detail__send-inquiry-modal__submit-btn"
-          onClick={() => setOpenModalSendInquiry(false)}
-        >
-          Contact Us Now
-        </button>
       </Modal>
     </main>
   );

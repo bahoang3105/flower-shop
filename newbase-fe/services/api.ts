@@ -1,36 +1,59 @@
-import axios from 'axios';
+import axios from "axios";
 
 const HEADERS = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+  "Content-Type": "application/json",
+  Accept: "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "Origin, X-Requested-With, Content-Type, Accept",
 } as any;
 
 const HEADERS_MULTIPLE_PART = {
   ...HEADERS,
-  'Content-Type': 'multipart/form-data; boundary=something',
-  Accept: 'application/json',
+  "Content-Type": "multipart/form-data; boundary=something",
+  Accept: "application/json",
 };
 
 export const getToken = (token: any) => {
-  HEADERS['Authorization'] = `Bearer ${token}`;
-  HEADERS_MULTIPLE_PART['Authorization'] = `Bearer ${token}`;
+  HEADERS["Authorization"] = `Bearer ${token}`;
+  HEADERS_MULTIPLE_PART["Authorization"] = `Bearer ${token}`;
 };
 
 const getFullUrl = (url: string) => {
-  if (!url.startsWith('/')) {
-    url = '/' + url;
+  if (!url.startsWith("/")) {
+    url = "/" + url;
   }
   console.log(`${process.env.NEXT_PUBLIC_API}` + url);
   return `${process.env.NEXT_PUBLIC_API}` + url;
 };
 
 const api = {
-  post: (endpoint: string, params?: any) => {
-    return axios.post(getFullUrl(endpoint), params, {
-      headers: HEADERS,
-    });
+  post: (
+    endpoint: string,
+    params?: any,
+    callBackSuccess?: any,
+    callBackError?: any
+  ) => {
+    return axios
+      .post(getFullUrl(endpoint), params, {
+        headers: HEADERS,
+      })
+      .then((res: any) => {
+        console.log(callBackSuccess);
+        console.log(res);
+        if (callBackSuccess) {
+          callBackSuccess(res);
+        }
+        return res;
+      })
+      .catch((error: any) => {
+        console.log(callBackError);
+        console.log(error);
+        if (callBackError) {
+          callBackError(error);
+        }
+        return error;
+      });
   },
 
   postMultiplePart: (endpoint: string, params?: any) => {
