@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import classNames from "classnames";
-// import Slick from "react-slick";
+// import Slick from "react-slick";/
 import LeftArrow from "public/svg/arrow_left_white.svg";
 import RightArrow from "public/svg/arrow_right_white.svg";
 // import "slick-carousel/slick/slick.css";

@@ -7,7 +7,8 @@ import {
 } from "react";
 import PublicLayout from "components//Layout/Public";
 import AppBreadcrumb from "components//AppBreadCrumb";
-import { Col, Pagination, Row } from "antd";
+import { Col, Pagination, Image, Row } from "antd";
+import ImageNext from "next/image";
 import { useGetTopics } from "hooks/topic";
 import SearchGroup, { filterType } from "./SearchGroup";
 import { getFlowers } from "services/flower";
@@ -16,8 +17,7 @@ import NoDataImg from "public/svg/no_data.svg";
 import TagList from "components//TagList";
 import Link from "next/link";
 import { APP_URL } from "constants/common";
-import { isEmpty } from "lodash";
-import Image from "next/image";
+import PublicImage from "public/images";
 
 export const ProductListContext = createContext({});
 
@@ -34,14 +34,18 @@ function ProductList({ topicIds, keyword }: any) {
   const { data: topicList } = useGetTopics({
     params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
   });
-
   const fetchProductList = async (filterProps: { topicIds?: any }) => {
     const { topicIds } = filterProps || {};
+    const formatedTopicIdList = filter?.productType?.filter((item: any) => {
+      return item;
+    });
+
     const res = await getFlowers({
       limit: 12,
       page,
-      topicIds: isEmpty(topicIds) ? topicIds : filter?.productType,
-      keyword: keyword || filter?.keyword,
+      topicIds:
+        formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
+      keyword: filter?.keyword || keyword,
       // priceFrom: filter?.priceRange?.priceFrom || 0,
       // priceTo: filter?.priceRange?.priceTo || 11,
     });
@@ -50,8 +54,9 @@ function ProductList({ topicIds, keyword }: any) {
 
   useEffect(() => {
     setFilter((prev: any) => {
+      console.log(topicIds);
       const newProductType = [...prev?.productType, parseInt(topicIds, 10)];
-      fetchProductList({ topicIds: newProductType });
+      fetchProductList({ topicIds: topicIds && newProductType });
       return {
         ...prev,
         productType: newProductType,
@@ -81,12 +86,12 @@ function ProductList({ topicIds, keyword }: any) {
     }));
   }, [data]);
 
-  const onClickTagItem = (productTypeId: string) => {
+  const onClickTagItem = (productTypeId: number) => {
     setFilter((prev: filterType) => ({
       ...prev,
       productType: [productTypeId],
     }));
-    fetchProductList({});
+    fetchProductList({ topicIds: [productTypeId] });
     scrollToElement({
       id: "product-list__list",
       yOffset: -80,
@@ -102,7 +107,7 @@ function ProductList({ topicIds, keyword }: any) {
         <div className="product-list__breadcrum">
           <AppBreadcrumb />
         </div>
-        <div className="product-list__page-title">TRENDING NOW</div>
+        <div className="product-list__page-title">Phân Loại</div>
         <div className="product-list__result-number">
           Showing <b>{data?.meta?.totalItems}</b> results{" "}
           {getProductTypeText && `for " ${getProductTypeText} "`}
@@ -131,7 +136,7 @@ function ProductList({ topicIds, keyword }: any) {
               })
             ) : (
               <div className="product-list__no-data">
-                <Image
+                <ImageNext
                   className="product-list__no-data__main-img"
                   src={NoDataImg}
                   alt=""
@@ -156,9 +161,11 @@ function ProductList({ topicIds, keyword }: any) {
 function ProductItem({
   data,
 }: {
-  data: { name: string; price: number; thumbnail: string; id: string | number };
+  data: { name: string; price: number; listImage: string; id: string | number };
 }) {
-  const { name, thumbnail, price, id } = data || {};
+  const { name, listImage, price, id } = data || {};
+  console.log(data);
+
   return (
     <Link
       href={{
@@ -168,11 +175,20 @@ function ProductItem({
     >
       <div className="product-list__list__item">
         <div className="product-list__list__item__thumbnail">
-          <Image
-            className="product-list__list__item__thumbnail__main-img"
-            src={thumbnail}
-            alt={name || ""}
-          />
+          {listImage?.length > 0 ? (
+            <Image
+              className="product-list__list__item__thumbnail__main-img"
+              preview={false}
+              src={listImage[0] || ""}
+              alt={name || ""}
+            />
+          ) : (
+            <ImageNext
+              className="product-list__list__item__thumbnail__main-img"
+              src={PublicImage?.blankImg}
+              alt={name || ""}
+            />
+          )}
         </div>
         <div className="product-list__list__item__info">
           <p className="product-list__list__item__info__name">

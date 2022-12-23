@@ -1,37 +1,41 @@
-import { useRouter } from 'next/router';
-import { ReactElement, useState } from 'react';
-import { Col, Form, Input, Image as AntdImage, Row, Select, Modal } from 'antd';
-import Admin from '@components//Layout/Admin';
-import AppButton from '@components//AppButton';
-import showMessage from '@components//Message';
-import BackButton from '@components//BackButton';
-import { useGetFlowers } from 'hooks/flower';
-import { WEB_URL } from 'constants/routes';
-import { TYPE_MESSAGE } from 'constants/common';
-import { useCreateTopic } from 'hooks/topic';
+import { useRouter } from "next/router";
+import { ReactElement, useState } from "react";
+import { Col, Form, Input, Image as AntdImage, Row, Select, Modal } from "antd";
+import Admin from "@components//Layout/Admin";
+import AppButton from "@components//AppButton";
+import showMessage from "@components//Message";
+import BackButton from "@components//BackButton";
+import { useGetFlowers } from "hooks/flower";
+import { WEB_URL } from "constants/routes";
+import { TYPE_MESSAGE } from "constants/common";
+import { useCreateTopic } from "hooks/topic";
 const INITIAL_VALUES = {
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   flowerIds: [],
 };
 export default function CreateTopic() {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { data: flowerList } = useGetFlowers({ params: { limit: 1000000, page: 1 } });
+  const { data: flowerList } = useGetFlowers({
+    params: { limit: 1000000, page: 1 },
+  });
   const { mutateAsync: createTopic } = useCreateTopic({
     onSuccess: () => {
-      showMessage(TYPE_MESSAGE.SUCCESS, 'Thêm mới loại hoa thành công');
+      showMessage(TYPE_MESSAGE.SUCCESS, "Thêm mới loại hoa thành công");
       setOpen(false);
       router.push(WEB_URL.MANAGE_TOPICS);
     },
   });
   const handleSubmit = async () => {
-    const fieldErrorIndex = form.getFieldsError().findIndex((field) => field.errors.length > 0);
+    const fieldErrorIndex = form
+      .getFieldsError()
+      .findIndex((field) => field.errors.length > 0);
     if (fieldErrorIndex < 0) {
       setOpen(true);
     }
-  }; 
+  };
   const handleCreateTopic = async () => {
     const params = form.getFieldsValue();
     await createTopic(params);
@@ -46,8 +50,8 @@ export default function CreateTopic() {
       <Row>
         <Col xxl={18} xl={17} lg={16}>
           <Form
-            name='basic'
-            className='create-flower-form'
+            name="basic"
+            className="create-flower-form"
             form={form}
             initialValues={INITIAL_VALUES}
             onFinish={handleSubmit}
@@ -55,19 +59,30 @@ export default function CreateTopic() {
           >
             <Col span={24}>
               <label>Tên loại hoa *</label>
-              <Form.Item name='name' rules={[{ required: true, message: 'Vui lòng nhập tên hoa' }]}>
-                <Input placeholder='Tên loại hoa' autoComplete='off' maxLength={512} />
-                </Form.Item>
+              <Form.Item
+                name="name"
+                rules={[{ required: true, message: "Vui lòng nhập tên hoa" }]}
+              >
+                <Input
+                  placeholder="Tên loại hoa"
+                  autoComplete="off"
+                  maxLength={512}
+                />
+              </Form.Item>
             </Col>
             <Col span={24}>
               <label>Danh sách hoa</label>
-              <Form.Item name='topicIds'>
-                <Select mode='multiple' className='topic-form' placeholder='Danh sách hoa'>
+              <Form.Item name="topicIds">
+                <Select
+                  mode="multiple"
+                  className="topic-form"
+                  placeholder="Danh sách hoa"
+                >
                   {flowerList?.items?.map((flower: any) => (
                     <Select.Option key={flower.id} value={flower.id}>
                       <AntdImage
                         src={flower.listImage?.[0].filePath}
-                        alt='avatar'
+                        alt="avatar"
                         preview={false}
                         height={50}
                         width={50}
@@ -80,27 +95,43 @@ export default function CreateTopic() {
             </Col>
             <Col span={24}>
               <label>Mô tả</label>
-              <Form.Item name='description'>
+              <Form.Item name="description">
                 <Input.TextArea
                   rows={6}
-                  placeholder='Hãy viết một số mô tả về loại hoa. Tối đa 2000 kí tự.'
+                  placeholder="Hãy viết một số mô tả về loại hoa. Tối đa 2000 kí tự."
                   maxLength={2000}
                   showCount={true}
                 />
               </Form.Item>
             </Col>
           </Form>
-          <AppButton text='Thêm mới' variant='primary' onClick={form.submit} />
+          <AppButton text="Thêm mới" variant="primary" onClick={form.submit} />
         </Col>
       </Row>
-      <Modal open={open} onCancel={handleCancel} title='Xác nhận thêm loại hoa' footer={null} width={500}>
-      <Row style={{ fontSize: 20 }}>Bạn đã chắc chắn thêm loại hoa này chưa?</Row>
-        <Row className='modal-confirm-flower__buttons' gutter={24} justify='center'>
+      <Modal
+        open={open}
+        onCancel={handleCancel}
+        title="Xác nhận thêm loại hoa"
+        footer={null}
+        width={500}
+      >
+        <Row style={{ fontSize: 20 }}>
+          Bạn đã chắc chắn thêm loại hoa này chưa?
+        </Row>
+        <Row
+          className="modal-confirm-flower__buttons"
+          gutter={24}
+          justify="center"
+        >
           <Col>
-            <AppButton text='Hủy' variant='back' onClick={handleCancel} />
+            <AppButton text="Hủy" variant="back" onClick={handleCancel} />
           </Col>
           <Col>
-            <AppButton text={'Thêm mới'} variant='primary' onClick={handleCreateTopic} />
+            <AppButton
+              text={"Thêm mới"}
+              variant="primary"
+              onClick={handleCreateTopic}
+            />
           </Col>
         </Row>
       </Modal>

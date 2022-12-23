@@ -21,7 +21,7 @@ export type filterType = {
     priceFrom: number | boolean;
     priceTo: number | boolean;
   };
-  productType: string[];
+  productType: number[];
   price: number;
 };
 
@@ -149,7 +149,7 @@ function SearchGroup({ defaultValueInput }: any) {
               }}
             >
               <Row>
-                {topicList?.length &&
+                {topicList?.data?.items?.length &&
                   topicList?.data?.items?.map(
                     ({
                       name,
@@ -177,7 +177,7 @@ function SearchGroup({ defaultValueInput }: any) {
             onClick={onSubmit}
             className="search-group__submit-btn-group__submit-btn cursor-pointer"
           >
-            Search
+            Tìm kiếm
           </button>
         </div>
       </Collapse>

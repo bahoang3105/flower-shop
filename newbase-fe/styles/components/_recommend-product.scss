@@ -49,7 +49,7 @@
       &__thumbnail-img {
         position: relative;
         padding-top: 100%;
-        img {
+        .image {
           object-fit: cover;
           position: absolute;
           top: 0;

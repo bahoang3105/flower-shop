@@ -1,9 +1,9 @@
 .homepage {
   &__thumbnail {
-    margin-bottom: 100px;
+    margin-bottom: 6rem;
     .main-img {
-      height: 50vh;
-      object-fit: cover;
+      height: fit-content;
+      object-fit: contain;
       width: 100%;
     }
   }
@@ -127,6 +127,14 @@
           }
         }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: $breakpoint_desktop_max) {
+  .homepage {
+    &__thumbnail {
+      margin-bottom: 3rem;
     }
   }
 }

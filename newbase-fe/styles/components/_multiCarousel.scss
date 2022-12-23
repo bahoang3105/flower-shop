@@ -16,12 +16,13 @@
     column-gap: 26px;
     overflow-x: hidden;
     &__item {
-      display: inline-block;
       padding: 8px;
-      div {
+      display: inline-block;
+      .img-wrap {
         position: relative;
         padding-top: 100%;
-        img {
+        &__blank-img,
+        .ant-image {
           position: absolute;
           top: 0;
           left: 0;
@@ -29,6 +30,12 @@
           height: 100%;
           object-fit: cover;
           background-color: #d1d1d1;
+          .ant-image-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: #d1d1d1;
+          }
         }
       }
     }
