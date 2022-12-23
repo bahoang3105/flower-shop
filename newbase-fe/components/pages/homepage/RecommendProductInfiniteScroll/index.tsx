@@ -1,9 +1,10 @@
-import { Col, Image, Row } from "antd";
+import { Col, Row, Image } from "antd";
 import { APP_URL } from "constants/common";
 import { useGetFlowers } from "hooks/flower";
 import Link from "next/link";
 import ArrowRight from "public/svg/arrow_right";
 import React from "react";
+import ImageNext from "next/image";
 import PublicImage from "public/images";
 
 function RecommendProduct(props: any) {
@@ -38,15 +39,20 @@ function RecommendProduct(props: any) {
                 }}
               >
                 <div className="recommend-product__list__item__thumbnail-img">
-                  <Image
-                    className="image"
-                    src={
-                      listImage?.length > 0
-                        ? listImage[0]?.filePath
-                        : PublicImage?.blankImg
-                    }
-                    alt=""
-                  />
+                  {listImage?.length > 0 ? (
+                    <Image
+                      className="image"
+                      src={listImage[0]?.filePath}
+                      preview={false}
+                      alt=""
+                    />
+                  ) : (
+                    <ImageNext
+                      className="image"
+                      src={PublicImage?.blankImg}
+                      alt=""
+                    />
+                  )}
                 </div>
                 <div className="recommend-product__list__item__name centrelize-text">
                   {name}

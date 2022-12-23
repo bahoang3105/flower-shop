@@ -43,7 +43,8 @@
       &__thumbnail {
         position: relative;
         padding-top: 98%;
-        &__main-img {
+        &__main-img,
+        .ant-image {
           object-fit: cover;
           position: absolute;
           top: 0;

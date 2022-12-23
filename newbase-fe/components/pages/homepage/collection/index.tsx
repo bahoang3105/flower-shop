@@ -1,3 +1,4 @@
+import { COLLECTION_SECTION_ANCHOR } from "@components//AppHeader";
 import { Col, Row } from "antd";
 import Image from "next/image";
 import PublicImage from "public/images";
@@ -31,7 +32,12 @@ export default function FlowerCollection() {
 
   return (
     <>
-      <Row wrap className="flower-collection" gutter={[16, 16]}>
+      <Row
+        id={COLLECTION_SECTION_ANCHOR}
+        wrap
+        className="flower-collection"
+        gutter={[16, 16]}
+      >
         <Col span={24} lg={12}>
           <div className="flower-collection__first-item">
             <div className="flower-collection__first-item__content">

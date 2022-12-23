@@ -1,13 +1,17 @@
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import PublicLayout from "components//Layout/Public";
 import TagList from "components//TagList";
 import AppBreadcrumb from "components//AppBreadCrumb";
 import { Col, Form, Image, Input, Modal, Row } from "antd";
+import ImageNext from "next/image";
 import { useGetDetailFlower, useGetFlowers } from "hooks/flower";
 import AppCarousel from "components//AppCarousel";
 import { useWindowSize } from "hooks/useWindowSize";
+import PublicImage from "public/images";
+import AppImage from "@components//AppImage";
 
 function ProductDetail({ id }: any) {
+  const { width } = useWindowSize();
   const { data } = useGetDetailFlower(id);
   const { data: moreItemList } = useGetFlowers({
     params: { limit: 4, page: 1 },
@@ -15,23 +19,36 @@ function ProductDetail({ id }: any) {
   const { listTopics, flower } = data || {};
   const { listImage, name: flowerName, price } = flower || {};
   const [mainImg, setMainImg] = useState(listImage?.length > 0 && listImage[0]);
+  const [smallScreen, setSmallScreen] = useState(false);
   const [openModalSendInquiry, setOpenModalSendInquiry] = useState(false);
   const [form] = Form.useForm();
 
-  const { width } = useWindowSize();
-  const smallScreen = width <= 500;
+  useEffect(() => {
+    setSmallScreen(width <= 500);
+  }, []);
+
+  const formatedImgList: any = useMemo(() => {
+    listImage?.map(({ filePath }: any) => filePath);
+  }, [listImage]);
 
   const renderImageGroup = useMemo(() => {
     return (
       <>
         <div className="product-detail__page-info__main-img">
-          <Image src={mainImg?.filePath} preview={false} alt="" />
+          <AppImage
+            src={mainImg}
+            preview={false}
+            alt=""
+            className="product-detail__page-info__main-img__image"
+          />
         </div>
-        <AppCarousel
-          list={listImage}
-          numberItemPerView={smallScreen ? 3 : 5}
-          onChange={setMainImg}
-        />
+        {formatedImgList?.length > 0 && (
+          <AppCarousel
+            list={formatedImgList}
+            numberItemPerView={smallScreen ? 3 : 5}
+            onChange={setMainImg}
+          />
+        )}
       </>
     );
   }, [mainImg, listImage]);
@@ -82,7 +99,19 @@ function ProductDetail({ id }: any) {
             return (
               <Col span={24} sm={12} lg={6}>
                 <div className="product-detail__more-item__item">
-                  <Image src={listImage[0].filePath} preview={false} alt="" />
+                  {listImage?.length > 0 ? (
+                    <Image
+                      src={listImage[0]?.filePath}
+                      preview={false}
+                      alt=""
+                    />
+                  ) : (
+                    <ImageNext
+                      className="product-detail__more-item__item__blank-img"
+                      src={PublicImage?.blankImg}
+                      alt=""
+                    />
+                  )}
                 </div>
                 <p className="product-detail__more-item__item-name">{name}</p>
                 <p className="product-detail__more-item__item-price">

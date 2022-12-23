@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import cx from 'classnames';
-import NextBtnSVG from 'public/svg/next-btn';
-import PrevBtnSVG from 'public/svg/prev-btn';
-import { Image } from 'antd';
+import React, { useEffect, useState } from "react";
+import cx from "classnames";
+import NextBtnSVG from "public/svg/next-btn";
+import PrevBtnSVG from "public/svg/prev-btn";
+import { Image } from "antd";
+import ImageNext from "next/image";
+import PublicImage from "public/images";
 
 const NAV_ACTION_KEY = {
-  PREV: 'PREV',
-  NEXT: 'NEXT',
+  PREV: "PREV",
+  NEXT: "NEXT",
 };
 
 function AppCarousel(props: any) {
@@ -15,23 +17,25 @@ function AppCarousel(props: any) {
   const [currentIndex, setCurrentIndex] = useState<any>(1);
   const [translateIndex, setTranslateIndex] = useState<any>(0);
 
+  console.log(props);
+
   const itemWidth = 100 / numberItemPerView;
 
-  const fakeList = [
-    'https://source.unsplash.com/random/1',
-    'https://source.unsplash.com/random/2',
-    'https://source.unsplash.com/random/3',
-    'https://source.unsplash.com/random/4',
-    'https://source.unsplash.com/random/5',
-    'https://source.unsplash.com/random/6',
-    'https://source.unsplash.com/random/7',
-    'https://source.unsplash.com/random/8',
-    'https://source.unsplash.com/random/9',
-  ];
+  // const fakeList = [
+  //   "https://source.unsplash.com/random/1",
+  //   "https://source.unsplash.com/random/2",
+  //   "https://source.unsplash.com/random/3",
+  //   "https://source.unsplash.com/random/4",
+  //   "https://source.unsplash.com/random/5",
+  //   "https://source.unsplash.com/random/6",
+  //   "https://source.unsplash.com/random/7",
+  //   "https://source.unsplash.com/random/8",
+  //   "https://source.unsplash.com/random/9",
+  // ];
 
   useEffect(() => {
     if (onChange) {
-      onChange(fakeList[currentIndex + translateIndex - 1]);
+      onChange(list[currentIndex + translateIndex - 1]);
     }
   }, [currentIndex, translateIndex]);
 
@@ -55,7 +59,7 @@ function AppCarousel(props: any) {
         const isMax = prev === numberItemPerView;
         if (isMax) {
           setTranslateIndex((prev: any) => {
-            if (numberItemPerView + prev === fakeList?.length) {
+            if (numberItemPerView + prev === list?.length) {
               return prev;
             }
             return (prev += slidesPerView);
@@ -68,38 +72,55 @@ function AppCarousel(props: any) {
   };
 
   return (
-    <div className='app-multi-carousel'>
-      <div className='app-multi-carousel__navigate-btn nav-next-btn center-flex-item'>
-        <button className='center-flex-item' onClick={() => onSlide(NAV_ACTION_KEY.PREV)}>
+    <div className="app-multi-carousel">
+      <div className="app-multi-carousel__navigate-btn nav-next-btn center-flex-item">
+        <button
+          className="center-flex-item"
+          onClick={() => onSlide(NAV_ACTION_KEY.PREV)}
+        >
           <PrevBtnSVG />
         </button>
       </div>
-      <div className='app-multi-carousel__item-group'>
+      <div className="app-multi-carousel__item-group">
         <div
           style={{ transform: `translateX(-${translateIndex * itemWidth}%)` }}
-          className='app-multi-carousel__item-group__item-list'
+          className="app-multi-carousel__item-group__item-list"
         >
-          {fakeList?.map((url: any, index: number) => {
+          {list?.map((url: any, index: number) => {
             return (
               <div
                 style={{ width: `${itemWidth}%` }}
-                className={cx('app-multi-carousel__item-group__item cursor-pointer', {
-                  isSelecting: index + 1 - translateIndex === currentIndex,
-                })}
+                className={cx(
+                  "app-multi-carousel__item-group__item cursor-pointer",
+                  {
+                    isSelecting: index + 1 - translateIndex === currentIndex,
+                  }
+                )}
                 onClick={() => {
                   setCurrentIndex(index + 1 - translateIndex);
                 }}
               >
-                <div>
-                  <Image src={url} alt='' />
+                <div className="img-wrap">
+                  {url ? (
+                    <Image src={url} preview={false} alt="" />
+                  ) : (
+                    <ImageNext
+                      className="app-multi-carousel__item-group__item__blank-img"
+                      src={PublicImage?.blankImg}
+                      alt=""
+                    />
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
       </div>
-      <div className='app-multi-carousel__navigate-btn nav-next-btn center-flex-item'>
-        <button className='center-flex-item' onClick={() => onSlide(NAV_ACTION_KEY.NEXT)}>
+      <div className="app-multi-carousel__navigate-btn nav-next-btn center-flex-item">
+        <button
+          className="center-flex-item"
+          onClick={() => onSlide(NAV_ACTION_KEY.NEXT)}
+        >
           <NextBtnSVG />
         </button>
       </div>
