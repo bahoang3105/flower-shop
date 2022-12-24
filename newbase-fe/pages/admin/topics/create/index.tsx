@@ -72,7 +72,7 @@ export default function CreateTopic() {
             </Col>
             <Col span={24}>
               <label>Danh sách hoa</label>
-              <Form.Item name="topicIds">
+              <Form.Item name="flowerIds">
                 <Select
                   mode="multiple"
                   className="topic-form"
