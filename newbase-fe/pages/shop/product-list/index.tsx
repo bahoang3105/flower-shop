@@ -125,11 +125,11 @@ function ProductList({ topicIds, keyword }: any) {
                 return (
                   <Col
                     key={itemData?.key}
-                    xs={24}
-                    sm={12}
-                    md={12}
-                    lg={8}
-                    xl={6}
+                    xs={12}
+                    sm={8}
+                    md={8}
+                    lg={6}
+                    xl={4}
                   >
                     <ProductItem data={itemData} />
                   </Col>
