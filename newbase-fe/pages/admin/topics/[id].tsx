@@ -79,8 +79,8 @@ export default function DetailTopic() {
                     pathname: WEB_URL.MANAGE_FLOWERS + '/' + id,
                   }}
                 >
-                  <div className='recommend-product__list__item__thumbnail-img'>
-                    <Image src={listImage[0].filePath} alt='' />
+                  <div className='recommend-product__list__item__thumbnail-img' style={{ paddingTop: '0%' }}>
+                    <Image src={listImage[0].filePath} alt='' preview={false} />
                   </div>
                   <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
                   <div className='recommend-product__list__item__price centrelize-text'>

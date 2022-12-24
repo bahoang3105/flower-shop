@@ -46,11 +46,12 @@ function SearchGroup({ defaultValueInput }: any) {
       <Collapse
         defaultActiveKey={[
           SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR,
+          SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE,
           SEARCH_GROUP_COLLAPSE_KEY.PRODUCT_TYPE,
         ]}
         expandIconPosition="end"
       >
-        <Panel header="Search" key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
+        <Panel header="Tìm kiếm theo tên, id của hoa" key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
           <input
             defaultValue={defaultValueInput}
             className="search-group__keyword"
@@ -60,10 +61,10 @@ function SearchGroup({ defaultValueInput }: any) {
                 keyword: e?.target?.value,
               }))
             }
-            placeholder="Please input"
+            placeholder="Tìm kiếm "
           />
         </Panel>
-        <Panel header="Price" key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
+        <Panel header="Giá" key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
           <Row
             className="search-group__price-range-input"
             wrap={false}
