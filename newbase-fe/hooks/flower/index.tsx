@@ -17,6 +17,7 @@ export const useGetFlowers = ({ params }: any) => {
 export const useGetDetailFlower = (id: string) => {
   return useQuery([QUERY_KEY.DETAIL_FLOWER, id], () => getFlowerDetail(id), {
     select: (res) => res?.data?.data || {},
+    enabled: id !== 'undefined',
   });
 };
 

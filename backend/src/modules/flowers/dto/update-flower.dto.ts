@@ -47,11 +47,13 @@ export class UpdateFlowerDto {
   @IsNumber({}, { each: true })
   topicsDel: number[];
 
-  @ApiProperty({ required: false, type: [String] })
+  @ApiProperty({ required: false, type: [Number] })
   @IsOptional()
-  listImage: string[];
+  @Type(() => Number)
+  @IsNumber({}, { each: true })
+  listImage: number[];
 
-  @ApiProperty({ type: ['string'], format: 'binary', required: false })
+  @ApiProperty({ type: ['string'], format: 'binary', required: true })
   @IsOptional()
-  additionImages: Express.Multer.File[];
+  files: Express.Multer.File[];
 }

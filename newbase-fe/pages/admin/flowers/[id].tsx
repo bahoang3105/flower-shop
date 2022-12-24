@@ -51,24 +51,27 @@ export default function DetailFlower() {
   const flowerInfo = { ...data?.flower, topicIds };
 
   const handleSubmitEdit = (values: any) => {
-    setModalInfo({ ...values, thumbnail: data?.flower?.listImage[0] || '' });
+    setModalInfo({ ...values, thumbnail: data?.flower?.listImage[0]?.filePath || '' });
     setOpenModalUpdate(true);
   };
   const handleSubmit = async () => {
     const formData = new FormData();
-    const { topicIds: updateTopicIds, ...flowerInfo } = modalInfo;
+    const { topicIds: updateTopicIds, thumbnail, ...flowerInfo } = modalInfo;
     const topicsDel = topicIds?.filter((id: number) => !updateTopicIds?.includes(id));
     const topicsAdd = updateTopicIds?.filter((id: number) => !topicIds?.includes(id));
-    const listImageUploaded = listImage?.filter((image: any) => !!image.url)?.map((image: any) => image.url);
+    topicsDel.forEach((topicId: number) => formData.append('topicsDel[]', String(topicId)));
+    topicsAdd.forEach((topicId: number) => formData.append('topicsAdd[]', String(topicId)));
+    
+    Object.keys(flowerInfo).forEach((field: string) => flowerInfo[field] && formData.append(field, flowerInfo[field]));
+    
+    const listImageId = listImage?.filter((image: any) => !!image.url)?.map((image: any) => image.id);
     const newImages = listImage
       ?.filter((image: any) => !!image.originFileObj)
       ?.map((image: any) => image.originFileObj);
-
-    topicsDel.forEach((topicId: number) => formData.append('topicsDel', String(topicId)));
-    topicsAdd.forEach((topicId: number) => formData.append('topicsAdd', String(topicId)));
-    Object.keys(flowerInfo).forEach((field: string) => formData.append(field, flowerInfo[field]));
-    listImageUploaded?.forEach((imageSrc: string) => formData.append('listImage', imageSrc));
-    newImages.forEach((file: any) => formData.append('additionImages', file));
+    listImageId?.forEach((imageId: string) => formData.append('listImage[]', imageId));
+    for (let i = 0; i < newImages.length; i++) {
+      formData.append('files', newImages[i]);
+    }
     await updateFlower(formData);
   };
   const handleClickSave = () => {
@@ -141,6 +144,7 @@ export default function DetailFlower() {
       data?.flower?.listImage?.map((srcImage: any, index: number) => ({
         uid: index - 1,
         url: srcImage.filePath,
+        id: srcImage.id,
       })) || [],
     );
   }, [data]);
@@ -185,7 +189,7 @@ export default function DetailFlower() {
                     multiple={true}
                     fileList={listImage}
                     onChange={handleChangeListImage}
-                    onPreview={(image) => handlePreview(image)}
+                    onPreview={handlePreview}
                     showUploadList={{
                       showDownloadIcon: false,
                       showPreviewIcon: true,

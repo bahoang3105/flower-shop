@@ -41,11 +41,6 @@ export class FlowersService {
   ) {
     const queryRunner = this.dataSource.createQueryRunner();
     const { topicIds, ...flowerInfo } = createFlowerDto;
-    const topicIdList = topicIds
-      ? Array.isArray(topicIds)
-        ? topicIds
-        : [topicIds]
-      : [];
     try {
       queryRunner.startTransaction();
 
@@ -81,9 +76,9 @@ export class FlowersService {
       const savedFlower = await this.flowersRepository.save(newFlower);
 
       // map topic and create flowersTopic instances
-      topicIdList.length > 0 &&
+      topicIds?.length > 0 &&
         (await Promise.all(
-          topicIdList.map(async (id: number) => {
+          topicIds.map(async (id: number) => {
             const topic = await this.topicsService.findById(id);
             if (!topic) {
               throw NotFoundException;
@@ -172,17 +167,22 @@ export class FlowersService {
   async update(
     id: number,
     updateFlowerDto: UpdateFlowerDto,
-    files?: Array<Express.Multer.File>
+    additionImages: Express.Multer.File[],
   ) {
+    console.log(additionImages)
     const { topicsAdd, topicsDel, listImage, ...flowerInfo } = updateFlowerDto;
-    const topicIdsDel = Array.isArray(topicsDel) ? topicsDel : [topicsDel];
-    const topicIdsAdd = Array.isArray(topicsAdd) ? topicsAdd : [topicsAdd];
-    const listSrcImage = Array.isArray(listImage) ? listImage : [listImage];
     const queryRunner = this.dataSource.createQueryRunner();
     try {
       queryRunner.startTransaction();
+
+      const flower = await this.findById(id);
+
+      if (!flower) {
+        throw Error(`Flower doesn't exist`);
+      }
+
       if (!!topicsDel) {
-        topicIdsDel?.forEach(
+        topicsDel?.forEach(
           async (topicId: number) =>
             await this.flowerTopicService.removeByFlowerIdAndTopicId(
               id,
@@ -190,20 +190,50 @@ export class FlowersService {
             )
         );
       }
-      if (topicsAdd) {
-        topicIdsAdd?.forEach(
+
+      if (!!topicsAdd) {
+        topicsAdd?.forEach(
           async (topicId: number) =>
             await this.flowerTopicService.create(id, topicId)
         );
       }
-      const flower = await this.findById(id);
+
+      // check files length and file size
+      if (additionImages?.length > VALUE.MAX_FILES_LENGTH) {
+        throw new HttpException('E3', HttpStatus.BAD_REQUEST);
+      }
+      additionImages?.forEach((file) => {
+        if (file.size > VALUE.MAX_FILE_SIZE) {
+          throw new HttpException('E4', HttpStatus.BAD_REQUEST);
+        }
+      });
+
+      // save images
+      const listPromise: Promise<Image>[] = [];
+      listImage?.forEach((imageId) => {
+        const imagePromise = this.imagesRepository.findOne({ where: { id: imageId }});
+        listPromise.push(imagePromise);
+      });
+      additionImages?.forEach((file) => {
+        const image = this.imagesRepository.create({
+          createdAt: Utils.getCurrentDate(),
+          fileName: file.originalname,
+          filePath: process.env.IMAGE_URL + '/' + file.path,
+          flower: flower,
+        });
+        const imagePromise = this.imagesRepository.save(image);
+        listPromise.push(imagePromise);
+      });
+      const newListImage = await Promise.all(listPromise);
+      
+
       const { flowerTopics, ...currentInfo } = flower;
       return ApiOk(
         flower &&
           (await this.flowersRepository.save({
             ...currentInfo,
             ...flowerInfo,
-            // listImage: !!listImage ? listSrcImage : [],
+            listImage: !!newListImage ? newListImage : [],
           }))
       );
     } catch (e) {

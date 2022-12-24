@@ -72,7 +72,7 @@ export default function CreateFlower() {
       const files = [thumbnail.originFileObj, ...imageFiles];
       const listKey = Object.keys(info);
       files?.forEach((file: File) => formData.append('files', file));
-      topicIds?.forEach((topicId: number) => formData.append('topicIds', String(topicId)));
+      topicIds?.forEach((topicId: number) => formData.append('topicIds[]', String(topicId)));
       listKey?.forEach((key: string) => {
         if (info[key] !== undefined) {
           formData.append(key, String(info[key]));

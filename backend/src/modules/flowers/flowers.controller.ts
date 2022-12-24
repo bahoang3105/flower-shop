@@ -10,7 +10,6 @@ import {
   UseInterceptors,
   UseGuards,
   Query,
-  Res,
 } from '@nestjs/common';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -25,6 +24,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '../auth/role.enum';
 import { SearchFlowerDto } from './dto/search-flower.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { VALUE } from 'src/common/constants';
 
 @Controller('flowers')
 @ApiTags('flowers')
@@ -38,7 +38,7 @@ export class FlowersController {
   @Roles(Role.Admin)
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(
-    FilesInterceptor('files', 10, {
+    FilesInterceptor('files', VALUE.MAX_FILES_LENGTH, {
       storage: diskStorage({
         destination: './files/images',
         filename: (req, file, callback) => {
@@ -73,7 +73,18 @@ export class FlowersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FilesInterceptor('additionImages'))
+  @UseInterceptors(FilesInterceptor('files', VALUE.MAX_FILES_LENGTH, {
+    storage: diskStorage({
+      destination: './files/images',
+      filename: (req, file, callback) => {
+        const randomName = Array(32)
+          .fill(null)
+          .map(() => Math.round(Math.random() * 16).toString(16))
+          .join('');
+        return callback(null, `${randomName}${extname(file.originalname)}`);
+      },
+    })
+  }))
   update(
     @Param('id') id: string,
     @Body() updateFlowerDto: UpdateFlowerDto,
