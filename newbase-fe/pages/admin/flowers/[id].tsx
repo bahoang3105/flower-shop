@@ -155,7 +155,7 @@ export default function DetailFlower() {
       </Row>
       <br />
       <Row gutter={40}>
-        <Col span={8}>
+        <Col span={6}>
           <Row className='flower-detail__preview' onMouseEnter={showListThumbnail} onMouseLeave={hideListThumbnail}>
             {listImage[curThumbnail] && <ImageAntd src={listImage[curThumbnail].url} preview={false} />}
             <div
@@ -202,7 +202,7 @@ export default function DetailFlower() {
             </Collapse>
           </Row>
         </Col>
-        <Col span={16}>
+        <Col span={18}>
           <div className='flower-detail__id'>#{formatNumber(Number(id))}</div>
           {data?.flower && (
             <CreateFlowerForm form={form} disabled={!isEdit} onFinish={handleSubmitEdit} initialValues={flowerInfo} />

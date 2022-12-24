@@ -18,8 +18,9 @@ import { TYPE_MESSAGE } from 'constants/common';
 import dynamic from 'next/dynamic';
 const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
 
+// update late
 const INITIAL_VALUES = {
-  name: '',
+  name: 'Cây ',
   description: '',
   size: undefined,
   price: undefined,
