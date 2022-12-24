@@ -20,7 +20,6 @@ const Pagination: FC<{
   const handleChangePageSize = (e: any): void => {
     onChangePageSize?.(parseInt(e.target.value));
   };
-  const { width } = useWindowSize();
   const renderPageSize = () => {
     return PAGE_SIZE.map((size, index) => (
       <option value={size} key={index}>
@@ -31,15 +30,15 @@ const Pagination: FC<{
   const totalIteamAnt = total > 0 ? total : TOTAL_PAGE_IF_NO_DATA;
 
   return (
-    <Row className={cn({ 'pagination__xs-size': width <= XS_SIZE }, 'my-pagination')}>
+    <Row className='my-pagination'>
       {showPageSize && (
-        <Col xs={24} sm={12}>
+        <Col sm={24} md={12}>
           <select className='page-size' value={pageSize} onChange={handleChangePageSize}>
             {renderPageSize()}
           </select>
         </Col>
       )}
-      <Col xs={24} sm={24}>
+      <Col sm={24} md={24}>
         <PaginationAnt
           simple
           total={totalIteamAnt}
