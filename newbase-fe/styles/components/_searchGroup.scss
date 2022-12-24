@@ -10,7 +10,7 @@
     }
     &-item {
       color: #25424c !important;
-      border-color: #fbf6fd;
+      border-color: #ebdbf2;
     }
     &-content {
       color: #25424c !important;
@@ -72,16 +72,22 @@
   }
   &__filter-group {
     max-height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
 
-    // ::-webkit-scrollbar-track {
-    //   box-shadow: inset 0 0 5px grey;
-    //   border-radius: 10px;
-    // }
-    // ::-webkit-scrollbar-thumb {
-    //   background: red;
-    //   border-radius: 10px;
-    // }
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px rgb(183, 161, 161); 
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgb(164, 129, 168); 
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgb(114, 90, 117); 
+    }
 
     .ant-checkbox-inner {
       &:hover {

@@ -1,5 +1,5 @@
 const PublicImage = {
-  blankImg: require("./blankIMg.jpg"),
+  blankImg: require("./blankImg.jpg"),
   backgroundLogin: require("./background_login.jpg"),
   banner: require("./banner.png"),
   banner1: require("./banner_1.png"),

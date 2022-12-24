@@ -18,6 +18,7 @@ import TagList from "components//TagList";
 import Link from "next/link";
 import { APP_URL } from "constants/common";
 import PublicImage from "public/images";
+import { formatNumber } from "utils/common";
 
 export const ProductListContext = createContext({});
 
@@ -109,8 +110,8 @@ function ProductList({ topicIds, keyword }: any) {
         </div>
         <div className="product-list__page-title">Phân Loại</div>
         <div className="product-list__result-number">
-          Showing <b>{data?.meta?.totalItems}</b> results{" "}
-          {getProductTypeText && `for " ${getProductTypeText} "`}
+          Hiển thị <b>{data?.meta?.totalItems}</b> kết quả{" "}
+          {getProductTypeText && `cho "${getProductTypeText}"`}
         </div>
         <div className="product-list__list-container">
           <div className="product-list__search-group">
@@ -161,7 +162,7 @@ function ProductList({ topicIds, keyword }: any) {
 function ProductItem({
   data,
 }: {
-  data: { name: string; price: number; listImage: string; id: string | number };
+  data: { name: string; price: number; listImage: { filePath: string }[]; id: string | number };
 }) {
   const { name, listImage, price, id } = data || {};
   console.log(data);
@@ -179,7 +180,7 @@ function ProductItem({
             <Image
               className="product-list__list__item__thumbnail__main-img"
               preview={false}
-              src={listImage[0] || ""}
+              src={listImage[0].filePath || ""}
               alt={name || ""}
             />
           ) : (
@@ -194,7 +195,7 @@ function ProductItem({
           <p className="product-list__list__item__info__name">
             <b>{name}</b>
           </p>
-          <p className="product-list__list__item__info__price">From ${price}</p>
+          <p className="product-list__list__item__info__price">{formatNumber(price)} VND</p>
         </div>
       </div>
     </Link>

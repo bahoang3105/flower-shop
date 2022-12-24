@@ -14,8 +14,8 @@ export default function Flowers() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZE[0]);
   const [params, setParams] = useState<any>();
-  const [sortField, setSortField] = useState<string>("flower.id");
-  const [sortValue, setSortValue] = useState<string>(SORT_TYPE.ASC);
+  const [sortField, setSortField] = useState<string>("flower.createdAt");
+  const [sortValue, setSortValue] = useState<string>(SORT_TYPE.DESC);
   const { data } = useGetFlowers({
     params: { ...params, limit: pageSize, page, sortField, sortValue },
   });

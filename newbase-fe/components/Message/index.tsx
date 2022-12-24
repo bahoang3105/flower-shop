@@ -28,7 +28,7 @@ export default function showMessage(
   }
 
   message[msgType]({
-    content: i18n?.t(msgContent, fieldMsg) || msgContent,
+    content: msgContent,
     className: "event-message",
     duration: 3,
     maxCount: 1,

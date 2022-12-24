@@ -44,10 +44,6 @@ $color_back_button: rgb(255, 255, 255);
   border: 1px solid $color_default_button_border;
   border-radius: 5px;
 
-  &.ant-btn {
-    padding-top: 4px !important;
-  }
-
   &:focus,
   &:active,
   &:hover {

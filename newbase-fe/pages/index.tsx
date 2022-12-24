@@ -29,10 +29,9 @@ function RecommendProductWrapper() {
 
   return (
     <>
-      {topicList?.data?.items?.length &&
-        topicList?.data?.items?.map((data: any) => {
-          return <RecommendProduct data={data} />;
-        })}
+      {topicList?.data?.items?.map((data: any) => {
+        return <RecommendProduct data={data} />;
+      })}
       <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
         <span
           onClick={() => {
@@ -41,7 +40,7 @@ function RecommendProductWrapper() {
             });
           }}
         >
-          See More <ArrowRight />
+          Xem thêm <ArrowRight />
         </span>
       </div>
     </>
