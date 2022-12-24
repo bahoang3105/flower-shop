@@ -50,20 +50,25 @@ function SearchGroup({ defaultValueInput }: any) {
         ]}
         expandIconPosition="end"
       >
-        <Panel header="Search" key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
+        <Panel header="Tìm kiếm" key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
           <input
             defaultValue={defaultValueInput}
             className="search-group__keyword"
+            onKeyDown={(e: any) => {
+              if (e?.key === "Enter") {
+                onSubmit();
+              }
+            }}
             onChange={(e) =>
               setFilter((prev: filterType) => ({
                 ...prev,
                 keyword: e?.target?.value,
               }))
             }
-            placeholder="Please input"
+            placeholder="Vui lòng nhập"
           />
         </Panel>
-        <Panel header="Price" key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
+        <Panel header="Giá" key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
           <Row
             className="search-group__price-range-input"
             wrap={false}
@@ -135,7 +140,7 @@ function SearchGroup({ defaultValueInput }: any) {
           </div>
         </Panel>
         <Panel
-          header="Product Type"
+          header="Loại sản phẩm"
           key={SEARCH_GROUP_COLLAPSE_KEY.PRODUCT_TYPE}
         >
           <div className="search-group__filter-group">
@@ -150,22 +155,22 @@ function SearchGroup({ defaultValueInput }: any) {
             >
               <Row>
                 {topicList?.data?.items?.map(
-                    ({
-                      name,
-                      id,
-                    }: {
-                      name: string;
-                      description: string;
-                      id: number;
-                      isDelete: boolean;
-                    }) => {
-                      return (
-                        <Col key={id} span={24}>
-                          <Checkbox value={id}>{name}</Checkbox>
-                        </Col>
-                      );
-                    }
-                  )}
+                  ({
+                    name,
+                    id,
+                  }: {
+                    name: string;
+                    description: string;
+                    id: number;
+                    isDelete: boolean;
+                  }) => {
+                    return (
+                      <Col key={id} span={24}>
+                        <Checkbox value={id}>{name}</Checkbox>
+                      </Col>
+                    );
+                  }
+                )}
               </Row>
             </Checkbox.Group>
           </div>

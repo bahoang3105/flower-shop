@@ -17,8 +17,6 @@ function AppCarousel(props: any) {
   const [currentIndex, setCurrentIndex] = useState<any>(1);
   const [translateIndex, setTranslateIndex] = useState<any>(0);
 
-  console.log(props);
-
   const itemWidth = 100 / numberItemPerView;
 
   // const fakeList = [
@@ -37,7 +35,7 @@ function AppCarousel(props: any) {
     if (onChange) {
       onChange(list[currentIndex + translateIndex - 1]);
     }
-  }, [currentIndex, translateIndex]);
+  }, [currentIndex, translateIndex, list]);
 
   const onSlide = (key: any) => {
     if (key === NAV_ACTION_KEY.PREV) {

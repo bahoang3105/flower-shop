@@ -35,15 +35,18 @@ function ProductList({ topicIds, keyword }: any) {
   const { data: topicList } = useGetTopics({
     params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
   });
-  const fetchProductList = async (filterProps: { topicIds?: any }) => {
-    const { topicIds } = filterProps || {};
+  const fetchProductList = async (filterProps: {
+    topicIds?: any;
+    pageProps?: any;
+  }) => {
+    const { topicIds, pageProps } = filterProps || {};
     const formatedTopicIdList = filter?.productType?.filter((item: any) => {
       return item;
     });
 
     const res = await getFlowers({
       limit: 12,
-      page,
+      page: pageProps || page,
       topicIds:
         formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
       keyword: filter?.keyword || keyword,
@@ -55,7 +58,6 @@ function ProductList({ topicIds, keyword }: any) {
 
   useEffect(() => {
     setFilter((prev: any) => {
-      console.log(topicIds);
       const newProductType = [...prev?.productType, parseInt(topicIds, 10)];
       fetchProductList({ topicIds: topicIds && newProductType });
       return {
@@ -123,14 +125,7 @@ function ProductList({ topicIds, keyword }: any) {
             {flowerList?.length > 0 ? (
               flowerList?.map((itemData: any) => {
                 return (
-                  <Col
-                    key={itemData?.key}
-                    xs={12}
-                    sm={8}
-                    md={8}
-                    lg={6}
-                    xl={4}
-                  >
+                  <Col key={itemData?.key} xs={12} sm={8} md={8} lg={6} xl={4}>
                     <ProductItem data={itemData} />
                   </Col>
                 );
@@ -146,7 +141,10 @@ function ProductList({ topicIds, keyword }: any) {
             )}
             <div className="product-list__pagination">
               <Pagination
-                onChange={setPage}
+                onChange={(page: any) => {
+                  fetchProductList({ pageProps: page });
+                  setPage(page);
+                }}
                 showSizeChanger={false}
                 pageSize={12}
                 total={data?.meta?.totalItems}
@@ -170,7 +168,6 @@ function ProductItem({
   };
 }) {
   const { name, listImage, price, id } = data || {};
-  console.log(data);
 
   return (
     <Link
