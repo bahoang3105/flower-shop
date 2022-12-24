@@ -38,11 +38,9 @@
   margin: 20px 0;
   display: flex;
   &__item {
-    display: inline-block;
-    margin-bottom: 16px;
     margin-right: 16px;
-    flex: 1;
     text-align: center;
+    width: fit-content;
     a {
       display: flex;
     }
@@ -59,9 +57,10 @@
 // new footer
 .footer-container {
   background-color: #fbf6fd;
-  padding: 5rem 20px;
+  padding: 40px 40px;
   .footer-content {
     justify-content: space-between !important;
+    align-items: center;
     font-weight: 600;
     font-size: 28px;
     line-height: 50px;
@@ -81,8 +80,8 @@
         border-bottom: 1px solid #937491;
       }
       &__content {
-        padding: 16px 0;
         font-size: 16px;
+        display: flex;
       }
     }
   }

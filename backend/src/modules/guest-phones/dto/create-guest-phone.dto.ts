@@ -13,9 +13,6 @@ export class CreateGuestPhoneDto {
   pageLink: string;
 
   @ApiProperty()
-  pageTitle: string;
-
-  @ApiProperty()
   @IsDateString()
   timeAccess: Date;
 }

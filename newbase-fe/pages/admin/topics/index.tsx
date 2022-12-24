@@ -15,8 +15,8 @@ export default function Topics() {
   const [searchText, setSearchText] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZE[0]);
-  const [sortField, setSortField] = useState<string>('topic.id');
-  const [sortValue, setSortValue] = useState<string>(SORT_TYPE.ASC);
+  const [sortField, setSortField] = useState<string>('topic.createdAt');
+  const [sortValue, setSortValue] = useState<string>(SORT_TYPE.DESC);
   const inputRef = useRef<any>();
   const { data } = useGetTopics({ params: { keyword: searchText, limit: pageSize, page, sortField, sortValue } });
   const tableData = useMemo(() => {

@@ -62,7 +62,7 @@ function ProductDetail({ id }: any) {
       {
         phoneNumber: values?.phone,
         pageLink: router?.asPath,
-        pageTitle: flowerName,
+        pageAccess: flowerName,
         timeAccess: new Date(Date.now()).toISOString(),
       },
       () => {

@@ -61,27 +61,24 @@ export default function Footer() {
             />
           </Col>
           <Col lg={24} xl={6}>
-            <div className="footer-content__address__title">Social</div>
             <div className="footer-content__address__content">
               {renderSocialList()}
             </div>
           </Col>
           <Col lg={24} className="footer-content__address" xl={7}>
-            <div className="footer-content__address__title">Cửa Hàng</div>
             <div className="footer-content__address__content">
-              <p>
-                <b>Địa chỉ cơ sỏ Thanh Xuân : </b>
+              <div>
+                <b>Địa chỉ: </b>
                 {address}
-              </p>
+              </div>
             </div>
           </Col>
           <Col lg={24} xl={5}>
-            <div className="footer-content__address__title">Liên hệ</div>
             <div className="footer-content__address__content">
-              <p>
-                <b>SĐT Cơ sở Thanh Xuân: </b>
+              <div>
+                <b>SĐT: </b>
                 {mobilePhone}
-              </p>
+              </div>
             </div>
           </Col>
         </Row>

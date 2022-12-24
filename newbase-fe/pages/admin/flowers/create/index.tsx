@@ -140,7 +140,7 @@ export default function CreateFlower() {
                     <span>Tải lên</span>
                   </div>
                 )}
-                <ImgCrop grid rotate>
+                <ImgCrop grid rotate aspect={2/3}>
                   <Upload
                     className='create-flower-form__thumbnail__upload'
                     listType='picture-card'
