@@ -81,7 +81,7 @@ export default function CreateTopic() {
                   {flowerList?.items?.map((flower: any) => (
                     <Select.Option key={flower.id} value={flower.id}>
                       <AntdImage
-                        src={flower.listImage?.[0].filePath}
+                        src={flower.listImage?.[0]?.filePath}
                         alt="avatar"
                         preview={false}
                         height={50}

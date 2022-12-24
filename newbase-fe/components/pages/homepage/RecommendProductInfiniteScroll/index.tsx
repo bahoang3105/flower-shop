@@ -3,12 +3,15 @@ import { APP_URL } from "constants/common";
 import { useGetFlowers } from "hooks/flower";
 import Link from "next/link";
 import ArrowRight from "public/svg/arrow_right";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ImageNext from "next/image";
 import PublicImage from "public/images";
+import { formatNumber } from "utils/common";
+import { useWindowSize } from "hooks/useWindowSize";
 
 function RecommendProduct(props: any) {
   const { data, handleEmptyList } = props || {};
+  // const { width } = useWindowSize();
   const { id: topicIds, name: topicName } = data || {};
   const [limit, setLimit] = useState(4);
   const { data: list } = useGetFlowers({
@@ -23,6 +26,13 @@ function RecommendProduct(props: any) {
     }
   }, [list]);
 
+  // const dataRender = useMemo(() => {
+  //   if (width < 1200 && width > 991) {
+  //     return list?.items?.slice(0, 4);
+  //   }
+  //   return list?.items;
+  // }, [list, width < 1200 && width > 991]);
+
   return (
     <>
       {!hidden && (
@@ -33,7 +43,6 @@ function RecommendProduct(props: any) {
           <Row className="recommend-product__list">
             {list?.items?.map((item: any) => {
               const { listImage, name, price, id } = item || {};
-
               return (
                 <Col
                   className="recommend-product__list__item"
@@ -84,17 +93,17 @@ function RecommendProduct(props: any) {
             Xem thêm với {topicName} <ArrowRight />
           </div>
           {/* <div className="recommend-product__group__see-all-topic-btn center-flex-item">
-        <Link
-          href={{
-            pathname: APP_URL.PRODUCT_LIST,
-            query: {
-              topicIds,
-            },
-          }}
-        >
-          Xem thêm với {topicName} <ArrowRight />
-        </Link>
-      </div> */}
+            <Link
+              href={{
+                pathname: APP_URL.PRODUCT_LIST,
+                query: {
+                  topicIds,
+                },
+              }}
+            >
+              Xem tất cả {topicName} <ArrowRight />
+            </Link>
+          </div> */}
         </div>
       )}
     </>

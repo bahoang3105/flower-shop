@@ -39,7 +39,7 @@ export default function FlowerForm({ setParams }: PropsType) {
       className='flower-form'
     >
       <Row gutter={16}>
-        <Col span={10}>
+        <Col span={8}>
           <Form.Item name='keyword'>
             <Input
               className='search-input'

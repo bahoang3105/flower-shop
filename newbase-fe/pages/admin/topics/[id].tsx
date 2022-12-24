@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import ImageNext from 'next/image';
 import { ReactElement, useState } from 'react';
 import { Col, Form, Image, Input, Modal, Row } from 'antd';
 import Admin from '@components//Layout/Admin';
@@ -10,16 +12,18 @@ import showMessage from '@components//Message';
 import { TYPE_MESSAGE } from 'constants/common';
 import { WEB_URL } from 'constants/routes';
 import { useDeleteTopic, useGetDetailTopic, useUpdateTopic } from 'hooks/topic';
-import Link from 'next/link';
+import PublicImage from 'public/images';
+import Pagination from '@components//Pagination';
 
 export default function DetailTopic() {
   const router = useRouter();
   const id = String(router.query.id);
   const { data, refetch } = useGetDetailTopic(id);
+  const [page, setPage] = useState(1);
   const [form] = Form.useForm();
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const { data: listFlower } = useGetFlowers({ params: { limit: 1000000, page: 1, topicIds: [id] } });
+  const { data: listFlower } = useGetFlowers({ params: { limit: 24, page: page, topicIds: [id] } });
 
   const { mutateAsync: updateTopic } = useUpdateTopic({
     id,
@@ -44,6 +48,9 @@ export default function DetailTopic() {
   const handleClickDeleteButton = () => {
     setOpenModalDelete(true);
   };
+  const handleChangePage = (page: number) => {
+    setPage(page);
+  };
 
   return (
     <div className='flower-detail'>
@@ -58,7 +65,7 @@ export default function DetailTopic() {
       </Row>
       <div className='flower-detail__id'>#{formatNumber(Number(id))}</div>
       <h1>{data?.name}</h1>
-      <h4>Mô tả: {data?.description || 'Không có mô tả'}</h4>
+      <h4 style={{ marginBottom: 24 }}>Mô tả: {data?.description || 'Không có mô tả'}</h4>
       <h3>Danh sách hoa</h3>
       <div className='recommend-product'>
         <Row className='recommend-product__list'>
@@ -73,14 +80,28 @@ export default function DetailTopic() {
                 sm={12}
                 md={6}
                 xl={4}
+                xxl={3}
               >
                 <Link
                   href={{
                     pathname: WEB_URL.MANAGE_FLOWERS + '/' + id,
                   }}
                 >
-                  <div className='recommend-product__list__item__thumbnail-img' style={{ paddingTop: '0%' }}>
-                    <Image src={listImage[0].filePath} alt='' preview={false} />
+                    <div className="recommend-product__list__item__thumbnail-img">
+                    {listImage?.length > 0 ? (
+                      <Image
+                        className="image"
+                        src={listImage[0]?.filePath}
+                        preview={false}
+                        alt=""
+                      />
+                    ) : (
+                      <ImageNext
+                        className="image"
+                        src={PublicImage?.blankImg}
+                        alt=""
+                      />
+                    )}
                   </div>
                   <div className='recommend-product__list__item__name centrelize-text'>{name}</div>
                   <div className='recommend-product__list__item__price centrelize-text'>
@@ -92,6 +113,15 @@ export default function DetailTopic() {
           })}
         </Row>
       </div>
+
+      <Pagination
+        current={page}
+        pageSize={24}
+        showPageSize={false}
+        onChange={handleChangePage}
+        total={listFlower?.meta?.totalItems}
+        position='center'
+      />
       <Modal
         open={openModalUpdate}
         onCancel={() => setOpenModalUpdate(false)}
