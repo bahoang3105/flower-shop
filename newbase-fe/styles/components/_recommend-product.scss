@@ -48,7 +48,16 @@
       padding: 8px;
       &__thumbnail-img {
         position: relative;
-        padding-top: 100%;
+        padding-top: 150%;
+        .ant-image {
+          object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #f8f8f8;
+        }
         .image {
           object-fit: cover;
           position: absolute;
@@ -56,7 +65,7 @@
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: #d1d1d1;
+          background-color: #f8f8f8;
         }
       }
       &__name {

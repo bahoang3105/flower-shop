@@ -20,10 +20,18 @@
   &__page-info {
     max-width: 1400px;
     margin: 0 auto !important;
+    .bg-wrap {
+      background-color: #f8f8f8;
+    }
     &__main-img {
       position: relative;
-      padding-top: 72%;
+      padding-top: 150%;
       margin-bottom: 46px;
+
+      &__container {
+        margin: 0 auto;
+        max-width: 370px;
+      }
       &__image,
       .ant-image {
         object-fit: cover;
@@ -110,7 +118,7 @@
     }
     &__item {
       position: relative;
-      padding-top: 100%;
+      padding-top: 150%;
       &__blank-img,
       .ant-image {
         object-fit: cover;
@@ -118,7 +126,12 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 100% !important;
+        img {
+          width: 100%;
+          height: 100% !important;
+          object-fit: contain;
+        }
       }
     }
     &__title {
@@ -167,6 +180,7 @@
       font-size: 16px;
       line-height: 26px;
       color: #060a13;
+      margin-bottom: 16px;
     }
     &__desc {
       font-size: 14px;

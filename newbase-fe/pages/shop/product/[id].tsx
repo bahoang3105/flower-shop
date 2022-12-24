@@ -11,14 +11,20 @@ import PublicImage from "public/images";
 import AppImage from "@components//AppImage";
 import { postAccountGuests } from "services/accountGuest";
 import { useRouter } from "next/router";
+import { APP_URL } from "constants/common";
 
 function ProductDetail({ id }: any) {
   const [messageApi, contextHolder] = message.useMessage();
   const { width } = useWindowSize();
   const router = useRouter();
   const { data } = useGetDetailFlower(id);
+
   const { data: moreItemList } = useGetFlowers({
-    params: { limit: 4, page: 1 },
+    params: {
+      limit: 4,
+      page: 1,
+      topicIds: data?.listTopics?.map(({ id }: any) => id),
+    },
   });
   const { listTopics, flower } = data || {};
   const { listImage, name: flowerName, price } = flower || {};
@@ -32,19 +38,25 @@ function ProductDetail({ id }: any) {
   }, []);
 
   const formatedImgList: any = useMemo(() => {
-    listImage?.map(({ filePath }: any) => filePath);
+    return listImage?.map((item: any) => {
+      return item?.filePath;
+    });
   }, [listImage]);
 
   const renderImageGroup = useMemo(() => {
     return (
       <>
-        <div className="product-detail__page-info__main-img">
-          <AppImage
-            src={mainImg}
-            preview={false}
-            alt=""
-            className="product-detail__page-info__main-img__image"
-          />
+        <div className="bg-wrap">
+          <div className="product-detail__page-info__main-img__container">
+            <div className="product-detail__page-info__main-img">
+              <AppImage
+                src={mainImg}
+                preview={false}
+                alt=""
+                className="product-detail__page-info__main-img__image"
+              />
+            </div>
+          </div>
         </div>
         {formatedImgList?.length > 0 && (
           <AppCarousel
@@ -81,6 +93,12 @@ function ProductDetail({ id }: any) {
     setOpenModalSendInquiry(false);
   };
 
+  const formatMoreItemList = useMemo(() => {
+    return moreItemList?.items?.filter((item: any) => {
+      return parseInt(id) !== item?.id;
+    });
+  }, [moreItemList, id]);
+
   return (
     <main className="container product-detail">
       {contextHolder}
@@ -115,40 +133,52 @@ function ProductDetail({ id }: any) {
             className="product-detail__send-inquiry-btn"
             onClick={() => setOpenModalSendInquiry(true)}
           >
-            Send Inquiry
+            Mua Hoa
           </button>
         </Col>
       </Row>
       <div className="product-detail__more-item">
         <p className="product-detail__more-item__title">
-          MORE ITEMS TO CONSIDER
+          Các sản phẩm hoa khác
         </p>
         <Row gutter={[16, 16]} wrap>
-          {moreItemList?.items?.map(({ listImage, name, price }: any) => {
-            return (
-              <Col span={24} sm={12} lg={6}>
-                <div className="product-detail__more-item__item">
-                  {listImage?.length > 0 ? (
-                    <Image
-                      src={listImage[0]?.filePath}
-                      preview={false}
-                      alt=""
-                    />
-                  ) : (
-                    <ImageNext
-                      className="product-detail__more-item__item__blank-img"
-                      src={PublicImage?.blankImg}
-                      alt=""
-                    />
-                  )}
-                </div>
-                <p className="product-detail__more-item__item-name">{name}</p>
-                <p className="product-detail__more-item__item-price">
-                  From ${price}
-                </p>
-              </Col>
-            );
-          })}
+          {formatMoreItemList?.map(
+            ({ listImage, name, price, id: recommendId }: any) => {
+              return (
+                <Col
+                  onClick={() => {
+                    router.push({
+                      pathname: APP_URL.PRODUCT_DETAIL,
+                      query: { id: recommendId },
+                    });
+                  }}
+                  span={24}
+                  sm={12}
+                  lg={6}
+                >
+                  <div className="product-detail__more-item__item">
+                    {listImage?.length > 0 ? (
+                      <Image
+                        src={listImage[0]?.filePath}
+                        preview={false}
+                        alt=""
+                      />
+                    ) : (
+                      <ImageNext
+                        className="product-detail__more-item__item__blank-img"
+                        src={PublicImage?.blankImg}
+                        alt=""
+                      />
+                    )}
+                  </div>
+                  <p className="product-detail__more-item__item-name">{name}</p>
+                  <p className="product-detail__more-item__item-price">
+                    From ${price}
+                  </p>
+                </Col>
+              );
+            }
+          )}
         </Row>
       </div>
       <Modal
@@ -160,10 +190,11 @@ function ProductDetail({ id }: any) {
         width={400}
       >
         <div className="product-detail__send-inquiry-modal__title">
-          Send an Inquiry
+          Gửi yêu cầu
         </div>
         <p className="product-detail__send-inquiry-modal__desc">
-          Just leave your contact below. We will get in touch with you shortly!
+          Chỉ cần để lại liên lạc của bạn dưới đây. Chúng tôi sẽ liên lạc với
+          bạn ngay!
         </p>
         <Form
           form={form}
@@ -188,8 +219,15 @@ function ProductDetail({ id }: any) {
           </Form.Item> */}
           <Form.Item
             name="phone"
-            label="Phone Number"
-            rules={[{ required: true }, { type: "string", min: 9 }]}
+            label="Số điện thoại của bạn"
+            rules={[
+              { required: true },
+              {
+                type: "string",
+                min: 9,
+                message: "Vui lòng nhập tối thiểu 9 số",
+              },
+            ]}
           >
             <Input placeholder="" />
           </Form.Item>
@@ -197,7 +235,7 @@ function ProductDetail({ id }: any) {
             key="submit"
             className="product-detail__send-inquiry-modal__submit-btn"
           >
-            Contact Us Now
+            Gửi yêu càu
           </button>
         </Form>
       </Modal>

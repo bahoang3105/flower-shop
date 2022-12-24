@@ -1,7 +1,7 @@
 html,
 body {
   font-size: 15px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-color: $color_white_1;
   color: $color_black_1;
   overflow: auto;
@@ -9,15 +9,15 @@ body {
     width: 8px;
   }
   &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgb(220, 205, 205); 
+    box-shadow: inset 0 0 5px rgb(220, 205, 205);
     border-radius: 5px;
   }
   &::-webkit-scrollbar-thumb {
-    background: rgb(164, 129, 168); 
+    background: rgb(164, 129, 168);
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: rgb(114, 90, 117); 
+    background: rgb(114, 90, 117);
   }
 
   #root {
@@ -43,7 +43,7 @@ body {
 .error {
   font-size: 14px !important;
   color: #ff4d4f !important;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 .ant-form-item-explain-error {

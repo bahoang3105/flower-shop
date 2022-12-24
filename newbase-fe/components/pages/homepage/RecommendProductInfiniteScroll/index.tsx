@@ -22,7 +22,8 @@ function RecommendProduct(props: any) {
       <Row className="recommend-product__list">
         {list?.items?.map((item: any) => {
           const { listImage, name, price, id } = item || {};
-          console.log(listImage?.length);
+
+          console.log(listImage);
 
           return (
             <Col
@@ -58,7 +59,7 @@ function RecommendProduct(props: any) {
                   {name}
                 </div>
                 <div className="recommend-product__list__item__price centrelize-text">
-                  From ${price}
+                  Giá : {price}
                 </div>
               </Link>
             </Col>
