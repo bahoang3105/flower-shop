@@ -88,6 +88,22 @@
     line-height: 48px;
     color: #4d2c4b;
   }
+  &__product-size {
+    font-size: 20px;
+    line-height: 28px;
+    color: #25424c;
+    &__size {
+      margin: 16px 0;
+    }
+    &__size {
+      text-align: center;
+      padding: 8px 16px;
+      background: #fbf6fd;
+      width: fit-content;
+      min-width: 100px;
+      border: 1px solid #937491;
+    }
+  }
   &__send-inquiry-btn {
     border: none;
     cursor: pointer;

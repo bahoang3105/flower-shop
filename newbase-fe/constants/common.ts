@@ -1,3 +1,5 @@
+export const INFINITE_VALUE = 999999999;
+
 export const LOCAL_STORAGE = {
   TOKEN: "token",
 };
@@ -28,9 +30,9 @@ export const APP_URL = {
 export type appBreadcrumbType = "product-list" | "shop" | "product";
 
 export const BREADCRUMB_TEXT = {
-  ["shop"]: "Home",
-  ["product-list"]: "Product List",
-  ["product"]: "Product",
+  ["shop"]: "Trang chủ",
+  ["product-list"]: "Phân loại",
+  ["product"]: "Sản phẩm",
 };
 
 export const BREADCRUMB_LINK = {

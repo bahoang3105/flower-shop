@@ -27,7 +27,8 @@ function ProductDetail({ id }: any) {
     },
   });
   const { listTopics, flower } = data || {};
-  const { listImage, name: flowerName, price } = flower || {};
+  const { listImage, name: flowerName, price, size } = flower || {};
+
   const [mainImg, setMainImg] = useState(listImage?.length > 0 && listImage[0]);
   const [smallScreen, setSmallScreen] = useState(false);
   const [openModalSendInquiry, setOpenModalSendInquiry] = useState(false);
@@ -120,10 +121,16 @@ function ProductDetail({ id }: any) {
         </Col>
         <Col span={24} lg={10}>
           <p className="product-detail__product-name">{flowerName}</p>
-          <p className="product-detail__product-price">${price}</p>{" "}
+          <p className="product-detail__product-price">
+            Giá : {parseInt(price, 10).toLocaleString()} đ
+          </p>
+          <div className="product-detail__product-size">
+            <div className="product-detail__product-size__label">Size</div>
+            <div className="product-detail__product-size__size">{size}</div>
+          </div>
           <div className="product-detail__desc-group">
             <div className="product-detail__desc-group__title">
-              <p>Description</p>
+              <p>Thông tin sản phẩm</p>
             </div>
             <div className="product-detail__desc-group__content">
               {flower?.description}
