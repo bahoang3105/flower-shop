@@ -18,14 +18,15 @@ import { TYPE_MESSAGE } from 'constants/common';
 import dynamic from 'next/dynamic';
 const ImgCrop = dynamic(import('antd-img-crop'), { ssr: false });
 
+// update late
 const INITIAL_VALUES = {
-  name: '',
-  description: '',
-  size: undefined,
-  price: undefined,
+  name: 'Cây ',
+  description: 'Nhà phân phối: CTY APOLLO',
+  size: '3S, 2S, S, A, B, C, D',
+  price: 0,
   flowerThumbnail: undefined,
   quantity: undefined,
-  topicIds: [],
+  topicIds: [1],
 };
 
 export default function CreateFlower() {
