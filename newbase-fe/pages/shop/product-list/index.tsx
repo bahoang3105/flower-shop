@@ -77,7 +77,7 @@ function ProductList({ topicIds, keyword }: any) {
         })
         ?.join(" , ")
     );
-  }, [topicList, filter]);
+  }, [topicList, data]);
 
   const flowerList = useMemo(() => {
     return data?.items?.map((flower: any) => ({
@@ -162,7 +162,12 @@ function ProductList({ topicIds, keyword }: any) {
 function ProductItem({
   data,
 }: {
-  data: { name: string; price: number; listImage: { filePath: string }[]; id: string | number };
+  data: {
+    name: string;
+    price: number;
+    listImage: { filePath: string }[];
+    id: string | number;
+  };
 }) {
   const { name, listImage, price, id } = data || {};
   console.log(data);
@@ -195,7 +200,9 @@ function ProductItem({
           <p className="product-list__list__item__info__name">
             <b>{name}</b>
           </p>
-          <p className="product-list__list__item__info__price">{formatNumber(price)} VND</p>
+          <p className="product-list__list__item__info__price">
+            {formatNumber(price)} VND
+          </p>
         </div>
       </div>
     </Link>
