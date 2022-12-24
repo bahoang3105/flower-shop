@@ -246,7 +246,7 @@ export default function DetailFlower() {
                 }
                 key="1"
               >
-                <ImgCrop grid rotate>
+                <ImgCrop grid rotate aspect={3/5}>
                   <Upload
                     listType='picture-card'
                     accept='.jpg, .jpeg, .png, .gif'

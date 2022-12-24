@@ -140,7 +140,7 @@ export default function CreateFlower() {
                     <span>Tải lên</span>
                   </div>
                 )}
-                <ImgCrop grid rotate aspect={2/3}>
+                <ImgCrop grid rotate aspect={3/5}>
                   <Upload
                     className='create-flower-form__thumbnail__upload'
                     listType='picture-card'
@@ -162,7 +162,7 @@ export default function CreateFlower() {
             </Col>
             <Col span={24} style={{ marginBottom: 20 }}>
               <label style={{ lineHeight: '32px' }}>Một số ảnh khác</label>
-              <ImgCrop grid rotate>
+              <ImgCrop grid rotate aspect={3/5}>
                 <Upload
                   listType='picture-card'
                   accept='.jpg, .jpeg, .png, .gif'
@@ -182,7 +182,7 @@ export default function CreateFlower() {
           <CreateFlowerForm form={form} initialValues={INITIAL_VALUES} onFinish={handleSubmit} />
           <AppButton text='Thêm mới' variant='primary' onClick={form.submit} />
         </Col>
-        <Col xxl={6} xl={7} lg={8} className='create-flower-preview'>
+        <Col xxl={5} xl={6} lg={7} className='create-flower-preview'>
           <section>
             <label>Xem trước</label>
             <div className='create-flower-preview__border'>

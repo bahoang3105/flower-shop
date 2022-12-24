@@ -47,13 +47,14 @@ export default function CreateFlowerForm({
         <Col span={12}>
           <label>Kích cỡ</label>
           <Form.Item name="size">
-            <Select placeholder="Kích cỡ hoa">
+            {/* <Select placeholder="Kích cỡ hoa">
               {SIZE_OPTIONS.map((option) => (
                 <Select.Option key={option.value} value={option.value}>
                   {option.label}
                 </Select.Option>
               ))}
-            </Select>
+            </Select> */}
+            <Input placeholder="Kích cỡ hoa" autoComplete="off" maxLength={512} />
           </Form.Item>
         </Col>
         <Col span={12}>
