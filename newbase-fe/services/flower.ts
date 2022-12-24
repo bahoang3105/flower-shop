@@ -14,7 +14,7 @@ export const getFlowerDetail = (id: string) => {
 };
 
 export const updateFlower = (id: string, formData: FormData) => {
-  return api.patch(API_URL.FLOWERS + "/" + id, formData);
+  return api.postMultiplePart(API_URL.FLOWERS + "/" + id, formData);
 };
 
 export const deleteFlower = (id: string) => {

@@ -51,7 +51,7 @@ export default function DetailFlower() {
   const flowerInfo = { ...data?.flower, topicIds };
 
   const handleSubmitEdit = (values: any) => {
-    setModalInfo({ ...values, thumbnail: data?.flower?.listImage[0]?.filePath || '' });
+    setModalInfo({ ...values, thumbnail: listImage[0].url });
     setOpenModalUpdate(true);
   };
   const handleSubmit = async () => {
@@ -64,14 +64,12 @@ export default function DetailFlower() {
     
     Object.keys(flowerInfo).forEach((field: string) => flowerInfo[field] && formData.append(field, flowerInfo[field]));
     
-    const listImageId = listImage?.filter((image: any) => !!image.url)?.map((image: any) => image.id);
-    const newImages = listImage
+    const listImageId = listImage?.filter((image: any) => !image.originFileObj)?.map((image: any) => image.id);
+    const newImages: File[] = listImage
       ?.filter((image: any) => !!image.originFileObj)
       ?.map((image: any) => image.originFileObj);
     listImageId?.forEach((imageId: string) => formData.append('listImage[]', imageId));
-    for (let i = 0; i < newImages.length; i++) {
-      formData.append('files', newImages[i]);
-    }
+    newImages?.forEach((file) => formData.append('files', file));
     await updateFlower(formData);
   };
   const handleClickSave = () => {
@@ -81,19 +79,7 @@ export default function DetailFlower() {
     setisEdit(true);
   };
   const handlePreview = async (file: any) => {
-    if (file.url) {
       window.open(file.url);
-      return;
-    }
-    const src: any = await getSrcFromFile(file.originFileObj);
-    const imgWindow = window.open(src);
-    if (imgWindow) {
-      const image = new Image();
-      image.src = src;
-      imgWindow.document.write(image.outerHTML);
-    } else {
-      window.location.href = src;
-    }
   };
   const handleClickCancleEdit = () => {
     setisEdit(false);
@@ -135,7 +121,7 @@ export default function DetailFlower() {
       </div>
     ));
   };
-  const handleChangeListImage = (info: any) => {
+  const handleChangeListImage = async (info: any) => {
     setListImage(info.fileList);
   };
 
@@ -148,6 +134,16 @@ export default function DetailFlower() {
       })) || [],
     );
   }, [data]);
+
+  useEffect(() => {
+    setListImage((listImage: any) => {
+      const lastImage = listImage[listImage.length - 1];
+      if (lastImage && !lastImage.url && !lastImage.data) {
+        lastImage.url = URL.createObjectURL(lastImage.originFileObj);
+      }
+      return listImage;
+    });
+  }, [listImage])
 
   return (
     <div className='flower-detail'>

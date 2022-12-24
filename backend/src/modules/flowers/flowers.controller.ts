@@ -68,7 +68,7 @@ export class FlowersController {
     return this.flowersService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Post(':id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
