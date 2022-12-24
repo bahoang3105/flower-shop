@@ -1,7 +1,8 @@
 .recommend-product {
   &__group {
     padding: 0 20px;
-    max-width: 1720px;
+    max-width: 1400px;
+    backdrop-filter: blur(10px);
     margin: 68px auto !important;
     &__see-more-btn {
       width: fit-content;
@@ -37,7 +38,7 @@
     }
   }
   &__title {
-    margin: 68px;
+    margin: 72px 40px 24px;
     font-weight: 600;
     font-size: 28px;
     line-height: 50px;
@@ -46,6 +47,7 @@
   &__list {
     &__item {
       padding: 8px;
+      margin-bottom: 32px;
       &__thumbnail-img {
         position: relative;
         padding-top: 150%;
@@ -70,7 +72,7 @@
       }
       &__name {
         max-width: 285px;
-        margin: 26px auto 0;
+        margin: 12px auto 0;
         font-weight: 600;
         font-size: 16px;
         line-height: 26px;

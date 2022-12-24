@@ -3,16 +3,26 @@ import { APP_URL } from "constants/common";
 import { useGetFlowers } from "hooks/flower";
 import Link from "next/link";
 import ArrowRight from "public/svg/arrow_right";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ImageNext from "next/image";
 import PublicImage from "public/images";
+import { formatNumber } from "utils/common";
+import { useWindowSize } from "hooks/useWindowSize";
 
 function RecommendProduct(props: any) {
   const { data } = props || {};
+  const { width } = useWindowSize();
   const { id: topicIds, name: topicName } = data || {};
   const { data: list } = useGetFlowers({
-    params: { limit: 4, page: 1, topicIds },
+    params: { limit: 6, page: 1, topicIds },
   });
+
+  const dataRender = useMemo(() => {
+    if(width < 1200 && width > 991) {
+      return list?.items?.slice(0, 4);
+    }
+    return list?.items;
+  }, [list, width < 1200 && width > 991]);
 
   return (
     <div className="recommend-product">
@@ -20,18 +30,16 @@ function RecommendProduct(props: any) {
         {topicName}
       </div>
       <Row className="recommend-product__list">
-        {list?.items?.map((item: any) => {
+        {dataRender?.map((item: any) => {
           const { listImage, name, price, id } = item || {};
-
-          console.log(listImage);
-
           return (
             <Col
               className="recommend-product__list__item"
-              xs={24}
+              xs={12}
               sm={12}
-              md={12}
-              xl={6}
+              md={8}
+              lg={6}
+              xl={4}
             >
               <Link
                 href={{
@@ -59,7 +67,7 @@ function RecommendProduct(props: any) {
                   {name}
                 </div>
                 <div className="recommend-product__list__item__price centrelize-text">
-                  Giá : {price}
+                  {formatNumber(price)} VND
                 </div>
               </Link>
             </Col>
@@ -75,7 +83,7 @@ function RecommendProduct(props: any) {
             },
           }}
         >
-          See all for {topicName} <ArrowRight />
+          Xem tất cả {topicName} <ArrowRight />
         </Link>
       </div>
     </div>

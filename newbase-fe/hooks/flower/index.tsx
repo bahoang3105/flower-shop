@@ -11,6 +11,7 @@ export const useCreateFlower = ({ onSuccess }: any) => {
 export const useGetFlowers = ({ params }: any) => {
   return useQuery([QUERY_KEY.GET_FLOWERS, params], () => getFlowers(params), {
     select: (res) => res?.data?.data || {},
+    enabled: !(params?.topicIds?.length > 0 && params?.topicIds?.[0] === 'undefined')
   });
 };
 

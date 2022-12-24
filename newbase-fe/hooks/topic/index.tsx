@@ -18,6 +18,7 @@ export const useCreateTopic = ({ onSuccess }: any) => {
 export const useGetDetailTopic = (id: string) => {
   return useQuery([QUERY_KEY.DETAIL_TOPIC, id], () => getTopicDetail(id), {
     select: (res) => res?.data?.data || {},
+    enabled: id !== 'undefined',
   });
 };
 

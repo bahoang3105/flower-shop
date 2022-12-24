@@ -168,39 +168,6 @@ export default function DetailFlower() {
               </Slider>
             </div>
           </Row>
-          <Row className='flower-detail__update-thumbnail'>
-            <Collapse collapsible={isEdit ? 'header' : 'disabled'} activeKey={isEdit ? ['1'] : []}>
-              <Collapse.Panel
-                header={
-                  <Tooltip title={isEdit ? '' : 'Nhấn chỉnh sửa để cập nhật danh sách ảnh hoa'}>
-                    Cập nhật danh sách ảnh hoa
-                  </Tooltip>
-                }
-                key='1'
-              >
-                <ImgCrop grid rotate aspect={3/5}>
-                  <Upload
-                    listType='picture-card'
-                    accept='.jpg, .jpeg, .png, .gif'
-                    multiple={true}
-                    fileList={listImage}
-                    onChange={handleChangeListImage}
-                    onPreview={handlePreview}
-                    showUploadList={{
-                      showDownloadIcon: false,
-                      showPreviewIcon: true,
-                      showRemoveIcon: listImage.length > 1,
-                    }}
-                  >
-                    <div>
-                      <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>Tải lên</div>
-                    </div>
-                  </Upload>
-                </ImgCrop>
-              </Collapse.Panel>
-            </Collapse>
-          </Row>
         </Col>
         <Col span={18}>
           <div className='flower-detail__id'>#{formatNumber(Number(id))}</div>
@@ -208,6 +175,39 @@ export default function DetailFlower() {
             <CreateFlowerForm form={form} disabled={!isEdit} onFinish={handleSubmitEdit} initialValues={flowerInfo} />
           )}
         </Col>
+      </Row>
+      <Row className='flower-detail__update-thumbnail'>
+        <Collapse collapsible={isEdit ? 'header' : 'disabled'} activeKey={isEdit ? ['1'] : []}>
+          <Collapse.Panel
+            header={
+              <Tooltip title={isEdit ? '' : 'Nhấn chỉnh sửa để cập nhật danh sách ảnh hoa'}>
+                Cập nhật danh sách ảnh hoa
+              </Tooltip>
+            }
+            key='1'
+          >
+            <ImgCrop grid rotate aspect={3/5}>
+              <Upload
+                listType='picture-card'
+                accept='.jpg, .jpeg, .png, .gif'
+                multiple={true}
+                fileList={listImage}
+                onChange={handleChangeListImage}
+                onPreview={handlePreview}
+                showUploadList={{
+                  showDownloadIcon: false,
+                  showPreviewIcon: true,
+                  showRemoveIcon: listImage.length > 1,
+                }}
+              >
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Tải lên</div>
+                </div>
+              </Upload>
+            </ImgCrop>
+          </Collapse.Panel>
+        </Collapse>
       </Row>
       <ModalConfirmFlower
         open={openModalUpdate}
