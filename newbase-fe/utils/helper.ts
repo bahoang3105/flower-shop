@@ -5,9 +5,6 @@ export const scrollToElement = ({
   id: string;
   yOffset: number;
 }) => {
-  console.log(id);
-  console.log(yOffset);
-
   const element = document.getElementById(id);
   if (element) {
     const y =

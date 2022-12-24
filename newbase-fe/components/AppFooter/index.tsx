@@ -1,4 +1,4 @@
-import { Row } from "antd";
+import { Col, Row } from "antd";
 import { useGetWebInfo } from "hooks/webInfo";
 import Image from "next/image";
 import PublicImage from "public/images";
@@ -20,18 +20,24 @@ export default function Footer() {
   const renderSocialList = () => {
     return SOCIAL_LIST.map((item) => {
       if (item?.key === 4) {
-        <a
-          key={item.key}
-          className="footer-social-list__item"
-          href={"tel:+84965605123"}
-        >
-          <Image src={item.srcImage} alt="" height={36} width={36} />
-        </a>;
+        return (
+          <div key={item.key} className="footer-social-list__item">
+            <a
+              key={item.key}
+              className="footer-social-list__item"
+              href={"tel:+84965605123"}
+            >
+              <Image src={item.srcImage} alt="" height={36} width={36} />
+              {/* <div className="footer-social-list__item__item-1">{item.url}</div> */}
+            </a>
+          </div>
+        );
       }
       return (
         <div key={item.key} className="footer-social-list__item">
           <a href={item.url}>
             <Image src={item.srcImage} alt="" height={36} width={36} />
+            {/* <div className="footer-social-list__item__item-1">{item.url}</div> */}
           </a>
         </div>
       );
@@ -39,24 +45,69 @@ export default function Footer() {
   };
 
   return (
-    <footer>
-      <div className="footer">
-        <div className="footer__item">
-          <Image src={ImageSvg.logo} alt="" />
-        </div>
-        <div className="footer__item">
-          <div id={CONTACT_SECTION_ANCHOR} className="footer-social-list">
-            {renderSocialList()}
-          </div>
-        </div>
-        <div className="footer__item">
-          <p className="footer__item__address">{address}</p>
-        </div>
-      </div>
+    <>
+      <footer id={CONTACT_SECTION_ANCHOR} className="footer-container">
+        <Row
+          wrap
+          gutter={[60, 16]}
+          justify="space-between"
+          className="footer-content"
+        >
+          <Col lg={24} xl={5}>
+            <Image
+              className="footer-content__logo"
+              src={ImageSvg.logo}
+              alt=""
+            />
+          </Col>
+          <Col lg={24} xl={6}>
+            <div className="footer-content__address__title">Social</div>
+            <div className="footer-content__address__content">
+              {renderSocialList()}
+            </div>
+          </Col>
+          <Col lg={24} className="footer-content__address" xl={7}>
+            <div className="footer-content__address__title">Cửa Hàng</div>
+            <div className="footer-content__address__content">
+              <p>
+                <b>Địa chỉ cơ sỏ Thanh Xuân : </b>
+                {address}
+              </p>
+            </div>
+          </Col>
+          <Col lg={24} xl={5}>
+            <div className="footer-content__address__title">Liên hệ</div>
+            <div className="footer-content__address__content">
+              <p>
+                <b>SĐT Cơ sở Thanh Xuân: </b>
+                {mobilePhone}
+              </p>
+            </div>
+          </Col>
+        </Row>
+      </footer>
       <Row className="copyright center-flex-item" justify="center">
         &#169; 2022 Tuyet Ho Diep Flower Shop
       </Row>
-    </footer>
+    </>
+    // <footer>
+    //   <div className="footer">
+    //     <div className="footer__item">
+    //       <Image src={ImageSvg.logo} alt="" />
+    //     </div>
+    //     <div className="footer__item">
+    //       <div id={CONTACT_SECTION_ANCHOR} className="footer-social-list">
+    //         {renderSocialList()}
+    //       </div>
+    //     </div>
+    //     <div className="footer__item">
+    //       <p className="footer__item__address">{address}</p>
+    //     </div>
+    //   </div>
+    //   <Row className="copyright center-flex-item" justify="center">
+    //     &#169; 2022 Tuyet Ho Diep Flower Shop
+    //   </Row>
+    // </footer>
   );
 }
 export async function getServerSideProps(context: any) {
