@@ -126,7 +126,7 @@ export class FlowersService {
         queryBuilder.andWhere('flower.price >= :priceFrom', { priceFrom });
       }
       if (priceTo) {
-        queryBuilder.andWhere('flower.price <= : priceTo', { priceTo });
+        queryBuilder.andWhere('flower.price <= :priceTo', { priceTo });
       }
       if (topicIds?.length > 0) {
         queryBuilder.innerJoinAndMapMany(

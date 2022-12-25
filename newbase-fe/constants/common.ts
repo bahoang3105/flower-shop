@@ -1,4 +1,4 @@
-export const INFINITE_VALUE = 999999999;
+export const INFINITE_VALUE = 99999999999;
 
 export const LOCAL_STORAGE = {
   TOKEN: "token",

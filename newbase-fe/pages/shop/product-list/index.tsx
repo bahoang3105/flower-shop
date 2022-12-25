@@ -50,8 +50,8 @@ function ProductList({ topicIds, keyword }: any) {
       topicIds:
         formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
       keyword: filter?.keyword || keyword,
-      // priceFrom: filter?.priceRange?.priceFrom || 0,
-      // priceTo: filter?.priceRange?.priceTo || INFINITE_VALUE,
+      priceFrom: filter?.priceRange?.priceFrom || 0,
+      priceTo: filter?.priceRange?.priceTo || INFINITE_VALUE,
     });
     setData(res?.data?.data);
   };
@@ -141,6 +141,7 @@ function ProductList({ topicIds, keyword }: any) {
             )}
             <div className="product-list__pagination">
               <Pagination
+                current={page}
                 onChange={(page: any) => {
                   fetchProductList({ pageProps: page });
                   setPage(page);

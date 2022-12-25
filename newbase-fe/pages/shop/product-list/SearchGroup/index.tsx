@@ -40,6 +40,11 @@ function SearchGroup({ defaultValueInput }: any) {
   const onSubmit = () => {
     fetchProductList();
   };
+  const handleKeyDown = (e: any) => {
+    if (e?.key === "Enter") {
+      onSubmit();
+    }
+  }
 
   return (
     <div className="search-group">
@@ -52,27 +57,23 @@ function SearchGroup({ defaultValueInput }: any) {
         expandIconPosition="end"
       >
         <Panel
-          header="Tìm kiếm theo tên, id của hoa"
+          header="Tìm kiếm"
           key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}
         >
           <input
             defaultValue={defaultValueInput}
             className="search-group__keyword"
-            onKeyDown={(e: any) => {
-              if (e?.key === "Enter") {
-                onSubmit();
-              }
-            }}
+            onKeyDown={handleKeyDown}
             onChange={(e) =>
               setFilter((prev: filterType) => ({
                 ...prev,
                 keyword: e?.target?.value,
               }))
             }
-            placeholder="Tìm kiếm "
+            placeholder="Tìm kiếm theo tên, id của hoa"
           />
         </Panel>
-        <Panel header="Giá" key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
+        <Panel header="Giá (VND)" key={SEARCH_GROUP_COLLAPSE_KEY.PRICE_RANGE}>
           <Row
             className="search-group__price-range-input"
             wrap={false}
@@ -93,6 +94,7 @@ function SearchGroup({ defaultValueInput }: any) {
                     },
                   }))
                 }
+                onKeyDown={handleKeyDown}
                 placeholder="Min"
                 type="number"
               />
@@ -112,6 +114,7 @@ function SearchGroup({ defaultValueInput }: any) {
                     },
                   }))
                 }
+                onKeyDown={handleKeyDown}
                 placeholder="Max"
                 type="number"
               />

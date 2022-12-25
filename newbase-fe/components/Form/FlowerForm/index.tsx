@@ -72,7 +72,7 @@ export default function FlowerForm({ setParams }: PropsType) {
         </Col>
         <label style={{ marginTop: 5 }}>đến</label>
         <Col>
-          <Form.Item name='price' className='flower-form__input-number'>
+          <Form.Item name='priceTo' className='flower-form__input-number'>
             <InputNumber
               numberDigitsAfter={0}
               value={form.getFieldValue('priceTo')}
