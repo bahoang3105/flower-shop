@@ -10,6 +10,7 @@ const PublicImage = {
   zalo: require("./zalo.png"),
   messenger: require("./messenger.png"),
   phone: require("./phone.png"),
+  mail: require("./mail.png"),
 };
 
 export default PublicImage;

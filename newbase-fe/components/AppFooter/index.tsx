@@ -7,35 +7,23 @@ import { CONTACT_SECTION_ANCHOR } from "../AppHeader";
 
 export default function Footer() {
   const { data: webInfo } = useGetWebInfo();
-  const { address, email, facebookLink, mobilePhone, title, zaloLink } =
+  const { address, email, facebookLink, mobilePhone, zaloLink } =
     webInfo?.data || {};
+  const messengerLink = 'http://m.me/' + facebookLink?.split('/')[facebookLink?.split('/').length - 1];
 
   const SOCIAL_LIST = [
     { key: 1, srcImage: PublicImage.facebook, url: facebookLink },
-    { key: 2, srcImage: PublicImage.messenger, url: email },
+    { key: 2, srcImage: PublicImage.messenger, url: messengerLink },
     { key: 3, srcImage: PublicImage.zalo, url: zaloLink },
-    { key: 4, srcImage: PublicImage.phone, url: mobilePhone },
+    { key: 5, srcImage: PublicImage.mail, url: `mailto:${email}` },
+    { key: 4, srcImage: PublicImage.phone, url: `tel:${mobilePhone}` },
   ];
 
   const renderSocialList = () => {
     return SOCIAL_LIST.map((item) => {
-      if (item?.key === 4) {
-        return (
-          <div key={item.key} className="footer-social-list__item">
-            <a
-              key={item.key}
-              className="footer-social-list__item"
-              href={"tel:+84965605123"}
-            >
-              <Image src={item.srcImage} alt="" height={36} width={36} />
-              {/* <div className="footer-social-list__item__item-1">{item.url}</div> */}
-            </a>
-          </div>
-        );
-      }
       return (
         <div key={item.key} className="footer-social-list__item">
-          <a href={item.url}>
+          <a href={item.url} target={item.key === 4 || item.key === 5 ? '_self' : '_blank'}>
             <Image src={item.srcImage} alt="" height={36} width={36} />
             {/* <div className="footer-social-list__item__item-1">{item.url}</div> */}
           </a>
@@ -78,6 +66,12 @@ export default function Footer() {
               <div>
                 <b>SĐT: </b>
                 {mobilePhone}
+              </div>
+            </div>
+            <div className="footer-content__address__content">
+              <div>
+                <b>Email: </b>
+                {email}
               </div>
             </div>
           </Col>
