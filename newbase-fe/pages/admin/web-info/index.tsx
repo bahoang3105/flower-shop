@@ -47,7 +47,7 @@ export default function WebInfo() {
         address,
         mobilePhone: phoneNumber,
       },
-      id: webInfo?.data?.data?.id,
+      id: webInfo?.data?.id,
     });
   };
 

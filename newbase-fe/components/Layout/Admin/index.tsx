@@ -29,7 +29,7 @@ const AdminLayout: FC<{
   metaDescription?: string;
   socialImageUrl?: string;
   faviconImageUrl?: string;
-}> = ({ children, title = '', className, metaDescription, socialImageUrl, faviconImageUrl }) => {
+}> = ({ children, title = 'Quản lý web', className, metaDescription, socialImageUrl, faviconImageUrl }) => {
   const { Header, Sider, Content } = Layout;
   const { Item } = Menu;
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -141,8 +141,7 @@ const AdminLayout: FC<{
           additionalLinkTags={[
             {
               rel: 'icon',
-              type: 'image/png',
-              href: (faviconImageUrl || undefined) as any,
+              href: '/static/favicon.ico'
             },
           ]}
           additionalMetaTags={[
