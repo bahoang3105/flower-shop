@@ -12,7 +12,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const login = useLogin({});
+  const { mutateAsync: login } = useLogin({});
   const router = useRouter();
 
   const handleChangeUsername = (e: any) => {
@@ -22,12 +22,13 @@ export default function Login() {
     setPassword(e.target.value);
   };
   const handleLogin = async () => {
-    const data = await login.mutateAsync({ username, password });
-    if (data?.data?.response) {
+    const data = await login({ username, password });
+    if (data?.status !== 200) {
       setError("Sai tên tài khoản hoặc mật khẩu");
-    } else if (data?.data?.role === "user") {
+    } else if (data?.data?.data?.role === "user") {
       setError("Vui lòng sử dụng tài khoản admin để đăng nhập");
-    } else {
+    } else if (data?.data?.data?.role === 'admin') {
+      setError("");
       const token = data?.data?.data?.token;
       getToken(token);
       localStorage.setItem(LOCAL_STORAGE.TOKEN, token);
