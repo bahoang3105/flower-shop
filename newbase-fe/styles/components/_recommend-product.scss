@@ -1,7 +1,7 @@
 .recommend-product {
   &__group {
     padding: 0 20px;
-    max-width: 1400px;
+    max-width: 1720px;
     backdrop-filter: blur(10px);
     margin: 68px auto !important;
     &__see-more-btn {
@@ -23,6 +23,8 @@
       font-weight: 500;
       font-size: 14px;
       line-height: 21px;
+
+      margin: 16px 0;
       a {
         color: #4d2c4b;
       }

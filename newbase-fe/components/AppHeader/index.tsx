@@ -36,11 +36,15 @@ const Header: React.FC<HeaderProps> = () => {
   const { width } = useWindowSize();
   const router = useRouter();
   const [smallScreen, setSmallScreen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const isHiddenSearchInput = router?.route === APP_URL.PRODUCT_LIST;
+
   useEffect(() => {
     setSmallScreen(width <= MINI_SCREEN);
   }, [width]);
 
   useEffect(() => {
+    window.scrollTo({ top: 1503, behavior: "smooth" });
     if (router?.asPath?.includes(CONTACT_SECTION_ANCHOR)) {
       setTimeout(() => {
         scrollToElement({ id: CONTACT_SECTION_ANCHOR, yOffset: -80 });
@@ -53,8 +57,6 @@ const Header: React.FC<HeaderProps> = () => {
     }
   }, [router]);
 
-  const [searchText, setSearchText] = useState("");
-
   const handleChangeSearchText = (value: string) => {
     setSearchText(value);
   };
@@ -65,6 +67,7 @@ const Header: React.FC<HeaderProps> = () => {
       query: { keyword: searchText },
     };
     router.push(endpoint);
+    setSearchText("");
   };
 
   const renderNavBar = () =>
@@ -106,20 +109,22 @@ const Header: React.FC<HeaderProps> = () => {
             <Col flex="1" className="header__navbar center-flex-item">
               <div className="header__navbar__content">{renderNavBar()}</div>
             </Col>
-            <Col flex="0 0 267px" className="header__search center-flex-item">
-              <TextInput
-                className="app-search"
-                value={searchText}
-                onChange={handleChangeSearchText}
-                placeholder="Tìm kiếm hoa"
-                onPressEnter={handleSearch}
-                prefix={
-                  <div onClick={handleSearch}>
-                    <Image src={ImageSvg.search} alt="" />
-                  </div>
-                }
-              />
-            </Col>
+            {!isHiddenSearchInput && (
+              <Col flex="0 0 267px" className="header__search center-flex-item">
+                <TextInput
+                  className="app-search"
+                  value={searchText}
+                  onChange={handleChangeSearchText}
+                  placeholder="Tìm kiếm hoa"
+                  onPressEnter={handleSearch}
+                  prefix={
+                    <div onClick={handleSearch}>
+                      <Image src={ImageSvg.search} alt="" />
+                    </div>
+                  }
+                />
+              </Col>
+            )}
           </Row>
         )}
       </div>

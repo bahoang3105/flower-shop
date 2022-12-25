@@ -117,7 +117,7 @@ function SearchGroup({ defaultValueInput }: any) {
               />
             </Col>
           </Row>
-          <div className="search-group__price-range-slider">
+          {/* <div className="search-group__price-range-slider">
             <Slider
               value={filter?.price}
               onChange={onChangePriceSlide}
@@ -141,7 +141,7 @@ function SearchGroup({ defaultValueInput }: any) {
                 </Col>
               ))}
             </Row>
-          </div>
+          </div> */}
         </Panel>
         <Panel
           header="Loại sản phẩm"

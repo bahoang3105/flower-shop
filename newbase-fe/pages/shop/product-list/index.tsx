@@ -16,7 +16,7 @@ import { scrollToElement } from "utils/helper";
 import NoDataImg from "public/svg/no_data.svg";
 import TagList from "components//TagList";
 import Link from "next/link";
-import { APP_URL } from "constants/common";
+import { APP_URL, INFINITE_VALUE } from "constants/common";
 import PublicImage from "public/images";
 import { formatNumber } from "utils/common";
 
@@ -51,7 +51,7 @@ function ProductList({ topicIds, keyword }: any) {
         formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
       keyword: filter?.keyword || keyword,
       // priceFrom: filter?.priceRange?.priceFrom || 0,
-      // priceTo: filter?.priceRange?.priceTo || 11,
+      // priceTo: filter?.priceRange?.priceTo || INFINITE_VALUE,
     });
     setData(res?.data?.data);
   };
