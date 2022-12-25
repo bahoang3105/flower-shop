@@ -87,6 +87,7 @@ function AppCarousel(props: any) {
           {list?.map((url: any, index: number) => {
             return (
               <div
+                key={url + index}
                 style={{ width: `${itemWidth}%` }}
                 className={cx(
                   "app-multi-carousel__item-group__item cursor-pointer",

@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = () => {
                   placeholder="Tìm kiếm hoa"
                   onPressEnter={handleSearch}
                   prefix={
-                    <div onClick={handleSearch}>
+                    <div>
                       <Image src={ImageSvg.search} alt="" />
                     </div>
                   }

@@ -1,4 +1,4 @@
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useState } from "react";
 import Image from "next/image";
 import PublicLayout from "components//Layout/Public";
 import PublicImage from "public/images";
@@ -22,14 +22,14 @@ export default function Home() {
 }
 
 function RecommendProductWrapper() {
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(4);
   const { data: topicList } = useGetTopics({
     params: { limit, page: 1, flowersPerTopic: 0 },
   });
 
   const addOneMoreTopic = () => {
     setLimit((prev) => {
-      return (prev += 1);
+      return (prev += 4);
     });
   };
 
@@ -40,11 +40,13 @@ function RecommendProductWrapper() {
           <RecommendProduct data={data} handleEmptyList={addOneMoreTopic} />
         );
       })}
-      <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
-        <span onClick={addOneMoreTopic}>
-          Xem thêm <ArrowRight />
-        </span>
-      </div>
+      {topicList?.data?.meta?.totalItems > limit && (
+        <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
+          <span onClick={addOneMoreTopic}>
+            Xem thêm <ArrowRight />
+          </span>
+        </div>
+      )}
     </>
   );
 }

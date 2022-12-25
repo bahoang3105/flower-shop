@@ -23,7 +23,6 @@ export default function WebInfo() {
     setIsEdit(false);
   };
   const { mutateAsync } = useUpdateWebInfo({ onSuccess: handleSuccess });
-
   const setStateFromApi = () => {
     const { title, email, facebookLink, mobilePhone, zaloLink, address } =
       webInfo?.data || {};
@@ -48,7 +47,7 @@ export default function WebInfo() {
         address,
         mobilePhone: phoneNumber,
       },
-      id: webInfo?.data?.id,
+      id: webInfo?.data?.data?.id,
     });
   };
 

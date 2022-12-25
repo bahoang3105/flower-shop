@@ -77,22 +77,22 @@ function RecommendProduct(props: any) {
                       {name}
                     </div>
                     <div className="recommend-product__list__item__price centrelize-text">
-                      Giá : {price}
+                      {formatNumber(price)} VND
                     </div>
                   </Link>
                 </Col>
               );
             })}
           </Row>
-          <div
+          {/* <div
             onClick={() => {
               setLimit((prev) => prev + 4);
             }}
             className="recommend-product__group__see-all-topic-btn center-flex-item"
           >
             Xem thêm với {topicName} <ArrowRight />
-          </div>
-          {/* <div className="recommend-product__group__see-all-topic-btn center-flex-item">
+          </div> */}
+          <div className="recommend-product__group__see-all-topic-btn center-flex-item">
             <Link
               href={{
                 pathname: APP_URL.PRODUCT_LIST,
@@ -103,7 +103,7 @@ function RecommendProduct(props: any) {
             >
               Xem tất cả {topicName} <ArrowRight />
             </Link>
-          </div> */}
+          </div>
         </div>
       )}
     </>

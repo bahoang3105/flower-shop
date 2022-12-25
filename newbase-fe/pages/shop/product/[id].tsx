@@ -122,7 +122,7 @@ function ProductDetail({ id }: any) {
         <Col span={24} lg={10}>
           <p className="product-detail__product-name">{flowerName}</p>
           <p className="product-detail__product-price">
-            Giá : {parseInt(price, 10).toLocaleString()} đ
+            Giá : {parseInt(price, 10).toLocaleString()} VND
           </p>
           <div className="product-detail__product-size">
             <div className="product-detail__product-size__label">Size</div>

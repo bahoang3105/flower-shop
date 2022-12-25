@@ -1,7 +1,9 @@
-import { COLLECTION_SECTION_ANCHOR } from "@components//AppHeader";
-import { Col, Row } from "antd";
+import { Col, Row, Tooltip } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import PublicImage from "public/images";
+import { COLLECTION_SECTION_ANCHOR } from "@components//AppHeader";
+import { APP_URL } from 'constants/common';
 
 const BTN_BUYNOW_TYPE_CLASSNAME = {
   [2]: "btn-buynow-type-2",
@@ -22,11 +24,11 @@ export default function FlowerCollection() {
         src={imageSrc}
         alt=""
       />
-      <div
-        className={`flower-collection__common-item__button-buy-now ${importClass}`}
-      >
-        Mua Ngay
-      </div>
+      <Tooltip placement="top" title="Mặt hàng chưa cập nhật">
+        <div className={`flower-collection__common-item__button-buy-now ${importClass}`} style={{ cursor: "not-allowed" }}>
+          Mua Ngay
+        </div>
+        </Tooltip>
     </div>
   );
 
@@ -46,9 +48,11 @@ export default function FlowerCollection() {
                   <div>BỘ SƯU TẬP</div>
                 </div>
                 <Image src={PublicImage.banner1} alt="" />
-                <div className="flower-collection__first-item__content__image-group__button-buy-now">
-                  Mua Ngay
-                </div>
+                <Link href={`${APP_URL.PRODUCT_LIST}?topicIds=1`}>
+                  <div className="flower-collection__first-item__content__image-group__button-buy-now">
+                    Mua Ngay
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
