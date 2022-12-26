@@ -119,7 +119,7 @@ export class FlowersService {
             }).orWhere('flower.id like :keyword', { keyword: `%${keyword}%` });
           }
         )
-        .andWhere('flower.isDeleted = false');
+        .where('flower.isDeleted = :isDeleted', { isDeleted: false });
 
       if (priceFrom) {
         queryBuilder.andWhere('flower.price >= :priceFrom', { priceFrom });

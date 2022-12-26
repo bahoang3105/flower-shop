@@ -93,7 +93,7 @@ export class FlowerTopicService {
     const listFlowerTopic = await this.flowerTopicsRepository
       .createQueryBuilder('flowerTopic')
       .where('flowerTopic.flowerId = (:flowerId)', { flowerId })
-      .andWhere('flowerTopic.isDeleted = false')
+      .where('flowerTopic.isDeleted = false')
       .leftJoinAndSelect(
         'flowerTopic.topic',
         'topic',

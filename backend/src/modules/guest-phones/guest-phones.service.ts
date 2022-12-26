@@ -5,7 +5,6 @@ import { DataSource, Repository } from 'typeorm';
 import { CreateGuestPhoneDto } from './dto/create-guest-phone.dto';
 import { SearchGuestPhoneDto } from './dto/search-guest-phone.dto';
 import { GuestPhone } from './entities/guest-phone.entity';
-import { paginate } from 'nestjs-typeorm-paginate';
 import { DeleteGuestPhoneDto } from './dto/delete-guest-phone.dto';
 
 @Injectable()
@@ -45,7 +44,7 @@ export class GuestPhonesService {
         .where('guestPhone.phoneNumber like :keyword', {
           keyword: `%${keyword}%`,
         })
-        .andWhere('guestPhone.isDeleted = false');
+        .where('guestPhone.isDeleted = false');
 
       if (pageAccess) {
         queryBuilder.andWhere('guestPhone.pageAccess = :pageAccess', {

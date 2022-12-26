@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNumber, IsOptional } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
 import { VALUE } from 'src/common/constants';
 import { SearchDto } from 'src/common/search.dto';
 
@@ -10,4 +10,14 @@ export class SearchTopicDto extends SearchDto {
   @Type(() => Number)
   @IsNumber()
   flowersPerTopic: number;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  getEmptyTopic: boolean;
 }

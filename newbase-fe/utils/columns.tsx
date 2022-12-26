@@ -137,7 +137,7 @@ export const topicListColumns = () => [
     dataIndex: 'createdAt',
     key: 'createdAt',
     sorter: true,
-    sortField: 'flower.createdAt',
+    sortField: 'topic.createdAt',
     width: '300px',
     render: (createdAt: string) => <div>{moment(new Date(createdAt)).format(DATE_FORMAT.FULL_TIME)}</div>,
   },

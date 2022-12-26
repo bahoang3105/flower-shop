@@ -1,12 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
 import { Utils } from 'src/common/utils';
-import { Brackets, DataSource, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
-import { Flower } from '../flowers/entities/flower.entity';
 import { FlowersService } from '../flowers/flowers.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { SearchTopicDto } from './dto/search-topic.dto';
@@ -102,7 +100,7 @@ export class TopicsService {
   }
 
   async search(searchTopicDto: SearchTopicDto) {
-    const { keyword, limit, page, sortField, sortValue } =
+    const { keyword, limit, page, sortField, sortValue, getEmptyTopic } =
       searchTopicDto;
     try {
       const queryBuilder = this.topicsRepository
@@ -113,7 +111,18 @@ export class TopicsService {
             }).orWhere('topic.id like :keyword', { keyword: `%${keyword}%` });
           }
         )
-        .andWhere('topic.isDeleted = false')
+        .where('topic.isDeleted = false');
+
+        if (getEmptyTopic === false) {
+          queryBuilder.innerJoinAndMapMany(
+            'topic.listFlower',
+            FlowerTopic,
+            'flowerTopic',
+            'topic.id = flowerTopic.topicId AND flowerTopic.isDeleted = false'
+          );
+        }
+
+        queryBuilder
         .orderBy(sortField, sortValue)
         .skip(limit * (page - 1))
         .take(limit);
