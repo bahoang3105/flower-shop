@@ -10,28 +10,26 @@ import { formatNumber } from "utils/common";
 import { useWindowSize } from "hooks/useWindowSize";
 
 function RecommendProduct(props: any) {
-  const { data, handleEmptyList } = props || {};
-  // const { width } = useWindowSize();
+  const { data } = props || {};
+  const { width } = useWindowSize();
   const { id: topicIds, name: topicName } = data || {};
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(6);
   const { data: list } = useGetFlowers({
     params: { limit, page: 1, topicIds },
   });
   const [hidden, setHidden] = useState(false);
+  const dataRender = useMemo(() => {
+    if (width < 1200 && width > 767) {
+      return list?.items?.slice(0, 4);
+    }
+    return list?.items;
+  }, [list, width < 1200 && width > 991]);
 
   useEffect(() => {
     if (!list?.items?.length && list?.meta) {
-      handleEmptyList();
       setHidden(true);
     }
   }, [list]);
-
-  // const dataRender = useMemo(() => {
-  //   if (width < 1200 && width > 991) {
-  //     return list?.items?.slice(0, 4);
-  //   }
-  //   return list?.items;
-  // }, [list, width < 1200 && width > 991]);
 
   return (
     <>
@@ -41,15 +39,15 @@ function RecommendProduct(props: any) {
             {topicName}
           </div>
           <Row className="recommend-product__list">
-            {list?.items?.map((item: any) => {
+            {dataRender?.map((item: any) => {
               const { listImage, name, price, id } = item || {};
               return (
                 <Col
                   className="recommend-product__list__item"
-                  xs={24}
-                  sm={12}
-                  md={12}
-                  xl={6}
+                  xs={12}
+                  sm={8}
+                  md={6}
+                  xl={4}
                 >
                   <Link
                     href={{

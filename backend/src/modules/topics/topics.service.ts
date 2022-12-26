@@ -6,6 +6,7 @@ import { Utils } from 'src/common/utils';
 import { Brackets, DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
+import { Flower } from '../flowers/entities/flower.entity';
 import { FlowersService } from '../flowers/flowers.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { SearchTopicDto } from './dto/search-topic.dto';
@@ -89,7 +90,7 @@ export class TopicsService {
     try {
       queryRunner.startTransaction();
       await this.topicsRepository.update({ id }, { isDeleted: true });
-      this.flowerTopicService.removeByTopicId(id);
+      await this.flowerTopicService.removeByTopicId(id);
       return ApiOk({ success: true });
     } catch (e) {
       this.logger.log('=== Remove Topic failed ===', e);
@@ -101,34 +102,30 @@ export class TopicsService {
   }
 
   async search(searchTopicDto: SearchTopicDto) {
-    const { keyword, limit, page, sortField, sortValue, flowersPerTopic } =
+    const { keyword, limit, page, sortField, sortValue } =
       searchTopicDto;
     try {
       const queryBuilder = this.topicsRepository
         .createQueryBuilder('topic')
-        .where(
-          new Brackets((qb) => {
+        .where((qb) => {
             qb.where('topic.name like :keyword', {
               keyword: `%${keyword}%`,
             }).orWhere('topic.id like :keyword', { keyword: `%${keyword}%` });
-          })
+          }
         )
-        .andWhere('topic.isDeleted = false');
-      if (flowersPerTopic > 0) {
-        queryBuilder
-          .leftJoinAndMapMany(
-            'topic.listFlower',
-            FlowerTopic,
-            'flowerTopic',
-            'flowerTopic.topicId = topic.id AND flowerTopic.isDeleted = false'
-          )
-          .leftJoinAndSelect(
-            'flowerTopic.flower',
-            'flower',
-            'flower.isDeleted = false'
-          );
-      }
-      return ApiOk(await paginate(queryBuilder, { limit, page }));
+        .andWhere('topic.isDeleted = false')
+        .orderBy(sortField, sortValue)
+        .skip(limit * (page - 1))
+        .take(limit);
+      
+      const [items, totalItems] = await queryBuilder.getManyAndCount();
+      return ApiOk({
+        items,
+        meta: {
+          totalItems,
+          itemCount: items.length,
+        }
+      });
     } catch (e) {
       this.logger.log('=== Search Topic failed ===', e);
       return ApiError('Topic', e);

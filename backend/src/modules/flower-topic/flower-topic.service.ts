@@ -70,8 +70,8 @@ export class FlowerTopicService {
       .execute();
   }
 
-  removeByTopicId(id: number) {
-    this.flowerTopicsRepository
+  async removeByTopicId(id: number) {
+    await this.flowerTopicsRepository
       .createQueryBuilder()
       .update()
       .set({ isDeleted: true })

@@ -68,6 +68,7 @@ export const flowerListColumns = () => [
   {
     title: 'ID',
     dataIndex: 'id',
+    sortField: 'flower.id',
     key: 'id',
     width: '25px',
     render: (id: number) => <Row wrap={false}>{formatNumber(id)}</Row>,
@@ -114,6 +115,7 @@ export const topicListColumns = () => [
   {
     title: 'ID',
     dataIndex: 'id',
+    sortField: 'topic.id',
     key: 'id',
     width: '25px',
     render: (id: number) => <Row wrap={false}>{formatNumber(id)}</Row>,

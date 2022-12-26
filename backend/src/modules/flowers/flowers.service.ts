@@ -8,11 +8,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate } from 'nestjs-typeorm-paginate';
 import { ApiError, ApiOk } from 'src/common/api';
 import { VALUE } from 'src/common/constants';
 import { Utils } from 'src/common/utils';
-import { Brackets, DataSource, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { Image } from '../images/entities/image.entity';
@@ -114,20 +113,21 @@ export class FlowersService {
     try {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')
-        .where(
-          new Brackets((qb) => {
+        .where((qb) => {
             qb.where('flower.name like :keyword', {
               keyword: `%${keyword}%`,
             }).orWhere('flower.id like :keyword', { keyword: `%${keyword}%` });
-          })
+          }
         )
         .andWhere('flower.isDeleted = false');
+
       if (priceFrom) {
         queryBuilder.andWhere('flower.price >= :priceFrom', { priceFrom });
       }
       if (priceTo) {
         queryBuilder.andWhere('flower.price <= :priceTo', { priceTo });
       }
+
       if (topicIds?.length > 0) {
         queryBuilder.innerJoinAndMapMany(
           'flower.listTopic',
@@ -137,9 +137,21 @@ export class FlowersService {
           { topicIds }
         );
       }
-      queryBuilder.leftJoinAndSelect('flower.listImage', 'image');
-      queryBuilder.orderBy(sortField, sortValue);
-      return ApiOk(await paginate(queryBuilder, { limit, page }));
+
+      queryBuilder
+        .orderBy(sortField, sortValue)
+        .skip(limit * (page - 1))
+        .take(limit)
+        .leftJoinAndSelect('flower.listImage', 'image');
+      
+      const [items, totalItems] = await queryBuilder.getManyAndCount();
+      return ApiOk({
+        items,
+        meta: {
+          totalItems,
+          itemCount: items.length,
+        }
+      });
     } catch (e) {
       this.logger.log('=== Search Flower failed ===', e);
       return ApiError('Flower', e);
@@ -169,7 +181,6 @@ export class FlowersService {
     updateFlowerDto: UpdateFlowerDto,
     additionImages: Express.Multer.File[],
   ) {
-    console.log(additionImages)
     const { topicsAdd, topicsDel, listImage, ...flowerInfo } = updateFlowerDto;
     const queryRunner = this.dataSource.createQueryRunner();
     try {

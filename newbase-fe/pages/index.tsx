@@ -27,7 +27,7 @@ function RecommendProductWrapper() {
     params: { limit, page: 1, flowersPerTopic: 0 },
   });
 
-  const addOneMoreTopic = () => {
+  const getMoreTopic = () => {
     setLimit((prev) => {
       return (prev += 4);
     });
@@ -37,12 +37,12 @@ function RecommendProductWrapper() {
     <>
       {topicList?.data?.items?.map((data: any) => {
         return (
-          <RecommendProduct data={data} handleEmptyList={addOneMoreTopic} />
+          <RecommendProduct data={data} />
         );
       })}
       {topicList?.data?.meta?.totalItems > limit && (
         <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
-          <span onClick={addOneMoreTopic}>
+          <span onClick={getMoreTopic}>
             Xem thêm <ArrowRight />
           </span>
         </div>

@@ -46,11 +46,13 @@ export class GuestPhonesService {
           keyword: `%${keyword}%`,
         })
         .andWhere('guestPhone.isDeleted = false');
+
       if (pageAccess) {
         queryBuilder.andWhere('guestPhone.pageAccess = :pageAccess', {
           pageAccess,
         });
       }
+
       if (fromTimeAccess) {
         queryBuilder.andWhere('guestPhone.timeAccess >= :fromTimeAccess', {
           fromTimeAccess,
@@ -61,8 +63,20 @@ export class GuestPhonesService {
           toTimeAccess,
         });
       }
-      queryBuilder.orderBy(sortField, sortValue);
-      return ApiOk(await paginate(queryBuilder, { limit, page }));
+
+      queryBuilder
+        .orderBy(sortField, sortValue)
+        .skip(limit * (page - 1))
+        .take(limit)
+      
+      const [items, totalItems] = await queryBuilder.getManyAndCount();
+      return ApiOk({
+        items,
+        meta: {
+          totalItems,
+          itemCount: items.length,
+        }
+      });
     } catch (e) {
       this.logger.log('=== Search Guest Phone failed ===', e);
       return ApiError('guestPhone', e);

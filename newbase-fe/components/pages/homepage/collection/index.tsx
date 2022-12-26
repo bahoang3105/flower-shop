@@ -4,6 +4,8 @@ import Link from "next/link";
 import PublicImage from "public/images";
 import { COLLECTION_SECTION_ANCHOR } from "@components//AppHeader";
 import { APP_URL } from 'constants/common';
+import { useRouter } from "next/router";
+import { useWindowSize } from "hooks/useWindowSize";
 
 const BTN_BUYNOW_TYPE_CLASSNAME = {
   [2]: "btn-buynow-type-2",
@@ -14,6 +16,9 @@ const BTN_BUYNOW_TYPE_CLASSNAME = {
 type BtnBuyNowType = 2 | 3 | 4;
 
 export default function FlowerCollection() {
+  const router = useRouter();
+  const { width } = useWindowSize();
+
   const renderCommonCollectionItem = (
     imageSrc: string,
     importClass: string
@@ -31,6 +36,11 @@ export default function FlowerCollection() {
         </Tooltip>
     </div>
   );
+  const handleClickBanner = (topicIds: number) => {
+    if (width <= 768) {
+      router.push(`${APP_URL.PRODUCT_LIST}?topicIds=${topicIds}`);
+    }
+  }
 
   return (
     <>
@@ -47,7 +57,7 @@ export default function FlowerCollection() {
                 <div className="flower-collection__first-item__content__collection-group center-flex-item">
                   <div>BỘ SƯU TẬP</div>
                 </div>
-                <Image src={PublicImage.banner1} alt="" />
+                <Image onClick={() => handleClickBanner(1)} src={PublicImage.banner1} alt="" />
                 <Link href={`${APP_URL.PRODUCT_LIST}?topicIds=1`}>
                   <div className="flower-collection__first-item__content__image-group__button-buy-now">
                     Mua Ngay

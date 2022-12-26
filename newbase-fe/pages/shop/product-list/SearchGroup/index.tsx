@@ -147,7 +147,7 @@ function SearchGroup({ defaultValueInput }: any) {
           </div> */}
         </Panel>
         <Panel
-          header="Loại sản phẩm"
+          header="Loại hoa"
           key={SEARCH_GROUP_COLLAPSE_KEY.PRODUCT_TYPE}
         >
           <div className="search-group__filter-group">
