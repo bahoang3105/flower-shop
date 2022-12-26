@@ -103,7 +103,7 @@ function ProductDetail({ id }: any) {
   return (
     <main className="container product-detail">
       {contextHolder}
-      <TagList onClick={() => {}} />
+      {/* <TagList onClick={() => {}} /> */}
       <div className="product-detail__breadcrum">
         <AppBreadcrumb />
       </div>

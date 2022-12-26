@@ -106,7 +106,7 @@ function ProductList({ topicIds, keyword }: any) {
       value={{ filter, topicList, setFilter, fetchProductList }}
     >
       <main className="container product-list">
-        <TagList onClick={onClickTagItem} />
+        {/* <TagList onClick={onClickTagItem} /> */}
         <div className="product-list__breadcrum">
           <AppBreadcrumb />
         </div>

@@ -44,7 +44,7 @@ export class GuestPhonesService {
         .where('guestPhone.phoneNumber like :keyword', {
           keyword: `%${keyword}%`,
         })
-        .where('guestPhone.isDeleted = false');
+        .andWhere('guestPhone.isDeleted = false');
 
       if (pageAccess) {
         queryBuilder.andWhere('guestPhone.pageAccess = :pageAccess', {

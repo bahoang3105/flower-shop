@@ -111,7 +111,7 @@ export class TopicsService {
             }).orWhere('topic.id like :keyword', { keyword: `%${keyword}%` });
           }
         )
-        .where('topic.isDeleted = false');
+        .andWhere('topic.isDeleted = false');
 
         if (getEmptyTopic === false) {
           queryBuilder.innerJoinAndMapMany(
