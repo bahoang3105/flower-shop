@@ -56,6 +56,7 @@
 
 // new footer
 .footer-container {
+  overflow: hidden;
   background-color: #fbf6fd;
   padding: 40px 40px;
   .footer-content {
@@ -80,6 +81,10 @@
         border-bottom: 1px solid #937491;
       }
       &__content {
+        div {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         font-size: 16px;
         display: flex;
       }

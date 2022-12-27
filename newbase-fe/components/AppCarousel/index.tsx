@@ -19,18 +19,6 @@ function AppCarousel(props: any) {
 
   const itemWidth = 100 / numberItemPerView;
 
-  // const fakeList = [
-  //   "https://source.unsplash.com/random/1",
-  //   "https://source.unsplash.com/random/2",
-  //   "https://source.unsplash.com/random/3",
-  //   "https://source.unsplash.com/random/4",
-  //   "https://source.unsplash.com/random/5",
-  //   "https://source.unsplash.com/random/6",
-  //   "https://source.unsplash.com/random/7",
-  //   "https://source.unsplash.com/random/8",
-  //   "https://source.unsplash.com/random/9",
-  // ];
-
   useEffect(() => {
     if (onChange) {
       onChange(list[currentIndex + translateIndex - 1]);
@@ -54,10 +42,10 @@ function AppCarousel(props: any) {
     }
     if (key === NAV_ACTION_KEY.NEXT) {
       setCurrentIndex((prev: any) => {
-        const isMax = prev === numberItemPerView;
+        const isMax = prev === numberItemPerView || prev === list?.length;
         if (isMax) {
           setTranslateIndex((prev: any) => {
-            if (numberItemPerView + prev === list?.length) {
+            if (numberItemPerView + prev >= list?.length) {
               return prev;
             }
             return (prev += slidesPerView);
