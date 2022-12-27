@@ -113,7 +113,7 @@ export class FlowersService {
     try {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')
-        .where(new Brankets((qb) => {
+        .where(new Brackets((qb) => {
             qb.where('flower.name like :keyword', {
               keyword: `%${keyword}%`,
             }).orWhere('flower.id like :keyword', { keyword: `%${keyword}%` });
