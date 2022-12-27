@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
 import { Utils } from 'src/common/utils';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, Brackets } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { FlowersService } from '../flowers/flowers.service';
@@ -105,12 +105,12 @@ export class TopicsService {
     try {
       const queryBuilder = this.topicsRepository
         .createQueryBuilder('topic')
-        .where((qb) => {
+        .where(new Brackets((qb) => {
             qb.where('topic.name like :keyword', {
               keyword: `%${keyword}%`,
             }).orWhere('topic.id like :keyword', { keyword: `%${keyword}%` });
           }
-        )
+        ))
         .andWhere('topic.isDeleted = false');
 
         if (getEmptyTopic === false) {
