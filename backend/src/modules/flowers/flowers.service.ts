@@ -11,7 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ApiError, ApiOk } from 'src/common/api';
 import { VALUE } from 'src/common/constants';
 import { Utils } from 'src/common/utils';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, Brackets } from 'typeorm';
 import { FlowerTopic } from '../flower-topic/entities/flower-topic.entity';
 import { FlowerTopicService } from '../flower-topic/flower-topic.service';
 import { Image } from '../images/entities/image.entity';
@@ -113,12 +113,12 @@ export class FlowersService {
     try {
       const queryBuilder = this.flowersRepository
         .createQueryBuilder('flower')
-        .where((qb) => {
+        .where(new Brankets((qb) => {
             qb.where('flower.name like :keyword', {
               keyword: `%${keyword}%`,
             }).orWhere('flower.id like :keyword', { keyword: `%${keyword}%` });
           }
-        )
+        ))
         .andWhere('flower.isDeleted = :isDeleted', { isDeleted: 0 });
 
       if (priceFrom) {
