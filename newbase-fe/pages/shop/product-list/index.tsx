@@ -97,7 +97,6 @@ function ProductList({ topicIds, keyword }: any) {
     fetchProductList({ topicIds: [productTypeId] });
     scrollToElement({
       id: "product-list__list",
-      yOffset: -80,
     });
   };
 
