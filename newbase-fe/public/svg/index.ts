@@ -7,6 +7,7 @@ const ImageSvg = {
   miniLogo: require('./mini-logo.png'),
   search: require('./search.svg'),
   disconnect: require('./disconnect.svg'),
+  right: require('./right.svg'),
 };
 
 export default ImageSvg;

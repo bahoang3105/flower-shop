@@ -33,7 +33,7 @@ const SmallHeader = ({ onSubmitSearch, setSearchText, searchText }: any) => {
           onClick={() => setShowMenu(true)}
           className="small-header__menu-icon"
         >
-          <MenuIcon />
+          <Image src={ImageSvg.expand} alt="" />
         </div>
       </div>
       <Drawer
@@ -41,6 +41,8 @@ const SmallHeader = ({ onSubmitSearch, setSearchText, searchText }: any) => {
         placement="right"
         onClose={() => setShowMenu(false)}
         open={!!showMenu}
+        title={<Image src={ImageSvg.logo} alt="" width={267} height={41} />}
+        closeIcon={<Image src={ImageSvg.right} alt="" height={20} />}
       >
         {NAVBAR_LIST.map(({ key, value, url }) => (
           <h1 key={key} className="small-header__nav-bar__item">
