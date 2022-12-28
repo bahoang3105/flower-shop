@@ -106,6 +106,14 @@ export default function AccountGuest() {
       setPage(page - 1);
     }
   }, [data]);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      refetch()
+    }, 200);
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, []);
 
   return (
     <div className="account-guest">

@@ -12,6 +12,7 @@ import AppImage from "@components//AppImage";
 import { postAccountGuests } from "services/accountGuest";
 import { useRouter } from "next/router";
 import { APP_URL } from "constants/common";
+import { formatNumber } from "utils/common";
 
 function ProductDetail({ id }: any) {
   const [messageApi, contextHolder] = message.useMessage();
@@ -180,7 +181,7 @@ function ProductDetail({ id }: any) {
                   </div>
                   <p className="product-detail__more-item__item-name">{name}</p>
                   <p className="product-detail__more-item__item-price">
-                    From ${price}
+                    {formatNumber(price)} VND
                   </p>
                 </Col>
               );

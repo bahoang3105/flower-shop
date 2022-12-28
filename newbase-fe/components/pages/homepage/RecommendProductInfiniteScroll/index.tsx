@@ -12,10 +12,10 @@ import { useWindowSize } from "hooks/useWindowSize";
 function RecommendProduct(props: any) {
   const { data } = props || {};
   const { width } = useWindowSize();
-  const { id: topicIds, name: topicName } = data || {};
+  const { id: topicId, name: topicName } = data || {};
   const [limit, setLimit] = useState(6);
   const { data: list } = useGetFlowers({
-    params: { limit, page: 1, topicIds },
+    params: { limit, page: 1, topicId },
   });
   const [hidden, setHidden] = useState(false);
   const dataRender = useMemo(() => {
@@ -43,6 +43,7 @@ function RecommendProduct(props: any) {
               const { listImage, name, price, id } = item || {};
               return (
                 <Col
+                  key={id}
                   className="recommend-product__list__item"
                   xs={12}
                   sm={8}
@@ -95,7 +96,7 @@ function RecommendProduct(props: any) {
               href={{
                 pathname: APP_URL.PRODUCT_LIST,
                 query: {
-                  topicIds,
+                  topicId,
                 },
               }}
             >
