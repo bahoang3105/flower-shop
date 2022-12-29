@@ -76,7 +76,7 @@ export default function Footer() {
             <div className="footer-content__address__content">
               <div>
                 <b>Email : </b>
-                {email}asdasdasd
+                {email}
               </div>
             </div>
           </Col>

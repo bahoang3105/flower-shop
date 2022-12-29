@@ -30,7 +30,7 @@ function SearchGroup({ defaultValueInput }: any) {
     useContext<any>(ProductListContext);
 
   const { data: topicList } = useGetTopics({
-    params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
+    params: { limit: 10000000000, page: 1, flowersPerTopic: 0, getEmptyTopic: true },
   });
 
   const onChangePriceSlide = (val: any) => {

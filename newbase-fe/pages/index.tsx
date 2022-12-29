@@ -24,7 +24,7 @@ export default function Home() {
 function RecommendProductWrapper() {
   const [limit, setLimit] = useState(4);
   const { data: topicList } = useGetTopics({
-    params: { limit, page: 1, flowersPerTopic: 0 },
+    params: { limit, page: 1, flowersPerTopic: 0, getEmptyTopic: false },
   });
 
   const getMoreTopic = () => {
