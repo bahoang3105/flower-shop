@@ -35,7 +35,9 @@ function RecommendProductWrapper() {
 
   return (
     <>
-      {topicList?.data?.items?.map((data: any) => <RecommendProduct key={data.id} data={data} />)}
+      {topicList?.data?.items?.map((data: any) => (
+        <RecommendProduct key={data.id} data={data} />
+      ))}
       {topicList?.data?.meta?.totalItems > limit && (
         <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
           <span onClick={getMoreTopic}>

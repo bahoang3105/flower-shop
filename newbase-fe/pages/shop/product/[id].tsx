@@ -13,6 +13,7 @@ import { postAccountGuests } from "services/accountGuest";
 import { useRouter } from "next/router";
 import { APP_URL } from "constants/common";
 import { formatNumber } from "utils/common";
+import { scrollToTop } from "utils/helper";
 
 function ProductDetail({ id }: any) {
   const [messageApi, contextHolder] = message.useMessage();
@@ -37,6 +38,7 @@ function ProductDetail({ id }: any) {
 
   useEffect(() => {
     setSmallScreen(width <= 500);
+    scrollToTop();
   }, []);
 
   const formatedImgList: any = useMemo(() => {
