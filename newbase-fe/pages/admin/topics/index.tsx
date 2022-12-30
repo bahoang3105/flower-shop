@@ -18,7 +18,7 @@ export default function Topics() {
   const [sortField, setSortField] = useState<string>('topic.createdAt');
   const [sortValue, setSortValue] = useState<string>(SORT_TYPE.DESC);
   const inputRef = useRef<any>();
-  const { data } = useGetTopics({ params: { keyword: searchText, limit: pageSize, page, sortField, sortValue } });
+  const { data } = useGetTopics({ params: { keyword: searchText, limit: pageSize, page, sortField, sortValue, getEmptyTopic: true } });
   const tableData = useMemo(() => {
     return data?.data?.items?.map((item: any) => ({ ...item, key: item.id }));
   }, [data]);
@@ -34,8 +34,8 @@ export default function Topics() {
         setSortField(sorter?.column?.sortField);
         setSortValue(formatSorter(sorter.order));
       } else {
-        setSortField('flower.id');
-        setSortValue(SORT_TYPE.ASC);
+        setSortField('topic.createdAt');
+        setSortValue(SORT_TYPE.DESC);
       }
     }
   };

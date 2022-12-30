@@ -89,7 +89,7 @@ export class GuestPhonesService {
       queryRunner.startTransaction();
       await Promise.all(
         listGuestPhoneId.map((guestPhoneId: number) => {
-          queryRunner.manager.update(
+          return queryRunner.manager.update(
             GuestPhone,
             { id: guestPhoneId },
             { isDeleted: true }

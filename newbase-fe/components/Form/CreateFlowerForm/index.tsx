@@ -22,7 +22,7 @@ export default function CreateFlowerForm({
   disabled = false,
 }: PropsType) {
   const { data: topicList } = useGetTopics({
-    params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
+    params: { limit: 10000000000, page: 1, flowersPerTopic: 0, getEmptyTopic: true },
   });
 
   return (
