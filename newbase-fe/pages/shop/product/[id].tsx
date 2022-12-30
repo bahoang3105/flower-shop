@@ -107,15 +107,19 @@ function ProductDetail({ id }: any) {
   };
 
   const formatMoreItemList = useMemo(() => {
-    return moreItemList?.items?.filter((item: any) => {
-      return parseInt(id) !== item?.id;
-    }).slice(0, 4);
+    return moreItemList?.items
+      ?.filter((item: any) => {
+        return parseInt(id) !== item?.id;
+      })
+      .slice(0, 4);
   }, [moreItemList, id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValidatePhone(false);
     const { value: inputValue } = e.target;
-    const reg = /^-?\d*(\.\d*)?$/;
+    // const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^[0-9]*$/;
+
     if (reg.test(inputValue) || inputValue === "" || inputValue === "-") {
       setPhoneNumber(inputValue);
     }
@@ -184,23 +188,25 @@ function ProductDetail({ id }: any) {
                   sm={12}
                   lg={6}
                 >
-                  <div style={{ cursor: 'pointer' }}>
+                  <div style={{ cursor: "pointer" }}>
                     <div className="product-detail__more-item__item">
                       {listImage?.length > 0 ? (
                         <Image
-                        src={listImage[0]?.filePath}
-                        preview={false}
-                        alt=""
+                          src={listImage[0]?.filePath}
+                          preview={false}
+                          alt=""
                         />
-                        ) : (
-                          <ImageNext
+                      ) : (
+                        <ImageNext
                           className="product-detail__more-item__item__blank-img"
                           src={PublicImage?.blankImg}
                           alt=""
-                          />
-                          )}
+                        />
+                      )}
                     </div>
-                    <p className="product-detail__more-item__item-name">{name}</p>
+                    <p className="product-detail__more-item__item-name">
+                      {name}
+                    </p>
                     <p className="product-detail__more-item__item-price">
                       {formatNumber(price)} VND
                     </p>
@@ -239,9 +245,9 @@ function ProductDetail({ id }: any) {
           onChange={handleChange}
           maxLength={11}
         />
-        <div className="product-detail__send-inquiry-modal__input-phone__char-count">
+        {/* <div className="product-detail__send-inquiry-modal__input-phone__char-count">
           {phoneNumber?.length || 0}/11
-        </div>
+        </div> */}
 
         <div className="product-detail__send-inquiry-modal__input-phone__validate-phone">
           {validatePhone}
