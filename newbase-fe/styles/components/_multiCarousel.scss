@@ -49,3 +49,14 @@
     }
   }
 }
+
+@media only screen and (max-width: 786px) {
+  .app-multi-carousel {
+    &__navigate-btn {
+      button {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}

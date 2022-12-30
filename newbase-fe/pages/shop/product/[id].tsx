@@ -31,14 +31,16 @@ function ProductDetail({ id }: any) {
   const { listImage, name: flowerName, price, size } = flower || {};
 
   const [mainImg, setMainImg] = useState(listImage?.length > 0 && listImage[0]);
-  const [smallScreen, setSmallScreen] = useState(false);
+  const [numberItemPerView, setNumberItemPerView] = useState(5);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [validatePhone, setValidatePhone] = useState<any>();
   const [openModalSendInquiry, setOpenModalSendInquiry] = useState(false);
 
   useEffect(() => {
-    setSmallScreen(width <= 500);
-  }, []);
+    if (width > 1080) setNumberItemPerView(5);
+    if (width < 786) setNumberItemPerView(3);
+    if (width < 586) setNumberItemPerView(2);
+  }, [width]);
 
   // useEffect(() => {
   //   console.log(listImage)
@@ -69,7 +71,7 @@ function ProductDetail({ id }: any) {
         {formatedImgList?.length > 0 && (
           <AppCarousel
             list={formatedImgList}
-            numberItemPerView={smallScreen ? 3 : 5}
+            numberItemPerView={numberItemPerView}
             onChange={setMainImg}
           />
         )}
