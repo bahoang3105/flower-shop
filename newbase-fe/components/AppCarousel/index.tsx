@@ -5,6 +5,7 @@ import PrevBtnSVG from "public/svg/prev-btn";
 import { Image } from "antd";
 import ImageNext from "next/image";
 import PublicImage from "public/images";
+import { useRouter } from "next/router";
 
 const NAV_ACTION_KEY = {
   PREV: "PREV",
@@ -16,6 +17,7 @@ function AppCarousel(props: any) {
   const { list = [], numberItemPerView = 5, onChange } = props || {};
   const [currentIndex, setCurrentIndex] = useState<any>(1);
   const [translateIndex, setTranslateIndex] = useState<any>(0);
+  const router = useRouter();
 
   const itemWidth = 100 / numberItemPerView;
 
@@ -24,6 +26,10 @@ function AppCarousel(props: any) {
       onChange(list[currentIndex + translateIndex - 1]);
     }
   }, [currentIndex, translateIndex, list]);
+
+  useEffect(() => {
+    setCurrentIndex(1);
+  }, [router.asPath]);
 
   const onSlide = (key: any) => {
     if (key === NAV_ACTION_KEY.PREV) {

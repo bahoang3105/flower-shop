@@ -7,7 +7,7 @@ import ImageSvg from "public/svg";
 import { useEffect, useState } from "react";
 import TextInput from "../AppInput/TextInput";
 import SmallHeader from "./SmallHeader";
-import { scrollToElement, scrollToTop } from "utils/helper";
+import { scrollToElement } from "utils/helper";
 import Link from "next/link";
 
 type HeaderProps = Record<string, never>;

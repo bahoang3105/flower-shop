@@ -13,7 +13,6 @@ import { postAccountGuests } from "services/accountGuest";
 import { useRouter } from "next/router";
 import { APP_URL } from "constants/common";
 import { formatNumber } from "utils/common";
-import { scrollToTop } from "utils/helper";
 
 function ProductDetail({ id }: any) {
   const [messageApi, contextHolder] = message.useMessage();
@@ -23,7 +22,7 @@ function ProductDetail({ id }: any) {
 
   const { data: moreItemList } = useGetFlowers({
     params: {
-      limit: 4,
+      limit: 8,
       page: 1,
       topicIds: data?.listTopics?.map(({ id }: any) => id),
     },
@@ -39,8 +38,12 @@ function ProductDetail({ id }: any) {
 
   useEffect(() => {
     setSmallScreen(width <= 500);
-    scrollToTop();
   }, []);
+
+  // useEffect(() => {
+  //   console.log(listImage)
+  //   setMainImg(listImage?.length > 0 && listImage[0]);
+  // }, [listImage]);
 
   const formatedImgList: any = useMemo(() => {
     return listImage?.map((item: any) => {
@@ -106,7 +109,7 @@ function ProductDetail({ id }: any) {
   const formatMoreItemList = useMemo(() => {
     return moreItemList?.items?.filter((item: any) => {
       return parseInt(id) !== item?.id;
-    });
+    }).slice(0, 4);
   }, [moreItemList, id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,25 +184,27 @@ function ProductDetail({ id }: any) {
                   sm={12}
                   lg={6}
                 >
-                  <div className="product-detail__more-item__item">
-                    {listImage?.length > 0 ? (
-                      <Image
+                  <div style={{ cursor: 'pointer' }}>
+                    <div className="product-detail__more-item__item">
+                      {listImage?.length > 0 ? (
+                        <Image
                         src={listImage[0]?.filePath}
                         preview={false}
                         alt=""
-                      />
-                    ) : (
-                      <ImageNext
-                        className="product-detail__more-item__item__blank-img"
-                        src={PublicImage?.blankImg}
-                        alt=""
-                      />
-                    )}
+                        />
+                        ) : (
+                          <ImageNext
+                          className="product-detail__more-item__item__blank-img"
+                          src={PublicImage?.blankImg}
+                          alt=""
+                          />
+                          )}
+                    </div>
+                    <p className="product-detail__more-item__item-name">{name}</p>
+                    <p className="product-detail__more-item__item-price">
+                      {formatNumber(price)} VND
+                    </p>
                   </div>
-                  <p className="product-detail__more-item__item-name">{name}</p>
-                  <p className="product-detail__more-item__item-price">
-                    {formatNumber(price)} VND
-                  </p>
                 </Col>
               );
             }
