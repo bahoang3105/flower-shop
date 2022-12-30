@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useMemo, useState } from "react";
 import PublicLayout from "components//Layout/Public";
 import TagList from "components//TagList";
 import AppBreadcrumb from "components//AppBreadCrumb";
-import { Col, Form, Image, Input, message, Modal, Row } from "antd";
+import { Col, Image, message, Modal, Row } from "antd";
 import ImageNext from "next/image";
 import { useGetDetailFlower, useGetFlowers } from "hooks/flower";
 import AppCarousel from "components//AppCarousel";
@@ -13,6 +13,7 @@ import { postAccountGuests } from "services/accountGuest";
 import { useRouter } from "next/router";
 import { APP_URL } from "constants/common";
 import { formatNumber } from "utils/common";
+import { scrollToTop } from "utils/helper";
 
 function ProductDetail({ id }: any) {
   const [messageApi, contextHolder] = message.useMessage();
@@ -32,11 +33,13 @@ function ProductDetail({ id }: any) {
 
   const [mainImg, setMainImg] = useState(listImage?.length > 0 && listImage[0]);
   const [smallScreen, setSmallScreen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [validatePhone, setValidatePhone] = useState<any>();
   const [openModalSendInquiry, setOpenModalSendInquiry] = useState(false);
-  const [form] = Form.useForm();
 
   useEffect(() => {
     setSmallScreen(width <= 500);
+    scrollToTop();
   }, []);
 
   const formatedImgList: any = useMemo(() => {
@@ -71,28 +74,33 @@ function ProductDetail({ id }: any) {
     );
   }, [mainImg, listImage]);
 
-  const onSubmitUserInfo = (values: any) => {
-    postAccountGuests(
-      {
-        phoneNumber: values?.phone,
-        pageLink: router?.asPath,
-        pageAccess: flowerName,
-        timeAccess: new Date(Date.now()).toISOString(),
-      },
-      () => {
-        messageApi.open({
-          type: "success",
-          content: "Gửi thông tin thành công , xin cảm ơn quý khách",
-        });
-      },
-      () => {
-        messageApi.open({
-          type: "error",
-          content: "Gửi thông tin thất bại , xin vui lòng thử lại",
-        });
-      }
-    );
-    setOpenModalSendInquiry(false);
+  const onSubmitUserInfo = () => {
+    if (phoneNumber?.length < 9) {
+      setValidatePhone("Vui lòng nhập số điện thoại tối thiểu 9 số");
+    } else {
+      postAccountGuests(
+        {
+          phoneNumber,
+          pageLink: router?.asPath,
+          pageAccess: flowerName,
+          timeAccess: new Date(Date.now()).toISOString(),
+        },
+        () => {
+          messageApi.open({
+            type: "success",
+            content: "Gửi thông tin thành công , xin cảm ơn quý khách",
+          });
+        },
+        () => {
+          messageApi.open({
+            type: "error",
+            content: "Gửi thông tin thất bại , xin vui lòng thử lại",
+          });
+        }
+      );
+      setOpenModalSendInquiry(false);
+      setValidatePhone(false);
+    }
   };
 
   const formatMoreItemList = useMemo(() => {
@@ -100,6 +108,15 @@ function ProductDetail({ id }: any) {
       return parseInt(id) !== item?.id;
     });
   }, [moreItemList, id]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidatePhone(false);
+    const { value: inputValue } = e.target;
+    const reg = /^-?\d*(\.\d*)?$/;
+    if (reg.test(inputValue) || inputValue === "" || inputValue === "-") {
+      setPhoneNumber(inputValue);
+    }
+  };
 
   return (
     <main className="container product-detail">
@@ -204,48 +221,34 @@ function ProductDetail({ id }: any) {
           Chỉ cần để lại liên lạc của bạn dưới đây. Chúng tôi sẽ liên lạc với
           bạn ngay!
         </p>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onSubmitUserInfo}
-          // onFinishFailed={() => {}}
-          autoComplete="off"
+        <p className="product-detail__send-inquiry-modal__input-label">
+          Số điện thoại của bạn
+          <span className="product-detail__send-inquiry-modal__input-label__asterisk">
+            *
+          </span>
+        </p>
+        <input
+          className="product-detail__send-inquiry-modal__input-phone"
+          name="phone"
+          value={phoneNumber}
+          onChange={handleChange}
+          maxLength={11}
+        />
+        <div className="product-detail__send-inquiry-modal__input-phone__char-count">
+          {phoneNumber?.length || 0}/11
+        </div>
+
+        <div className="product-detail__send-inquiry-modal__input-phone__validate-phone">
+          {validatePhone}
+        </div>
+        <button
+          onClick={() => {
+            onSubmitUserInfo();
+          }}
+          className="product-detail__send-inquiry-modal__submit-btn"
         >
-          {/* <Form.Item
-            name="name"
-            label="Your name"
-            rules={[{ required: true }, { type: "string", min: 6 }]}
-          >
-            <Input placeholder="" />
-          </Form.Item>
-          <Form.Item
-            name="mail"
-            label="Email address"
-            rules={[{ required: true }, { type: "email" }]}
-          >
-            <Input placeholder="" />
-          </Form.Item> */}
-          <Form.Item
-            name="phone"
-            label="Số điện thoại của bạn"
-            rules={[
-              { required: true },
-              {
-                type: "string",
-                min: 9,
-                message: "Vui lòng nhập tối thiểu 9 số",
-              },
-            ]}
-          >
-            <Input placeholder="" />
-          </Form.Item>
-          <button
-            key="submit"
-            className="product-detail__send-inquiry-modal__submit-btn"
-          >
-            Gửi yêu càu
-          </button>
-        </Form>
+          Gửi yêu càu
+        </button>
       </Modal>
     </main>
   );

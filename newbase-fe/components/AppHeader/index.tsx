@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Anchor, Col, Row } from "antd";
 import Image from "next/image";
 import { APP_URL } from "constants/common";
 import { useWindowSize } from "hooks/useWindowSize";
@@ -7,7 +7,7 @@ import ImageSvg from "public/svg";
 import { useEffect, useState } from "react";
 import TextInput from "../AppInput/TextInput";
 import SmallHeader from "./SmallHeader";
-import { scrollToElement } from "utils/helper";
+import { scrollToElement, scrollToTop } from "utils/helper";
 import Link from "next/link";
 
 type HeaderProps = Record<string, never>;
@@ -21,12 +21,15 @@ export const NAVBAR_LIST = [
   {
     key: 3,
     value: "Bộ sưu tập",
-    url: `${APP_URL.HOME}${COLLECTION_SECTION_ANCHOR}`,
+    url: APP_URL.HOME,
+    anchor: COLLECTION_SECTION_ANCHOR,
   },
   { key: 4, value: "Phân loại", url: APP_URL.PRODUCT_LIST },
   {
     key: 5,
     value: "Liên hệ",
+    url: APP_URL.HOME,
+    anchor: CONTACT_SECTION_ANCHOR,
   },
 ];
 
@@ -47,6 +50,11 @@ const Header: React.FC<HeaderProps> = () => {
         scrollToElement({ id: COLLECTION_SECTION_ANCHOR });
       }, 100);
     }
+    if (router?.asPath?.includes(CONTACT_SECTION_ANCHOR)) {
+      setTimeout(() => {
+        scrollToElement({ id: CONTACT_SECTION_ANCHOR });
+      }, 100);
+    }
   }, [router]);
 
   const handleChangeSearchText = (value: string) => {
@@ -63,25 +71,16 @@ const Header: React.FC<HeaderProps> = () => {
   };
 
   const renderNavBar = () =>
-    NAVBAR_LIST.map(({ key, value, url }) => {
-      if (url) {
-        return (
-          <Link key={key} href={url} className="header__navbar__item app_link">
-            {value}
-          </Link>
-        );
-      }
+    NAVBAR_LIST.map(({ key, value, url, anchor }) => {
       return (
-        <div
+        <Link
           key={key}
-          onClick={() => {
-            scrollToElement({ id: CONTACT_SECTION_ANCHOR })
-          }}
+          href={anchor ? url + anchor : url}
           className="header__navbar__item app_link"
         >
           {value}
-        </div>
-      )
+        </Link>
+      );
     });
 
   return (

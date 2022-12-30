@@ -26,10 +26,17 @@ export default function Footer() {
       return (
         <div key={item.key} className="footer-social-list__item">
           <a
+            className="footer-social-list__item__link-wrap"
             href={item.url}
             target={item.key === 4 || item.key === 5 ? "_self" : "_blank"}
           >
-            <Image src={item.srcImage} alt="" height={36} width={36} />
+            <Image
+              className="footer-social-list__item__icon-img"
+              src={item.srcImage}
+              alt=""
+              height={36}
+              width={36}
+            />
             {/* <div className="footer-social-list__item__item-1">{item.url}</div> */}
           </a>
         </div>
