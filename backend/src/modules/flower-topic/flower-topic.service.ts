@@ -92,12 +92,12 @@ export class FlowerTopicService {
   async getTopicsByFlowerId(flowerId: number) {
     const listFlowerTopic = await this.flowerTopicsRepository
       .createQueryBuilder('flowerTopic')
-      .where('flowerTopic.isDeleted = false')
+      .where('flowerTopic.isDeleted = 0')
       .andWhere('flowerTopic.flowerId = (:flowerId)', { flowerId })
       .innerJoinAndSelect(
         'flowerTopic.topic',
         'topic',
-        'flowerTopic.topicId = topic.id AND topic.isDeleted = false'
+        'flowerTopic.topicId = topic.id AND topic.isDeleted = 0'
       )
       .getMany();
     return listFlowerTopic.map((flowerTopic: FlowerTopic) => flowerTopic.topic);

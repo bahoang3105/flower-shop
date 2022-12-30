@@ -105,20 +105,20 @@ export class TopicsService {
     try {
       const queryBuilder = this.topicsRepository
         .createQueryBuilder('topic')
-        .where(new Brackets((qb) => {
+        .where('topic.isDeleted = 0')
+        .andWhere(new Brackets((qb) => {
             qb.where('topic.name like :keyword', {
               keyword: `%${keyword}%`,
             }).orWhere('topic.id like :keyword', { keyword: `%${keyword}%` });
           }
-        ))
-        .andWhere('topic.isDeleted = false');
+        ));
 
         if (getEmptyTopic === false) {
           queryBuilder.innerJoinAndMapMany(
             'topic.listFlower',
             FlowerTopic,
             'flowerTopic',
-            'topic.id = flowerTopic.topicId AND flowerTopic.isDeleted = false'
+            'topic.id = flowerTopic.topicId AND flowerTopic.isDeleted = 0'
           );
         }
 
