@@ -26,11 +26,16 @@ export type filterType = {
 };
 
 function SearchGroup({ defaultValueInput }: any) {
-  const { filter, setFilter, fetchProductList } =
+  const { filter, setFilter, fetchProductList, setPage } =
     useContext<any>(ProductListContext);
 
   const { data: topicList } = useGetTopics({
-    params: { limit: 10000000000, page: 1, flowersPerTopic: 0, getEmptyTopic: true },
+    params: {
+      limit: 10000000000,
+      page: 1,
+      flowersPerTopic: 0,
+      getEmptyTopic: true,
+    },
   });
 
   const onChangePriceSlide = (val: any) => {
@@ -38,13 +43,15 @@ function SearchGroup({ defaultValueInput }: any) {
   };
 
   const onSubmit = () => {
-    fetchProductList();
+    fetchProductList({ pageProps: 1 });
+    setPage(1);
   };
+
   const handleKeyDown = (e: any) => {
     if (e?.key === "Enter") {
       onSubmit();
     }
-  }
+  };
 
   return (
     <div className="search-group">
@@ -56,10 +63,7 @@ function SearchGroup({ defaultValueInput }: any) {
         ]}
         expandIconPosition="end"
       >
-        <Panel
-          header="Tìm kiếm"
-          key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}
-        >
+        <Panel header="Tìm kiếm" key={SEARCH_GROUP_COLLAPSE_KEY.SEARCH_BAR}>
           <input
             defaultValue={defaultValueInput}
             className="search-group__keyword"
@@ -146,10 +150,7 @@ function SearchGroup({ defaultValueInput }: any) {
             </Row>
           </div> */}
         </Panel>
-        <Panel
-          header="Loại hoa"
-          key={SEARCH_GROUP_COLLAPSE_KEY.PRODUCT_TYPE}
-        >
+        <Panel header="Loại hoa" key={SEARCH_GROUP_COLLAPSE_KEY.PRODUCT_TYPE}>
           <div className="search-group__filter-group">
             <Checkbox.Group
               value={filter?.productType}
