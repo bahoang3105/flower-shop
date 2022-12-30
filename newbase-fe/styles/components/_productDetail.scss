@@ -160,6 +160,29 @@
     }
   }
   &__send-inquiry-modal {
+    &__input-label {
+      font-weight: 600;
+      &__asterisk {
+        position: relative;
+        color: red;
+        top: 8px;
+        margin: 0 8px;
+        font-size: 24px;
+        font-size: 700;
+      }
+    }
+    &__input-phone {
+      width: 100%;
+      height: 32px;
+      &__char-count {
+        font-weight: 600;
+        color: gray;
+        margin: 8px 0 16px 0;
+      }
+      &__validate-phone {
+        color: red;
+      }
+    }
     .ant-form-item-label {
       .ant-form-item-required {
         &::before {
