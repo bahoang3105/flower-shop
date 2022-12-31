@@ -43,8 +43,9 @@ function ProductList({ topicIds, keyword }: any) {
   const fetchProductList = async (filterProps: {
     topicIds?: any;
     pageProps?: any;
+    keywordProps?: string;
   }) => {
-    const { topicIds, pageProps } = filterProps || {};
+    const { topicIds, pageProps, keywordProps } = filterProps || {};
     const formatedTopicIdList = filter?.productType?.filter((item: any) => {
       return item;
     });
@@ -54,7 +55,7 @@ function ProductList({ topicIds, keyword }: any) {
       page: pageProps || page,
       topicIds:
         formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
-      keyword: filter?.keyword || keyword,
+      keyword: keywordProps || filter?.keyword,
       priceFrom: filter?.priceRange?.priceFrom || 0,
       priceTo: filter?.priceRange?.priceTo || INFINITE_VALUE,
     });
@@ -64,7 +65,10 @@ function ProductList({ topicIds, keyword }: any) {
   useEffect(() => {
     setFilter((prev: any) => {
       const newProductType = [...prev?.productType, parseInt(topicIds, 10)];
-      fetchProductList({ topicIds: topicIds && newProductType });
+      fetchProductList({
+        topicIds: topicIds && newProductType,
+        keywordProps: keyword,
+      });
       return {
         ...prev,
         productType: newProductType,
