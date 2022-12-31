@@ -4,6 +4,8 @@ import cx from "classnames";
 import { useGetTopics } from "hooks/topic";
 import { ProductListContext } from "..";
 import { values } from "lodash";
+import { APP_URL } from "constants/common";
+import { useRouter } from "next/router";
 
 const { Panel } = Collapse;
 
@@ -26,6 +28,7 @@ export type filterType = {
 };
 
 function SearchGroup({ defaultValueInput }: any) {
+  const router = useRouter();
   const { filter, setFilter, fetchProductList, setPage } =
     useContext<any>(ProductListContext);
 
@@ -43,6 +46,7 @@ function SearchGroup({ defaultValueInput }: any) {
   };
 
   const onSubmit = () => {
+    router.push(APP_URL.PRODUCT_LIST, undefined, { shallow: true });
     fetchProductList({ pageProps: 1 });
     setPage(1);
   };

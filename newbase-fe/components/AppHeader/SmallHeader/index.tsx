@@ -6,11 +6,14 @@ import { Collapse, Drawer } from "antd";
 // import MenuIcon from "public/svg/menu_icon";
 import { NAVBAR_LIST } from "..";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { APP_URL } from "constants/common";
 
 const { Panel } = Collapse;
 
 const SmallHeader = ({ onSubmitSearch, setSearchText, searchText }: any) => {
   const [showMenu, setShowMenu] = useState(false);
+  const router = useRouter();
   const handleChangeSearchText = (value: string) => {
     setSearchText(value);
   };
@@ -18,18 +21,21 @@ const SmallHeader = ({ onSubmitSearch, setSearchText, searchText }: any) => {
   return (
     <>
       <div className="small-header">
-        <TextInput
-          className="app-search"
-          value={searchText}
-          onChange={handleChangeSearchText}
-          placeholder="Tìm kiếm hoa"
-          onPressEnter={onSubmitSearch}
-          prefix={
-            <div onClick={onSubmitSearch}>
-              <Image src={ImageSvg.search} alt="" />
-            </div>
-          }
-        />
+        {!(router?.route === APP_URL.PRODUCT_LIST) && (
+          <TextInput
+            className="app-search"
+            value={searchText}
+            onChange={handleChangeSearchText}
+            placeholder="Tìm kiếm hoa"
+            onPressEnter={onSubmitSearch}
+            prefix={
+              <div onClick={onSubmitSearch}>
+                <Image src={ImageSvg.search} alt="" />
+              </div>
+            }
+          />
+        )}
+
         <div
           onClick={() => setShowMenu(true)}
           className="small-header__menu-icon"
