@@ -24,7 +24,7 @@ export const ProductListContext = createContext({});
 
 function ProductList({ topicIds, keyword }: any) {
   const [filter, setFilter] = useState<filterType>({
-    keyword: "",
+    keyword,
     priceRange: { priceFrom: false, priceTo: false },
     productType: [],
     price: 0,
@@ -43,9 +43,8 @@ function ProductList({ topicIds, keyword }: any) {
   const fetchProductList = async (filterProps: {
     topicIds?: any;
     pageProps?: any;
-    keywordProps?: string;
   }) => {
-    const { topicIds, pageProps, keywordProps } = filterProps || {};
+    const { topicIds, pageProps } = filterProps || {};
     const formatedTopicIdList = filter?.productType?.filter((item: any) => {
       return item;
     });
@@ -55,7 +54,7 @@ function ProductList({ topicIds, keyword }: any) {
       page: pageProps || page,
       topicIds:
         formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
-      keyword: keywordProps || filter?.keyword,
+      keyword: filter?.keyword,
       priceFrom: filter?.priceRange?.priceFrom || 0,
       priceTo: filter?.priceRange?.priceTo || INFINITE_VALUE,
     });
@@ -67,7 +66,6 @@ function ProductList({ topicIds, keyword }: any) {
       const newProductType = [...prev?.productType, parseInt(topicIds, 10)];
       fetchProductList({
         topicIds: topicIds && newProductType,
-        keywordProps: keyword,
       });
       return {
         ...prev,
