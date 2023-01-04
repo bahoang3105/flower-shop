@@ -53,31 +53,55 @@ function ProductDetail({ id }: any) {
     });
   }, [listImage]);
 
-  const renderImageGroup = useMemo(() => {
-    return (
-      <>
-        <div className="bg-wrap">
-          <div className="product-detail__page-info__main-img__container">
-            <div className="product-detail__page-info__main-img">
-              <AppImage
-                src={mainImg}
-                preview={false}
-                alt=""
-                className="product-detail__page-info__main-img__image"
-              />
-            </div>
+  // const renderImageGroup = useMemo(() => {
+  //   return (
+  //     <>
+  //       <div className="bg-wrap">
+  //         <div className="product-detail__page-info__main-img__container">
+  //           <div className="product-detail__page-info__main-img">
+  //             <AppImage
+  //               src={mainImg}
+  //               preview={false}
+  //               alt=""
+  //               className="product-detail__page-info__main-img__image"
+  //             />
+  //           </div>
+  //         </div>
+  //       </div>
+  //       {formatedImgList?.length > 0 && (
+  //         <AppCarousel
+  //           list={formatedImgList}
+  //           numberItemPerView={numberItemPerView}
+  //           onChange={setMainImg}
+  //         />
+  //       )}
+  //     </>
+  //   );
+  // }, [mainImg, listImage]);
+
+  const renderImageGroup = (
+    <>
+      <div className="bg-wrap">
+        <div className="product-detail__page-info__main-img__container">
+          <div className="product-detail__page-info__main-img">
+            <AppImage
+              src={mainImg}
+              preview={false}
+              alt=""
+              className="product-detail__page-info__main-img__image"
+            />
           </div>
         </div>
-        {formatedImgList?.length > 0 && (
-          <AppCarousel
-            list={formatedImgList}
-            numberItemPerView={numberItemPerView}
-            onChange={setMainImg}
-          />
-        )}
-      </>
-    );
-  }, [mainImg, listImage]);
+      </div>
+      {formatedImgList?.length > 0 && (
+        <AppCarousel
+          list={formatedImgList}
+          numberItemPerView={numberItemPerView}
+          onChange={setMainImg}
+        />
+      )}
+    </>
+  );
 
   const onSubmitUserInfo = () => {
     if (phoneNumber?.length < 9) {

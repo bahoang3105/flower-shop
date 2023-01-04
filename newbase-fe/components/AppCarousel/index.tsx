@@ -29,7 +29,8 @@ function AppCarousel(props: any) {
 
   useEffect(() => {
     setCurrentIndex(1);
-  }, [router.asPath]);
+    setTranslateIndex(0);
+  }, [router.asPath, list]);
 
   const onSlide = (key: any) => {
     if (key === NAV_ACTION_KEY.PREV) {
