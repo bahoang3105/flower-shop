@@ -19,21 +19,29 @@ export default function FlowerCollection() {
   const router = useRouter();
   const { width } = useWindowSize();
 
+  const listItem = [
+    { imageSrc: PublicImage.banner2, topicId: 26},
+    { imageSrc: PublicImage.banner3, topicId: 28},
+    { imageSrc: PublicImage.banner4, topicId: 27},
+  ]
+
   const renderCommonCollectionItem = (
-    imageSrc: string,
+    item: {
+      imageSrc: string,
+      topicId: number,
+    },
     importClass: string
   ) => (
     <div className="flower-collection__common-item">
       <Image
         className="flower-collection__common-item__image-group"
-        src={imageSrc}
+        src={item.imageSrc}
         alt=""
+        onClick={() => handleClickBanner(item.topicId)}
       />
-      <Tooltip placement="top" title="Mặt hàng chưa cập nhật">
-        <div className={`flower-collection__common-item__button-buy-now ${importClass}`} style={{ cursor: "not-allowed" }}>
-          Mua Ngay
-        </div>
-        </Tooltip>
+      <div className={`flower-collection__common-item__button-buy-now ${importClass}`}>
+        Mua Ngay
+      </div>
     </div>
   );
   const handleClickBanner = (topicIds: number) => {
@@ -67,7 +75,7 @@ export default function FlowerCollection() {
             </div>
           </div>
         </Col>
-        {[PublicImage.banner2, PublicImage.banner3, PublicImage.banner4]?.map(
+        {listItem?.map(
           (src, index) => {
             return (
               <Col key={index} span={24} lg={12}>
