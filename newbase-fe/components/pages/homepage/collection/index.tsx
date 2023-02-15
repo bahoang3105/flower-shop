@@ -39,9 +39,11 @@ export default function FlowerCollection() {
         alt=""
         onClick={() => handleClickBanner(item.topicId)}
       />
-      <div className={`flower-collection__common-item__button-buy-now ${importClass}`}>
-        Mua Ngay
-      </div>
+      <Link href={`${APP_URL.PRODUCT_LIST}?topicIds=${item.topicId}`}>
+        <div className={`flower-collection__common-item__button-buy-now ${importClass}`}>
+          Mua Ngay
+        </div>
+      </Link>
     </div>
   );
   const handleClickBanner = (topicIds: number) => {
