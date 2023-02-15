@@ -3,6 +3,7 @@ import { WEB_URL } from 'constants/routes';
 import { useVerifyAdmin } from 'hooks/login';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect, useMemo } from 'react';
+import { scrollToTop } from 'utils/helper';
 
 type PropsType = { children: ReactNode };
 
@@ -29,6 +30,7 @@ export default function AppAuthWrapper({ children }: PropsType) {
     if (!token && isAdminRoute) {
       router.push(WEB_URL.ADMIN_LOGIN);
     }
+    scrollToTop();
   }, [router]);
 
   return <>{children}</>;

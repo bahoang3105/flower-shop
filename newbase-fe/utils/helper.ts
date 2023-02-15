@@ -1,14 +1,15 @@
-export const scrollToElement = ({
-  id,
-  yOffset,
-}: {
-  id: string;
-  yOffset: number;
-}) => {
+export const TOP_ANCHOR = "app-top-anchor";
+
+export const scrollToElement = ({ id }: { id: string }) => {
   const element = document.getElementById(id);
   if (element) {
-    const y =
-      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+export const scrollToTop = () => {
+  const element = document.getElementById(TOP_ANCHOR);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
   }
 };

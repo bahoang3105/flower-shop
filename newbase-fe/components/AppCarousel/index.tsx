@@ -5,6 +5,7 @@ import PrevBtnSVG from "public/svg/prev-btn";
 import { Image } from "antd";
 import ImageNext from "next/image";
 import PublicImage from "public/images";
+import { useRouter } from "next/router";
 
 const NAV_ACTION_KEY = {
   PREV: "PREV",
@@ -16,26 +17,20 @@ function AppCarousel(props: any) {
   const { list = [], numberItemPerView = 5, onChange } = props || {};
   const [currentIndex, setCurrentIndex] = useState<any>(1);
   const [translateIndex, setTranslateIndex] = useState<any>(0);
+  const router = useRouter();
 
   const itemWidth = 100 / numberItemPerView;
-
-  // const fakeList = [
-  //   "https://source.unsplash.com/random/1",
-  //   "https://source.unsplash.com/random/2",
-  //   "https://source.unsplash.com/random/3",
-  //   "https://source.unsplash.com/random/4",
-  //   "https://source.unsplash.com/random/5",
-  //   "https://source.unsplash.com/random/6",
-  //   "https://source.unsplash.com/random/7",
-  //   "https://source.unsplash.com/random/8",
-  //   "https://source.unsplash.com/random/9",
-  // ];
 
   useEffect(() => {
     if (onChange) {
       onChange(list[currentIndex + translateIndex - 1]);
     }
   }, [currentIndex, translateIndex, list]);
+
+  useEffect(() => {
+    setCurrentIndex(1);
+    setTranslateIndex(0);
+  }, [router.asPath, list]);
 
   const onSlide = (key: any) => {
     if (key === NAV_ACTION_KEY.PREV) {
@@ -54,10 +49,10 @@ function AppCarousel(props: any) {
     }
     if (key === NAV_ACTION_KEY.NEXT) {
       setCurrentIndex((prev: any) => {
-        const isMax = prev === numberItemPerView;
+        const isMax = prev === numberItemPerView || prev === list?.length;
         if (isMax) {
           setTranslateIndex((prev: any) => {
-            if (numberItemPerView + prev === list?.length) {
+            if (numberItemPerView + prev >= list?.length) {
               return prev;
             }
             return (prev += slidesPerView);

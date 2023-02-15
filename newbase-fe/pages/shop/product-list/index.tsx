@@ -24,7 +24,7 @@ export const ProductListContext = createContext({});
 
 function ProductList({ topicIds, keyword }: any) {
   const [filter, setFilter] = useState<filterType>({
-    keyword: "",
+    keyword,
     priceRange: { priceFrom: false, priceTo: false },
     productType: [],
     price: 0,
@@ -33,7 +33,12 @@ function ProductList({ topicIds, keyword }: any) {
   const [page, setPage] = useState(1);
 
   const { data: topicList } = useGetTopics({
-    params: { limit: 10000000000, page: 1, flowersPerTopic: 0 },
+    params: {
+      limit: 10000000000,
+      page: 1,
+      flowersPerTopic: 0,
+      getEmptyTopic: true,
+    },
   });
   const fetchProductList = async (filterProps: {
     topicIds?: any;
@@ -49,7 +54,7 @@ function ProductList({ topicIds, keyword }: any) {
       page: pageProps || page,
       topicIds:
         formatedTopicIdList?.length > 0 ? formatedTopicIdList : topicIds,
-      keyword: filter?.keyword || keyword,
+      keyword: filter?.keyword,
       priceFrom: filter?.priceRange?.priceFrom || 0,
       priceTo: filter?.priceRange?.priceTo || INFINITE_VALUE,
     });
@@ -59,7 +64,9 @@ function ProductList({ topicIds, keyword }: any) {
   useEffect(() => {
     setFilter((prev: any) => {
       const newProductType = [...prev?.productType, parseInt(topicIds, 10)];
-      fetchProductList({ topicIds: topicIds && newProductType });
+      fetchProductList({
+        topicIds: topicIds && newProductType,
+      });
       return {
         ...prev,
         productType: newProductType,
@@ -75,9 +82,8 @@ function ProductList({ topicIds, keyword }: any) {
           return filter?.productType?.includes(topicItem?.id);
         })
         ?.map((topicItem: any) => {
-          return topicItem?.name;
+          return `"${topicItem?.name}"`;
         })
-        ?.join(" , ")
     );
   }, [topicList, data]);
 
@@ -97,13 +103,12 @@ function ProductList({ topicIds, keyword }: any) {
     fetchProductList({ topicIds: [productTypeId] });
     scrollToElement({
       id: "product-list__list",
-      yOffset: -80,
     });
   };
 
   return (
     <ProductListContext.Provider
-      value={{ filter, topicList, setFilter, fetchProductList }}
+      value={{ filter, topicList, setFilter, fetchProductList, setPage }}
     >
       <main className="container product-list">
         {/* <TagList onClick={onClickTagItem} /> */}
@@ -112,8 +117,12 @@ function ProductList({ topicIds, keyword }: any) {
         </div>
         <div className="product-list__page-title">Phân Loại</div>
         <div className="product-list__result-number">
-          Hiển thị <b>{data?.meta?.totalItems}</b> kết quả{" "}
-          {getProductTypeText && `cho "${getProductTypeText}"`}
+          Hiển thị <b>{data?.meta?.itemCount}</b> trên{" "}
+          <b>{data?.meta?.totalItems}</b> kết quả{" "}
+          {getProductTypeText &&
+            getProductTypeText.length > 0 &&
+            `cho ${getProductTypeText.slice(0, 5).join(", ")}`}
+          {getProductTypeText && getProductTypeText.length > 5 && ", ..."}
         </div>
         <div className="product-list__list-container">
           <div className="product-list__search-group">

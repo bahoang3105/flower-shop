@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { WEB_URL } from "constants/routes";
 import AppAuthWrapper from "components//AppAuthWrapper";
 import { NextPage } from "next";
+import { TOP_ANCHOR } from "utils/helper";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -56,6 +57,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <div id={TOP_ANCHOR}></div>
       <AppAuthWrapper>{getLayout(<Component {...pageProps} />)}</AppAuthWrapper>
     </QueryClientProvider>
   );

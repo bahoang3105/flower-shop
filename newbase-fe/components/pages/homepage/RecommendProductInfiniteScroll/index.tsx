@@ -43,6 +43,7 @@ function RecommendProduct(props: any) {
               const { listImage, name, price, id } = item || {};
               return (
                 <Col
+                  key={id}
                   className="recommend-product__list__item"
                   xs={12}
                   sm={8}

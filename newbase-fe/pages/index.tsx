@@ -24,7 +24,7 @@ export default function Home() {
 function RecommendProductWrapper() {
   const [limit, setLimit] = useState(4);
   const { data: topicList } = useGetTopics({
-    params: { limit, page: 1, flowersPerTopic: 0 },
+    params: { limit, page: 1, flowersPerTopic: 0, getEmptyTopic: false },
   });
 
   const getMoreTopic = () => {
@@ -35,11 +35,9 @@ function RecommendProductWrapper() {
 
   return (
     <>
-      {topicList?.data?.items?.map((data: any) => {
-        return (
-          <RecommendProduct data={data} />
-        );
-      })}
+      {topicList?.data?.items?.map((data: any) => (
+        <RecommendProduct key={data.id} data={data} />
+      ))}
       {topicList?.data?.meta?.totalItems > limit && (
         <div className="recommend-product__group__see-more-btn center-flex-item cursor-pointer">
           <span onClick={getMoreTopic}>

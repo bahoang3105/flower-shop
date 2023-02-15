@@ -133,7 +133,7 @@ export class FlowersService {
           'flower.listTopic',
           FlowerTopic,
           'flowerTopic',
-          'flowerTopic.flowerId = flower.id AND flowerTopic.isDeleted = false AND flowerTopic.topicId IN (:...topicIds)',
+          'flowerTopic.flowerId = flower.id AND flowerTopic.isDeleted = 0 AND flowerTopic.topicId IN (:...topicIds)',
           { topicIds }
         );
       }

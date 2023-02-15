@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const HEADERS = {
+export const HEADERS = {
   "Content-Type": "application/json",
   Accept: "application/json",
   "Access-Control-Allow-Origin": "*",

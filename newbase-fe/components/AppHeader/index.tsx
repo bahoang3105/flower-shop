@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Anchor, Col, Row } from "antd";
 import Image from "next/image";
 import { APP_URL } from "constants/common";
 import { useWindowSize } from "hooks/useWindowSize";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import TextInput from "../AppInput/TextInput";
 import SmallHeader from "./SmallHeader";
 import { scrollToElement } from "utils/helper";
+import Link from "next/link";
 
 type HeaderProps = Record<string, never>;
 
@@ -44,15 +45,14 @@ const Header: React.FC<HeaderProps> = () => {
   }, [width]);
 
   useEffect(() => {
-    window.scrollTo({ top: 1503, behavior: "smooth" });
-    if (router?.asPath?.includes(CONTACT_SECTION_ANCHOR)) {
-      setTimeout(() => {
-        scrollToElement({ id: CONTACT_SECTION_ANCHOR, yOffset: -80 });
-      }, 100);
-    }
     if (router?.asPath?.includes(COLLECTION_SECTION_ANCHOR)) {
       setTimeout(() => {
-        scrollToElement({ id: COLLECTION_SECTION_ANCHOR, yOffset: -80 });
+        scrollToElement({ id: COLLECTION_SECTION_ANCHOR });
+      }, 100);
+    }
+    if (router?.asPath?.includes(CONTACT_SECTION_ANCHOR)) {
+      setTimeout(() => {
+        scrollToElement({ id: CONTACT_SECTION_ANCHOR });
       }, 100);
     }
   }, [router]);
@@ -72,23 +72,14 @@ const Header: React.FC<HeaderProps> = () => {
 
   const renderNavBar = () =>
     NAVBAR_LIST.map(({ key, value, url, anchor }) => {
-      if (key === 5 || key === 3) {
-        return (
-          <div
-            key={key}
-            onClick={() => {
-              router.push(`${url}${anchor}`);
-            }}
-            className="header__navbar__item app_link"
-          >
-            {value}
-          </div>
-        );
-      }
       return (
-        <a key={key} href={url} className="header__navbar__item app_link">
+        <Link
+          key={key}
+          href={anchor ? url + anchor : url}
+          className="header__navbar__item app_link"
+        >
           {value}
-        </a>
+        </Link>
       );
     });
 

@@ -20,11 +20,10 @@ export default function AccountGuestForm({ setParams }: PropsType) {
   const today = dayjs().hour(23).minute(59).second(59).millisecond(999);
 
   const handleSearch = (values: any) => {
-    console.log(values);
     let _fromTimeAccess, _toTimeAccess;
     const { keyword, fromTimeAccess, toTimeAccess } = values;
     if (fromTimeAccess) {
-      const date = new Date(fromTimeAccess._d);
+      const date = new Date(fromTimeAccess.$d);
       date.setHours(0);
       date.setMinutes(0);
       date.setSeconds(0);
@@ -32,7 +31,7 @@ export default function AccountGuestForm({ setParams }: PropsType) {
       _fromTimeAccess = date;
     }
     if (toTimeAccess) {
-      const date = new Date(toTimeAccess._d);
+      const date = new Date(toTimeAccess.$d);
       date.setHours(23);
       date.setMinutes(59);
       date.setSeconds(59);

@@ -44,7 +44,7 @@ export class GuestPhonesService {
         .where('guestPhone.phoneNumber like :keyword', {
           keyword: `%${keyword}%`,
         })
-        .andWhere('guestPhone.isDeleted = false');
+        .andWhere('guestPhone.isDeleted = 0');
 
       if (pageAccess) {
         queryBuilder.andWhere('guestPhone.pageAccess = :pageAccess', {
@@ -89,7 +89,7 @@ export class GuestPhonesService {
       queryRunner.startTransaction();
       await Promise.all(
         listGuestPhoneId.map((guestPhoneId: number) => {
-          queryRunner.manager.update(
+          return queryRunner.manager.update(
             GuestPhone,
             { id: guestPhoneId },
             { isDeleted: true }

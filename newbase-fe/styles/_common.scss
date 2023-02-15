@@ -1,7 +1,7 @@
 html,
 body {
   font-size: 15px;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-color: $color_white_1;
   color: $color_black_1;
   overflow: auto;
@@ -43,7 +43,7 @@ body {
 .error {
   font-size: 14px !important;
   color: #ff4d4f !important;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .ant-form-item-explain-error {
@@ -53,6 +53,7 @@ body {
 .app-search {
   border-color: #4d2c4b;
   height: 32px;
+  border-radius: 0;
   .ant-input {
     font-size: 12px;
     line-height: 24px;
@@ -83,4 +84,10 @@ body {
 
 .centrelize-text {
   text-align: center;
+}
+
+#app-top-anchor {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
 }

@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useMemo, useState } from "react";
 import PublicLayout from "components//Layout/Public";
 import TagList from "components//TagList";
 import AppBreadcrumb from "components//AppBreadCrumb";
-import { Col, Form, Image, Input, message, Modal, Row } from "antd";
+import { Col, Image, message, Modal, Row } from "antd";
 import ImageNext from "next/image";
 import { useGetDetailFlower, useGetFlowers } from "hooks/flower";
 import AppCarousel from "components//AppCarousel";
@@ -12,6 +12,7 @@ import AppImage from "@components//AppImage";
 import { postAccountGuests } from "services/accountGuest";
 import { useRouter } from "next/router";
 import { APP_URL } from "constants/common";
+import { formatNumber } from "utils/common";
 
 function ProductDetail({ id }: any) {
   const [messageApi, contextHolder] = message.useMessage();
@@ -21,7 +22,7 @@ function ProductDetail({ id }: any) {
 
   const { data: moreItemList } = useGetFlowers({
     params: {
-      limit: 4,
+      limit: 8,
       page: 1,
       topicIds: data?.listTopics?.map(({ id }: any) => id),
     },
@@ -30,13 +31,21 @@ function ProductDetail({ id }: any) {
   const { listImage, name: flowerName, price, size } = flower || {};
 
   const [mainImg, setMainImg] = useState(listImage?.length > 0 && listImage[0]);
-  const [smallScreen, setSmallScreen] = useState(false);
+  const [numberItemPerView, setNumberItemPerView] = useState(5);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [validatePhone, setValidatePhone] = useState<any>();
   const [openModalSendInquiry, setOpenModalSendInquiry] = useState(false);
-  const [form] = Form.useForm();
 
   useEffect(() => {
-    setSmallScreen(width <= 500);
-  }, []);
+    if (width > 1080) setNumberItemPerView(5);
+    if (width < 786) setNumberItemPerView(3);
+    if (width < 586) setNumberItemPerView(2);
+  }, [width]);
+
+  // useEffect(() => {
+  //   console.log(listImage)
+  //   setMainImg(listImage?.length > 0 && listImage[0]);
+  // }, [listImage]);
 
   const formatedImgList: any = useMemo(() => {
     return listImage?.map((item: any) => {
@@ -44,61 +53,103 @@ function ProductDetail({ id }: any) {
     });
   }, [listImage]);
 
-  const renderImageGroup = useMemo(() => {
-    return (
-      <>
-        <div className="bg-wrap">
-          <div className="product-detail__page-info__main-img__container">
-            <div className="product-detail__page-info__main-img">
-              <AppImage
-                src={mainImg}
-                preview={false}
-                alt=""
-                className="product-detail__page-info__main-img__image"
-              />
-            </div>
+  // const renderImageGroup = useMemo(() => {
+  //   return (
+  //     <>
+  //       <div className="bg-wrap">
+  //         <div className="product-detail__page-info__main-img__container">
+  //           <div className="product-detail__page-info__main-img">
+  //             <AppImage
+  //               src={mainImg}
+  //               preview={false}
+  //               alt=""
+  //               className="product-detail__page-info__main-img__image"
+  //             />
+  //           </div>
+  //         </div>
+  //       </div>
+  //       {formatedImgList?.length > 0 && (
+  //         <AppCarousel
+  //           list={formatedImgList}
+  //           numberItemPerView={numberItemPerView}
+  //           onChange={setMainImg}
+  //         />
+  //       )}
+  //     </>
+  //   );
+  // }, [mainImg, listImage]);
+
+  const renderImageGroup = (
+    <>
+      <div className="bg-wrap">
+        <div className="product-detail__page-info__main-img__container">
+          <div className="product-detail__page-info__main-img">
+            <AppImage
+              src={mainImg}
+              preview={false}
+              alt=""
+              className="product-detail__page-info__main-img__image"
+            />
           </div>
         </div>
-        {formatedImgList?.length > 0 && (
-          <AppCarousel
-            list={formatedImgList}
-            numberItemPerView={smallScreen ? 3 : 5}
-            onChange={setMainImg}
-          />
-        )}
-      </>
-    );
-  }, [mainImg, listImage]);
+      </div>
+      {formatedImgList?.length > 0 && (
+        <AppCarousel
+          list={formatedImgList}
+          numberItemPerView={numberItemPerView}
+          onChange={setMainImg}
+        />
+      )}
+    </>
+  );
 
-  const onSubmitUserInfo = (values: any) => {
-    postAccountGuests(
-      {
-        phoneNumber: values?.phone,
-        pageLink: router?.asPath,
-        pageAccess: flowerName,
-        timeAccess: new Date(Date.now()).toISOString(),
-      },
-      () => {
-        messageApi.open({
-          type: "success",
-          content: "Gửi thông tin thành công , xin cảm ơn quý khách",
-        });
-      },
-      () => {
-        messageApi.open({
-          type: "error",
-          content: "Gửi thông tin thất bại , xin vui lòng thử lại",
-        });
-      }
-    );
-    setOpenModalSendInquiry(false);
+  const onSubmitUserInfo = () => {
+    if (phoneNumber?.length < 9) {
+      setValidatePhone("Vui lòng nhập số điện thoại tối thiểu 9 số");
+    } else {
+      postAccountGuests(
+        {
+          phoneNumber,
+          pageLink: router?.asPath,
+          pageAccess: flowerName,
+          timeAccess: new Date(Date.now()).toISOString(),
+        },
+        () => {
+          messageApi.open({
+            type: "success",
+            content: "Gửi thông tin thành công , xin cảm ơn quý khách",
+          });
+        },
+        () => {
+          messageApi.open({
+            type: "error",
+            content: "Gửi thông tin thất bại , xin vui lòng thử lại",
+          });
+        }
+      );
+      setOpenModalSendInquiry(false);
+      setValidatePhone(false);
+    }
   };
 
   const formatMoreItemList = useMemo(() => {
-    return moreItemList?.items?.filter((item: any) => {
-      return parseInt(id) !== item?.id;
-    });
+    return moreItemList?.items
+      ?.filter((item: any) => {
+        return parseInt(id) !== item?.id;
+      })
+      .slice(0, 4);
   }, [moreItemList, id]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidatePhone(false);
+    const { value: inputValue } = e.target;
+    // const reg = /^-?\d*(\.\d*)?$/;
+    const reg = /^[0-9]*$/;
+
+    if (reg.test(inputValue) || inputValue === "" || inputValue === "-") {
+      setPhoneNumber(inputValue);
+    }
+  };
 
   return (
     <main className="container product-detail">
@@ -163,25 +214,29 @@ function ProductDetail({ id }: any) {
                   sm={12}
                   lg={6}
                 >
-                  <div className="product-detail__more-item__item">
-                    {listImage?.length > 0 ? (
-                      <Image
-                        src={listImage[0]?.filePath}
-                        preview={false}
-                        alt=""
-                      />
-                    ) : (
-                      <ImageNext
-                        className="product-detail__more-item__item__blank-img"
-                        src={PublicImage?.blankImg}
-                        alt=""
-                      />
-                    )}
+                  <div style={{ cursor: "pointer" }}>
+                    <div className="product-detail__more-item__item">
+                      {listImage?.length > 0 ? (
+                        <Image
+                          src={listImage[0]?.filePath}
+                          preview={false}
+                          alt=""
+                        />
+                      ) : (
+                        <ImageNext
+                          className="product-detail__more-item__item__blank-img"
+                          src={PublicImage?.blankImg}
+                          alt=""
+                        />
+                      )}
+                    </div>
+                    <p className="product-detail__more-item__item-name">
+                      {name}
+                    </p>
+                    <p className="product-detail__more-item__item-price">
+                      {formatNumber(price)} VND
+                    </p>
                   </div>
-                  <p className="product-detail__more-item__item-name">{name}</p>
-                  <p className="product-detail__more-item__item-price">
-                    From ${price}
-                  </p>
                 </Col>
               );
             }
@@ -203,48 +258,34 @@ function ProductDetail({ id }: any) {
           Chỉ cần để lại liên lạc của bạn dưới đây. Chúng tôi sẽ liên lạc với
           bạn ngay!
         </p>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onSubmitUserInfo}
-          // onFinishFailed={() => {}}
-          autoComplete="off"
+        <p className="product-detail__send-inquiry-modal__input-label">
+          Số điện thoại của bạn
+          <span className="product-detail__send-inquiry-modal__input-label__asterisk">
+            *
+          </span>
+        </p>
+        <input
+          className="product-detail__send-inquiry-modal__input-phone"
+          name="phone"
+          value={phoneNumber}
+          onChange={handleChange}
+          maxLength={11}
+        />
+        {/* <div className="product-detail__send-inquiry-modal__input-phone__char-count">
+          {phoneNumber?.length || 0}/11
+        </div> */}
+
+        <div className="product-detail__send-inquiry-modal__input-phone__validate-phone">
+          {validatePhone}
+        </div>
+        <button
+          onClick={() => {
+            onSubmitUserInfo();
+          }}
+          className="product-detail__send-inquiry-modal__submit-btn"
         >
-          {/* <Form.Item
-            name="name"
-            label="Your name"
-            rules={[{ required: true }, { type: "string", min: 6 }]}
-          >
-            <Input placeholder="" />
-          </Form.Item>
-          <Form.Item
-            name="mail"
-            label="Email address"
-            rules={[{ required: true }, { type: "email" }]}
-          >
-            <Input placeholder="" />
-          </Form.Item> */}
-          <Form.Item
-            name="phone"
-            label="Số điện thoại của bạn"
-            rules={[
-              { required: true },
-              {
-                type: "string",
-                min: 9,
-                message: "Vui lòng nhập tối thiểu 9 số",
-              },
-            ]}
-          >
-            <Input placeholder="" />
-          </Form.Item>
-          <button
-            key="submit"
-            className="product-detail__send-inquiry-modal__submit-btn"
-          >
-            Gửi yêu càu
-          </button>
-        </Form>
+          Gửi yêu càu
+        </button>
       </Modal>
     </main>
   );
