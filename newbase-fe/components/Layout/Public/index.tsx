@@ -7,6 +7,7 @@ import Footer from "components//AppFooter";
 import LoadingIcon from "elements/LoadingIcon";
 
 const META_DESCRIPTION = "Đại lý chuyên bán buôn hoa hồ điệp miền Bắc";
+const SEO_TITLE = 'Hoa hồ điệp'
 
 const Layout: FC<{
   children: any;
@@ -45,7 +46,7 @@ const Layout: FC<{
             images: [
               {
                 url: socialImageUrl ? socialImageUrl : defaultPreviewImage,
-                alt: title,
+                alt: SEO_TITLE,
                 type: "image/jpeg",
               },
             ],
